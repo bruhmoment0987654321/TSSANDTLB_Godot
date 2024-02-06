@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3h8u55rgcwii"]
+
+[ext_resource type="Script" path="res://World/world.gd" id="1_oim1w"]
+[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/slime_player.tscn" id="2_sg834"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_oim1w")
+Background = Color(0.501961, 0.168627, 0, 1)
+
+[node name="The World" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="The World"]
+position = Vector2(0, 24)
+polygon = PackedVector2Array(-8, -35, -7, 348, 657, 351, 654, -52, 592, -56, 600, 266, 552, 255, 554, 199, 521, 188, 531, 133, 485, 132, 441, 203, 376, 178, 341, 205, 299, 221, 249, 206, 201, 213, 160, 213, 131, 232, 135, 281, 102, 279, 65, 277, 63, 233, 26, 234, 29, -38)
+
+[node name="Polygon2D" type="Polygon2D" parent="The World/CollisionPolygon2D"]
+color = Color(0.419608, 0.419608, 0.419608, 1)
+
+[node name="Slime_player" parent="." instance=ExtResource("2_sg834")]
+position = Vector2(175, -9)
+
+[node name="Block" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Block"]
+position = Vector2(-39, 182)
+polygon = PackedVector2Array(128, 86, 127, 96, 144, 97, 145, 88)
+
+[node name="Polygon2D" type="Polygon2D" parent="Block/CollisionPolygon2D"]
+color = Color(0.47451, 0.47451, 0.47451, 1)
