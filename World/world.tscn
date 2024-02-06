@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3h8u55rgcwii"]
 
 [ext_resource type="Script" path="res://World/world.gd" id="1_oim1w"]
-[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/slime_player.tscn" id="2_sg834"]
+[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="2_sg834"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_oim1w")
