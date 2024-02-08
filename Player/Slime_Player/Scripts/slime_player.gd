@@ -6,6 +6,12 @@ extends CharacterBody2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var dash_timer = $DashTimer
+@onready var camera = $Camera2D
+@onready var look_timer = $LookTimer
+#camera variables
+@export_group("Camera")
+@export var look_timer_amount = 5
+@export var camera_look_offset = Vector2(10,10)
 #slime player state
 enum STATE{NORMAL,DASH,DEAD}
 var player_state = STATE.NORMAL
@@ -17,11 +23,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_distance = 60
 @export var dash_time = 0.2
 @export var max_dash_amount = 2
+@export var dash_color_running_out = Color.WHITE
 var dash_amount = max_dash_amount
 var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0
 
 func _physics_process(delta):
+	handle_camera()
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()
@@ -39,25 +47,33 @@ func _physics_process(delta):
 			
 	if player_state == STATE.DASH:
 		if dash_timer.time_left > 0.0:
-			velocity = dash_direction*dashsp
+			is_dashing()
 		else:
-			dash_amount -= 1
-			player_state = STATE.NORMAL
+			ending_dash()
 		move_and_slide()
+	if player_state == STATE.DEAD:
+		pass
+
+func handle_camera():
+	pass
 
 func apply_gravity(delta):
-	if not is_on_floor():
+	if not is_on_floor() and velocity.y < 0:
 		velocity.y += gravity* movement_data.gravity_scale * delta
+	else:
+		velocity.y += gravity* movement_data.gravity_scale*movement_data.gravity_acceleration * delta
 
 func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_just_pressed("jump"):
 			velocity.y = movement_data.jump_velocity
-	if not is_on_floor():
+	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
 
 func handle_dash():
+	if is_on_floor() and dash_amount < max_dash_amount:
+		dash_amount = max_dash_amount
 	if Input.is_action_just_pressed("dash") and dash_amount > 0:
 		dash_direction = get_dir_from_input()
 		dashsp = dash_distance/dash_time
@@ -80,11 +96,21 @@ func apply_air_resistance(input_axis,delta):
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
 
+func is_dashing():
+	velocity = dash_direction*dashsp
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		velocity.y = movement_data.jump_velocity
+		ending_dash()
+
+func ending_dash():
+	dash_amount -= 1
+	player_state = STATE.NORMAL
+
 func update_animation(input_axis):
-	if dash_amount < 0:
-		animated_sprite_2d.modulate = Color(255,138,255)
+	if dash_amount == 0:
+		animated_sprite_2d.modulate = dash_color_running_out
 	else:
-		animated_sprite_2d.modulate= Color.WHITE
+		animated_sprite_2d.modulate = Color.WHITE
 	if input_axis :
 		animated_sprite_2d.flip_h = (input_axis < 0)
 		animated_sprite_2d.play("walk")
@@ -102,7 +128,6 @@ func get_dir_from_input():
 	move_dir.y = Input.get_action_strength("down") - Input.get_action_strength("up")
 	
 	move_dir = move_dir.limit_length(1)
-	
 	if move_dir == Vector2(0,0):
 		if animated_sprite_2d.flip_h:
 			move_dir.x = -1
