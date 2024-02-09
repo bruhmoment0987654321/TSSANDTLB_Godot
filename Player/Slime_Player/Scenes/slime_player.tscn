@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=18 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scripts/slime_player.gd" id="1_7se2o"]
 [ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_jaxuj"]
@@ -95,7 +95,12 @@ animations = [{
 "speed": 7.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oe3m3"]
+size = Vector2(12, 7)
+
 [node name="Slime_player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
 floor_constant_speed = true
 floor_max_angle = 0.872665
 floor_snap_length = 3.0
@@ -123,6 +128,19 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-2, -62)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="LookTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="HazardDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Hitbox" type="CollisionShape2D" parent="HazardDetector"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_oe3m3")
+debug_color = Color(0.980392, 0, 0.372549, 0.419608)
+
+[connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]

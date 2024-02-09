@@ -1,9 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://b68lvx2qgm7fs"]
+[gd_scene load_steps=4 format=3 uid="uid://b68lvx2qgm7fs"]
 
 [ext_resource type="Texture2D" uid="uid://cryiqdajekgdv" path="res://Hazards/Sprites/spike.png" id="1_n8oof"]
+[ext_resource type="PackedScene" uid="uid://c0ms5ofac4ret" path="res://Hazards/Scenes/hazard_area.tscn" id="2_dbadp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2gwar"]
+size = Vector2(27, 12)
 
 [node name="Spike" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
 texture = ExtResource("1_n8oof")
+
+[node name="HazardArea" parent="." instance=ExtResource("2_dbadp")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_2gwar")
+debug_color = Color(1, 0, 0.133333, 0.419608)

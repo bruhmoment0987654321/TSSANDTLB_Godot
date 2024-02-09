@@ -8,6 +8,9 @@ extends CharacterBody2D
 @onready var dash_timer = $DashTimer
 @onready var camera = $Camera2D
 @onready var look_timer = $LookTimer
+
+#getting position for spawn point
+@onready var spawn_position = global_position
 #camera variables
 @export_group("Camera")
 @export var look_timer_amount = 5
@@ -24,6 +27,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_time = 0.2
 @export var max_dash_amount = 2
 @export var dash_color_running_out = Color.WHITE
+var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_amount = max_dash_amount
 var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0
@@ -101,13 +105,16 @@ func is_dashing():
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = movement_data.jump_velocity
 		ending_dash()
+	if dash_timer.time_left > 0.0 and dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
+		dash_amount -= 1
+		dash_timer.start(dash_time)
 
 func ending_dash():
 	dash_amount -= 1
 	player_state = STATE.NORMAL
 
 func update_animation(input_axis):
-	if dash_amount == 0:
+	if dash_amount <= 0:
 		animated_sprite_2d.modulate = dash_color_running_out
 	else:
 		animated_sprite_2d.modulate = Color.WHITE
@@ -134,3 +141,7 @@ func get_dir_from_input():
 		else:
 			move_dir.x = 1
 	return move_dir
+
+
+func _on_hazard_detector_area_entered(area):
+	global_position = spawn_position

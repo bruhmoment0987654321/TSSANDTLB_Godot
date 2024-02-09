@@ -9,6 +9,7 @@ script = ExtResource("1_oim1w")
 Background = Color(0.501961, 0.168627, 0, 1)
 
 [node name="The World" type="StaticBody2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="The World"]
 position = Vector2(0, 24)

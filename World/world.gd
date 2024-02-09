@@ -7,7 +7,7 @@ extends Node2D
 @export_group("Camera Limit")
 @export var left = -8
 @export var right = 656
-@export var top = -16
+@export var top = -24
 @export var bottom = 376
 @export var Background = Color.BLACK 
 func _ready():
