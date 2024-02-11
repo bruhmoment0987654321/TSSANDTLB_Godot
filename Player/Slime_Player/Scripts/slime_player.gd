@@ -3,11 +3,13 @@ extends CharacterBody2D
 @export var movement_data : PlayerMovementData
 
 #putting other nodes in variables 
-@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var sprite = $AnimatedSprite2D
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var dash_timer = $DashTimer
-@onready var camera = $Camera2D
+@onready var camera = $Camera
 @onready var look_timer = $LookTimer
+@onready var dash_particles = $DashParticles
+@onready var dash_flash_timer = $DashFlashTimer
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -27,6 +29,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_time = 0.2
 @export var max_dash_amount = 2
 @export var dash_color_running_out = Color.WHITE
+@export var dash_particle_amount = 200
+@export var dash_flash_color = Color.GREEN
+@export var dash_flash_amount = 3
+var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
+var dash_flash_time = dash_time/dash_flash_amount
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_amount = max_dash_amount
 var dash_direction = Vector2() #get direciton we'll dash in
@@ -52,11 +59,13 @@ func _physics_process(delta):
 	if player_state == STATE.DASH:
 		if dash_timer.time_left > 0.0:
 			is_dashing()
+			dash_flash()
 		else:
 			ending_dash()
 		move_and_slide()
 	if player_state == STATE.DEAD:
-		pass
+		global_position = spawn_position
+		player_state = STATE.NORMAL
 
 func handle_camera():
 	pass
@@ -82,13 +91,13 @@ func handle_dash():
 		dash_direction = get_dir_from_input()
 		dashsp = dash_distance/dash_time
 		dash_timer.start(dash_time)
+		dash_flash_timer.start(dash_flash_time)
 		player_state = STATE.DASH
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
-	if movement_data.running:
-		if Input.is_action_pressed("run"):
-			_walk_multiplied = movement_data.run_multiplier
+	if Input.is_action_pressed("run"):
+		_walk_multiplied = movement_data.run_multiplier
 	if input_axis: #if direction != 0
 		velocity.x = move_toward(velocity.x,movement_data.hspeed*input_axis*_walk_multiplied,movement_data.acceleration*delta)
 
@@ -100,48 +109,61 @@ func apply_air_resistance(input_axis,delta):
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
 
+func dash_flash():
+	if dash_flash_timer.time_left > 0.0:
+		pass
+
 func is_dashing():
 	velocity = dash_direction*dashsp
+	dash_particles.emitting = true
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = movement_data.jump_velocity
 		ending_dash()
 	if dash_timer.time_left > 0.0 and dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
 		dash_amount -= 1
+		dash_particles.emitting = false
 		dash_timer.start(dash_time)
+	var dash_node = ghost_trail.instantiate()
+	dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
+	dash_node.global_position = global_position+Vector2(0,-16)
+	dash_node.flip_h = sprite.flip_h
+	get_parent().add_child(dash_node)
 
 func ending_dash():
 	dash_amount -= 1
+	dash_particles.emitting = false
 	player_state = STATE.NORMAL
 
 func update_animation(input_axis):
 	if dash_amount <= 0:
-		animated_sprite_2d.modulate = dash_color_running_out
+		sprite.modulate = dash_color_running_out
 	else:
-		animated_sprite_2d.modulate = Color.WHITE
+		sprite.modulate = Color.WHITE
 	if input_axis :
-		animated_sprite_2d.flip_h = (input_axis < 0)
-		animated_sprite_2d.play("walk")
+		sprite.flip_h = (input_axis < 0)
+		sprite.play("walk")
 	else:
-		animated_sprite_2d.play("idle")
+		sprite.play("idle")
 	if not is_on_floor():
 		if velocity.y < 0:
-			animated_sprite_2d.play("jump")
+			sprite.play("jump")
 		else:
-			animated_sprite_2d.play("fall")
+			sprite.play("fall")
 
 func get_dir_from_input():
 	var move_dir = Vector2()
 	move_dir.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	move_dir.y = Input.get_action_strength("down") - Input.get_action_strength("up")
-	
 	move_dir = move_dir.limit_length(1)
 	if move_dir == Vector2(0,0):
-		if animated_sprite_2d.flip_h:
+		if sprite.flip_h:
 			move_dir.x = -1
 		else:
 			move_dir.x = 1
 	return move_dir
 
-
 func _on_hazard_detector_area_entered(area):
-	global_position = spawn_position
+	player_state = STATE.DEAD
+	
+func _on_dash_flash_timer_timeout():
+	pass

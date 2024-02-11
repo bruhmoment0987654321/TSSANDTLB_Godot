@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://h2xp4gfs1i1l"]
+
+[ext_resource type="Script" path="res://Sprite.gd" id="1_jqck2"]
+
+[node name="Sprite" type="Sprite2D"]
+show_behind_parent = true
+position = Vector2(0, -16)
+script = ExtResource("1_jqck2")

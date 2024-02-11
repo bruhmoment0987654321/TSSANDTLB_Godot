@@ -1,10 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=21 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scripts/slime_player.gd" id="1_7se2o"]
 [ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_jaxuj"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
+[ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/Scenes/ghost_trail.tscn" id="3_ye5ww"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
 [ext_resource type="Texture2D" uid="uid://demmqdy2lag6w" path="res://Player/Slime_Player/Sprites/slime_walk.png" id="5_yu2k6"]
+[ext_resource type="Texture2D" uid="uid://4atm2pp3n0hr" path="res://Player/Slime_Player/Sprites/dash_particle.png" id="6_snjms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tptkg"]
 size = Vector2(14, 9)
@@ -98,6 +100,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oe3m3"]
 size = Vector2(12, 7)
 
+[sub_resource type="Curve" id="Curve_vvjwj"]
+_data = [Vector2(0, 1), 0.0, -0.0705893, 0, 0, Vector2(1, 0.0185312), -4.05371, 0.0, 0, 0]
+point_count = 2
+
 [node name="Slime_player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
@@ -110,7 +116,9 @@ camera_look_offset = Vector2(20, 20)
 dash_distance = 50
 dash_color_running_out = Color(0.486275, 0.486275, 0.486275, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
+
+[node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_tptkg")
 
@@ -123,16 +131,19 @@ animation = &"idle"
 wait_time = 0.1
 one_shot = true
 
+[node name="DashFlashTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="LookTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Camera" type="Camera2D" parent="."]
 position = Vector2(-2, -62)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-
-[node name="LookTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="HazardDetector" type="Area2D" parent="."]
 collision_layer = 0
@@ -143,4 +154,21 @@ position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_oe3m3")
 debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 
+[node name="DashParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 100
+texture = ExtResource("6_snjms")
+emission_shape = 1
+emission_sphere_radius = 8.11
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 11.0
+initial_velocity_max = 11.0
+angular_velocity_min = 90.0
+angular_velocity_max = 180.0
+scale_amount_curve = SubResource("Curve_vvjwj")
+
+[connection signal="timeout" from="DashFlashTimer" to="." method="_on_dash_flash_timer_timeout"]
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
