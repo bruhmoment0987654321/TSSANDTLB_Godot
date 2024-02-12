@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scripts/slime_player.gd" id="1_7se2o"]
-[ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_jaxuj"]
+[ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/Scripts/DefaultSlimeMovementData.tres" id="2_jaxuj"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
 [ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/Scenes/ghost_trail.tscn" id="3_ye5ww"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
@@ -131,9 +131,6 @@ animation = &"idle"
 wait_time = 0.1
 one_shot = true
 
-[node name="DashFlashTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -170,5 +167,4 @@ angular_velocity_min = 90.0
 angular_velocity_max = 180.0
 scale_amount_curve = SubResource("Curve_vvjwj")
 
-[connection signal="timeout" from="DashFlashTimer" to="." method="_on_dash_flash_timer_timeout"]
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]

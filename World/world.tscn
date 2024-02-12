@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3h8u55rgcwii"]
 
 [ext_resource type="Script" path="res://World/world.gd" id="1_oim1w"]
-[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="2_sg834"]
+[ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="3_7ak1r"]
 [ext_resource type="PackedScene" uid="uid://b68lvx2qgm7fs" path="res://Hazards/Scenes/spike.tscn" id="3_s4s3y"]
 
 [node name="World" type="Node2D"]
@@ -18,8 +18,8 @@ polygon = PackedVector2Array(32, -24, 32, 232, 64, 232, 80, 264, 112, 264, 128, 
 [node name="Polygon2D" type="Polygon2D" parent="The World/CollisionPolygon2D"]
 color = Color(0.419608, 0.419608, 0.419608, 1)
 
-[node name="Slime_player" parent="." instance=ExtResource("2_sg834")]
-position = Vector2(175, -9)
-
 [node name="Spike" parent="." instance=ExtResource("3_s4s3y")]
 position = Vector2(96, 288)
+
+[node name="TheBoy" parent="." instance=ExtResource("3_7ak1r")]
+position = Vector2(204, 7)

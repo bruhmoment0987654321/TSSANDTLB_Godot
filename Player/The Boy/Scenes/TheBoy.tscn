@@ -1,0 +1,155 @@
+[gd_scene load_steps=21 format=3 uid="uid://bbghu8sfawxun"]
+
+[ext_resource type="Script" path="res://Player/The Boy/Scripts/Boy.gd" id="1_7tlbh"]
+[ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
+[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/Scripts/DefaultBoyMovementData.tres" id="2_ji7om"]
+[ext_resource type="Texture2D" uid="uid://h7s0dpdivm64" path="res://Player/The Boy/Sprites/Boy_jump_fall.png" id="3_oocpd"]
+[ext_resource type="Texture2D" uid="uid://ddkma3r4y1gas" path="res://Player/The Boy/Sprites/Boy_walk.png" id="4_ppebw"]
+[ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
+[ext_resource type="Script" path="res://Player/The Boy/Scripts/Gun.gd" id="7_syyny"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
+size = Vector2(14, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2ldu"]
+atlas = ExtResource("3_oocpd")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pryu"]
+atlas = ExtResource("2_d31tu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3ds0"]
+atlas = ExtResource("2_d31tu")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgo17"]
+atlas = ExtResource("2_d31tu")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3icw3"]
+atlas = ExtResource("2_d31tu")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1uhp"]
+atlas = ExtResource("3_oocpd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eop6f"]
+atlas = ExtResource("4_ppebw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwk57"]
+atlas = ExtResource("4_ppebw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5h3nu"]
+atlas = ExtResource("4_ppebw")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3kie"]
+atlas = ExtResource("4_ppebw")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pnd0j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2ldu")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pryu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3ds0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgo17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3icw3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1uhp")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eop6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwk57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5h3nu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3kie")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32e7g"]
+size = Vector2(8, 23)
+
+[node name="TheBoy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_7tlbh")
+movement_data = ExtResource("2_ji7om")
+speed = 500
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_6grc8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_pnd0j")
+animation = &"idle"
+
+[node name="CoyoteJumpTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="HazardDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Hitbox" type="CollisionShape2D" parent="HazardDetector"]
+position = Vector2(0, -12.5)
+shape = SubResource("RectangleShape2D_32e7g")
+debug_color = Color(0.980392, 0, 0.372549, 0.419608)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(-2, -62)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
+[node name="Gun" type="Sprite2D" parent="."]
+position = Vector2(5, -10)
+texture = ExtResource("6_6uu5g")
+script = ExtResource("7_syyny")
+fire_rate = 0.5
+
+[node name="Marker2D" type="Marker2D" parent="Gun"]
+
+[node name="FireRateTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]

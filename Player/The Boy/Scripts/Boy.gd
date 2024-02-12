@@ -1,45 +1,33 @@
 extends CharacterBody2D
-@export_group("Movement Data")
-@export var movement_data : PlayerMovementData
-
-#putting other nodes in variables 
 @onready var sprite = $AnimatedSprite2D
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var dash_timer = $DashTimer
-@onready var look_timer = $LookTimer
-@onready var dash_particles = $DashParticles
-
+@onready var camera = $Camera
+@onready var fire_rate_timer = $FireRateTimer
+@onready var gun = $Gun
+@export var movement_data : PlayerMovementData
+@onready var bullet = preload("res://Player/The Boy/Scenes/bullet.tscn")
 #getting position for spawn point
 @onready var spawn_position = global_position
 #camera variables
 @export_group("Camera")
 @export var look_timer_amount = 5
 @export var camera_look_offset = Vector2(10,10)
-#slime player state
-enum STATE{NORMAL,DASH,DEAD}
 var player_state = STATE.NORMAL
+@export_group("Shooting")
+@export var speed = 2000
+@export var fire_rate = 0.1
+@export var bullet_speed = 1000
+# Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-#dash variables
-@export_group("Dashing") 
-#having the player dash or not?
-@export var player_dash = true
-@export var dash_distance = 60
-@export var dash_time = 0.2
-@export var max_dash_amount = 2
-@export var dash_color_running_out = Color.WHITE
-@export var dash_particle_amount = 200
-var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
-var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
-var dash_amount = max_dash_amount
-var dash_direction = Vector2() #get direciton we'll dash in
-var dashsp = 0
+
+enum STATE{NORMAL,SHOOT,DEAD}
 
 func _physics_process(delta):
 	handle_camera()
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()
-		handle_dash()
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
@@ -50,17 +38,9 @@ func _physics_process(delta):
 		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
 			coyote_jump_timer.start()
-			
-	if player_state == STATE.DASH:
-		if dash_timer.time_left > 0.0:
-			is_dashing()
-		else:
-			ending_dash()
-		move_and_slide()
 	if player_state == STATE.DEAD:
 		global_position = spawn_position
 		player_state = STATE.NORMAL
-
 func handle_camera():
 	pass
 
@@ -78,15 +58,6 @@ func handle_jump():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
 
-func handle_dash():
-	if is_on_floor() and dash_amount < max_dash_amount:
-		dash_amount = max_dash_amount
-	if Input.is_action_just_pressed("dash") and dash_amount > 0:
-		dash_direction = get_dir_from_input()
-		dashsp = dash_distance/dash_time
-		dash_timer.start(dash_time)
-		player_state = STATE.DASH
-
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
 	if Input.is_action_pressed("run"):
@@ -102,32 +73,7 @@ func apply_air_resistance(input_axis,delta):
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
 
-func is_dashing():
-	velocity = dash_direction*dashsp
-	dash_particles.emitting = true
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
-		velocity.y = movement_data.jump_velocity
-		ending_dash()
-	if dash_timer.time_left > 0.0 and dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
-		dash_amount -= 1
-		dash_particles.emitting = false
-		dash_timer.start(dash_time)
-	var dash_node = ghost_trail.instantiate()
-	dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-	dash_node.global_position = global_position+Vector2(0,-16)
-	dash_node.flip_h = sprite.flip_h
-	get_parent().add_child(dash_node)
-
-func ending_dash():
-	dash_amount -= 1
-	dash_particles.emitting = false
-	player_state = STATE.NORMAL
-
 func update_animation(input_axis):
-	if dash_amount <= 0:
-		sprite.modulate = dash_color_running_out
-	else:
-		sprite.modulate = Color.WHITE
 	if input_axis :
 		sprite.flip_h = (input_axis < 0)
 		sprite.play("walk")
@@ -138,18 +84,6 @@ func update_animation(input_axis):
 			sprite.play("jump")
 		else:
 			sprite.play("fall")
-
-func get_dir_from_input():
-	var move_dir = Vector2()
-	move_dir.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	move_dir.y = Input.get_action_strength("down") - Input.get_action_strength("up")
-	move_dir = move_dir.limit_length(1)
-	if move_dir == Vector2(0,0):
-		if sprite.flip_h:
-			move_dir.x = -1
-		else:
-			move_dir.x = 1
-	return move_dir
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
