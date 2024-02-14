@@ -59,6 +59,7 @@ func _physics_process(delta):
 		move_and_slide()
 	if player_state == STATE.DEAD:
 		global_position = spawn_position
+		dash_amount = max_dash_amount
 		player_state = STATE.NORMAL
 
 func handle_camera():

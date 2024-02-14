@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="The Silly Slime & The Ludicrous Boy"
-run/main_scene="res://World/world.tscn"
+run/main_scene="res://World/Scenes/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
+config/windows_native_icon="res://Slime_game_icon.ico"
+
+[autoload]
+
+Global="*res://World/Scripts/global.gd"
 
 [display]
 

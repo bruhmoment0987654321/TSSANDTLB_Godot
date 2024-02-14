@@ -112,9 +112,14 @@ floor_max_angle = 0.872665
 floor_snap_length = 3.0
 script = ExtResource("1_ku6s6")
 movement_data = ExtResource("2_arh5q")
+look_timer_amount = null
 camera_look_offset = Vector2(20, 20)
+player_dash = null
 dash_distance = 50
+dash_time = null
+max_dash_amount = null
 dash_color_running_out = Color(0.486275, 0.486275, 0.486275, 1)
+dash_particle_amount = null
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
 
@@ -138,7 +143,7 @@ one_shot = true
 one_shot = true
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(0, -62)
+position = Vector2(-2, -62)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
