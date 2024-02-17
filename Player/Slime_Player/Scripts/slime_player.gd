@@ -1,4 +1,7 @@
 extends CharacterBody2D
+
+
+
 @export_group("Movement Data")
 @export var movement_data : PlayerMovementData
 
@@ -29,11 +32,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_color_running_out = Color.WHITE
 @export var dash_particle_amount = 200
 var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
+var dash_gem = preload("res://World/Scenes/dash_gem.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
-var dash_amount = max_dash_amount
 var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0
-
+func _ready():
+	Global.dash_amount = max_dash_amount
 func _physics_process(delta):
 	handle_camera()
 	if player_state == STATE.NORMAL:
@@ -59,7 +63,7 @@ func _physics_process(delta):
 		move_and_slide()
 	if player_state == STATE.DEAD:
 		global_position = spawn_position
-		dash_amount = max_dash_amount
+		Global.dash_amount = max_dash_amount
 		player_state = STATE.NORMAL
 
 func handle_camera():
@@ -80,9 +84,9 @@ func handle_jump():
 			velocity.y = movement_data.jump_velocity/3
 
 func handle_dash():
-	if is_on_floor() and dash_amount < max_dash_amount:
-		dash_amount = max_dash_amount
-	if Input.is_action_just_pressed("dash") and dash_amount > 0:
+	if is_on_floor() and Global.dash_amount < max_dash_amount:
+		Global.dash_amount = max_dash_amount
+	if Input.is_action_just_pressed("dash") and Global.dash_amount > 0:
 		dash_direction = get_dir_from_input()
 		dashsp = dash_distance/dash_time
 		dash_timer.start(dash_time)
@@ -109,8 +113,8 @@ func is_dashing():
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = movement_data.jump_velocity
 		ending_dash()
-	if dash_timer.time_left > 0.0 and dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
-		dash_amount -= 1
+	if dash_timer.time_left > 0.0 and Global.dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
+		Global.dash_amount -= 1
 		dash_particles.emitting = false
 		dash_timer.start(dash_time)
 	var dash_node = ghost_trail.instantiate()
@@ -120,12 +124,12 @@ func is_dashing():
 	get_parent().add_child(dash_node)
 
 func ending_dash():
-	dash_amount -= 1
+	Global.dash_amount -= 1
 	dash_particles.emitting = false
 	player_state = STATE.NORMAL
 
 func update_animation(input_axis):
-	if dash_amount <= 0:
+	if Global.dash_amount <= 0:
 		sprite.modulate = dash_color_running_out
 	else:
 		sprite.modulate = Color.WHITE
@@ -154,3 +158,4 @@ func get_dir_from_input():
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
+
