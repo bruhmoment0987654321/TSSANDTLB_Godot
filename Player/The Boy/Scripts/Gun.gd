@@ -8,15 +8,14 @@ var can_fire = true
 var bullet = preload("res://Player/The Boy/Scenes/bullet.tscn")
 func _ready():
 	top_level = true
-	
+
 func _physics_process(delta):
 	var mouse_pos = get_global_mouse_position()
 	position = lerp(position,get_parent().position+gun_location,lag_speed)
 	look_at(mouse_pos)
 	shoot()
-
 func shoot():
-	if Input.is_action_pressed("shoot") and can_fire:
+	if Input.is_action_pressed("shoot") and can_fire and Global.ammo > 0:
 		var b = bullet.instantiate()
 		b.rotation = rotation
 		b.speed = bullet_speed
@@ -25,4 +24,5 @@ func shoot():
 		can_fire = false
 		await get_tree().create_timer(fire_rate).timeout
 		can_fire = true
+		
 

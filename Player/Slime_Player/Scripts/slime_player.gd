@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
-
-
 @export_group("Movement Data")
+##This is where you place the movement data for the player. The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
 #putting other nodes in variables 
@@ -16,7 +15,9 @@ extends CharacterBody2D
 @onready var spawn_position = global_position
 #camera variables
 @export_group("Camera")
+##this is used for the distance the player can look down whenever hold DOWN
 @export var look_timer_amount = 5
+##The camera won't center the player. this changes the placement of the camera based on where the player is
 @export var camera_look_offset = Vector2(10,10)
 #slime player state
 enum STATE{NORMAL,DASH,DEAD}
@@ -24,12 +25,17 @@ var player_state = STATE.NORMAL
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 #dash variables
 @export_group("Dashing") 
-#having the player dash or not?
+##having the player dash or not?
 @export var player_dash = true
+##the distance the dash will go
 @export var dash_distance = 60
+##the amount of time the dash lasts for
 @export var dash_time = 0.2
+##how many times the player can dash for until he isn't able to.
 @export var max_dash_amount = 2
+##the color the player looks like whenever the dash runs out
 @export var dash_color_running_out = Color.WHITE
+##how many particles are created when dashing
 @export var dash_particle_amount = 200
 var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
 var dash_gem = preload("res://World/Scenes/dash_gem.tscn")

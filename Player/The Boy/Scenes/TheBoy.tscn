@@ -112,7 +112,7 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
-speed = 500
+launch_power = 500
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -142,12 +142,14 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
 [node name="Gun" type="Sprite2D" parent="."]
-position = Vector2(5, -10)
+position = Vector2(1, -5)
 texture = ExtResource("6_6uu5g")
 script = ExtResource("7_syyny")
+gun_location = Vector2(0, -8)
 fire_rate = 0.5
 
 [node name="Marker2D" type="Marker2D" parent="Gun"]
+position = Vector2(-1, 0)
 
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true

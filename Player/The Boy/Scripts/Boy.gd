@@ -1,33 +1,48 @@
 extends CharacterBody2D
+
 @onready var sprite = $AnimatedSprite2D
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var dash_timer = $DashTimer
 @onready var camera = $Camera
 @onready var fire_rate_timer = $FireRateTimer
 @onready var gun = $Gun
+##This is where you place the movement data for the player, The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
-@onready var bullet = preload("res://Player/The Boy/Scenes/bullet.tscn")
 #getting position for spawn point
 @onready var spawn_position = global_position
 #camera variables
 @export_group("Camera")
+##this is used for the distance the player can look down whenever hold DOWN
 @export var look_timer_amount = 5
+##The camera won't center the player. this changes the placement of the camera based on where the player is
 @export var camera_look_offset = Vector2(10,10)
 var player_state = STATE.NORMAL
 @export_group("Shooting")
-@export var speed = 2000
-@export var fire_rate = 0.1
-@export var bullet_speed = 1000
+##the distance the player will be shot back at whenever shooting
+@export var launch_power = 1000
+##the recharge speed of the ammo
+@export var charge_rate = 20
+##how much ammo is consumed during shooting
+@export var ammo_used = 20
+##the maximum amount of ammo the gun can have
+@export var max_ammo = 100
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-enum STATE{NORMAL,SHOOT,DEAD}
+enum STATE{NORMAL,DEAD}
+
+func _ready():
+	Global.ammo = max_ammo
+
+func _process(delta):
+	Global.ammo = min(Global.ammo + (delta * charge_rate), 100.0)
 
 func _physics_process(delta):
 	handle_camera()
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()
+		gun_jump()
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
@@ -57,6 +72,14 @@ func handle_jump():
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
+
+func gun_jump():
+	if Input.is_action_just_pressed("shoot") and Global.ammo > 0:
+		print("amount:"+str(Global.ammo))
+		Global.ammo -= 20
+		print("amount lost:" + str(Global.ammo))
+		var angle = gun.rotation+deg_to_rad(180)
+		velocity = Vector2(1,0).rotated(angle)*launch_power
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1

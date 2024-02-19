@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://World/Scripts/world.gd" id="1_1l263"]
 [ext_resource type="PackedScene" uid="uid://b68lvx2qgm7fs" path="res://Hazards/Scenes/spike.tscn" id="2_2j5fq"]
-[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="3_3icir"]
 [ext_resource type="PackedScene" uid="uid://d2i2108evih26" path="res://World/Scenes/coin.tscn" id="4_m8jll"]
 [ext_resource type="Script" path="res://World/Scripts/Exit.gd" id="5_g4axy"]
 [ext_resource type="PackedScene" uid="uid://bydubjhiv82u2" path="res://World/Scenes/level_gui.tscn" id="6_cunw4"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/Scenes/level_completed.tscn" id="6_fmkl4"]
 [ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Scenes/section_1_tile_map.tscn" id="7_34poa"]
+[ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="9_8wlf1"]
 [ext_resource type="PackedScene" uid="uid://dpp3juhkufenh" path="res://World/Scenes/dash_gem.tscn" id="9_sigy2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b5enf"]
@@ -50,9 +50,6 @@ position = Vector2(696, -16)
 [node name="Coin11" parent="." instance=ExtResource("4_m8jll")]
 position = Vector2(622, -59)
 
-[node name="Slime_player" parent="." instance=ExtResource("3_3icir")]
-position = Vector2(216, 80)
-
 [node name="Exit" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
@@ -80,5 +77,8 @@ position = Vector2(384, -24)
 
 [node name="DashGem" parent="." instance=ExtResource("9_sigy2")]
 position = Vector2(312, 32)
+
+[node name="TheBoy" parent="." instance=ExtResource("9_8wlf1")]
+position = Vector2(216, 96)
 
 [connection signal="body_entered" from="Exit" to="Exit" method="_on_body_entered"]
