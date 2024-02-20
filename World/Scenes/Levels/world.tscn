@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3h8u55rgcwii"]
+
+[ext_resource type="Script" path="res://World/Scripts/world.gd" id="1_1l263"]
+[ext_resource type="PackedScene" uid="uid://bydubjhiv82u2" path="res://World/Scenes/Levels/level_gui.tscn" id="6_cunw4"]
+[ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/Scenes/Levels/level_completed.tscn" id="6_fmkl4"]
+[ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Scenes/Levels/TheSewer/section_1_tile_map.tscn" id="7_34poa"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_1l263")
+Background = Color(0.501961, 0.168627, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("6_fmkl4")]
+visible = false
+
+[node name="CenterContainer" parent="CanvasLayer" instance=ExtResource("6_cunw4")]
+
+[node name="Section1TileMap" parent="." instance=ExtResource("7_34poa")]

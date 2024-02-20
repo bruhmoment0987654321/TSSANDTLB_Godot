@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://djmcohicqqy8c"]
+
+[ext_resource type="PackedScene" uid="uid://c3h8u55rgcwii" path="res://World/Scenes/Levels/world.tscn" id="1_msdou"]
+[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="2_3qcus"]
+
+[node name="Tutorial" instance=ExtResource("1_msdou")]
+
+[node name="Slime_player" parent="." index="2" instance=ExtResource("2_3qcus")]

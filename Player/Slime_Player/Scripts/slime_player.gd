@@ -38,7 +38,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 ##how many particles are created when dashing
 @export var dash_particle_amount = 200
 var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
-var dash_gem = preload("res://World/Scenes/dash_gem.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="The Silly Slime & The Ludicrous Boy"
-run/main_scene="res://World/Scenes/world.tscn"
+run/main_scene="res://World/Scenes/Levels/TheSewer/levelone.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 config/windows_native_icon="res://Slime_game_icon.ico"
