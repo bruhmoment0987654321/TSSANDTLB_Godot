@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cesuqvydo11ig"]
+[gd_scene load_steps=2 format=3 uid="uid://cesuqvydo11ig"]
+
+[ext_resource type="FontFile" uid="uid://kloffh5k53yb" path="res://World/UI/Silver.ttf" id="1_cga8s"]
 
 [node name="LevelCompleted" type="ColorRect"]
 anchors_preset = 15
@@ -18,6 +20,10 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="CenterContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("1_cga8s")
+theme_override_font_sizes/font_size = 40
 text = "Level Completed
 "

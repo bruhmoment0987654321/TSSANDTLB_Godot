@@ -117,6 +117,7 @@ dash_distance = 50
 dash_color_running_out = Color(0.486275, 0.486275, 0.486275, 1)
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
+z_index = 1
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
