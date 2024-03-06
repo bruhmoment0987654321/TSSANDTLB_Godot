@@ -114,7 +114,7 @@ script = ExtResource("1_ku6s6")
 movement_data = ExtResource("2_arh5q")
 camera_look_offset = Vector2(20, 20)
 dash_distance = 50
-dash_color_running_out = Color(0.486275, 0.486275, 0.486275, 1)
+dash_color_running_out = Color(0.607843, 0.607843, 0.607843, 1)
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
 z_index = 1
@@ -129,6 +129,10 @@ sprite_frames = SubResource("SpriteFrames_fjx7w")
 animation = &"idle"
 
 [node name="CoyoteJumpTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 

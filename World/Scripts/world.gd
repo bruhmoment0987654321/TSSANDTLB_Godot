@@ -11,6 +11,7 @@ func _ready():
 func show_level_completed():
 	get_tree().paused = true
 	level_completed.show()
+	await get_tree().create_timer(0.7).timeout
 	if not next_level is PackedScene: return
 	await LevelTransition.fade_to_black()
 	get_tree().paused = false

@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var dash_timer = $DashTimer
 @onready var look_timer = $LookTimer
 @onready var dash_particles = $DashParticles
+@onready var jump_buffer_timer = $JumpBufferTimer
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -37,6 +38,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_color_running_out = Color.WHITE
 ##how many particles are created when dashing
 @export var dash_particle_amount = 200
+
 var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_direction = Vector2() #get direciton we'll dash in
@@ -58,7 +60,7 @@ func _physics_process(delta):
 		move_and_slide()
 		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
-			coyote_jump_timer.start()
+			coyote_jump_timer.start(movement_data.coyote_time)
 			
 	if player_state == STATE.DASH:
 		if dash_timer.time_left > 0.0:
@@ -82,11 +84,13 @@ func apply_gravity(delta):
 
 func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
-		if Input.is_action_just_pressed("jump"):
+		if Input.is_action_just_pressed("jump") or jump_buffer_timer.time_left > 0.0:
 			velocity.y = movement_data.jump_velocity
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
+	elif Input.is_action_just_pressed("jump"):
+		jump_buffer_timer.start(movement_data.jump_buffer)
 
 func handle_dash():
 	if is_on_floor() and Global.dash_amount < max_dash_amount:
@@ -163,4 +167,3 @@ func get_dir_from_input():
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
-

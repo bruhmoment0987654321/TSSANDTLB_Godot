@@ -1,14 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bydubjhiv82u2"]
+[gd_scene load_steps=2 format=3 uid="uid://bydubjhiv82u2"]
 
-[ext_resource type="FontFile" uid="uid://kloffh5k53yb" path="res://World/UI/Silver.ttf" id="1_a6spr"]
 [ext_resource type="Script" path="res://World/UI/Scripts/coinsUI.gd" id="1_aaxyx"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_vlqxp"]
-font = ExtResource("1_a6spr")
-font_size = 32
-shadow_size = 4
-shadow_color = Color(0, 0, 0, 1)
-shadow_offset = Vector2(2, 2)
 
 [node name="GUI" type="BoxContainer"]
 anchors_preset = 15
@@ -24,5 +16,4 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Coins: "
-label_settings = SubResource("LabelSettings_vlqxp")
 script = ExtResource("1_aaxyx")
