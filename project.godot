@@ -125,6 +125,10 @@ shoot={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Hazards"
 
+[navigation]
+
+2d/use_edge_connections=false
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

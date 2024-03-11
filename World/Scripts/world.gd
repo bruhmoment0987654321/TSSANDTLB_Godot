@@ -1,5 +1,5 @@
 extends Node2D
-@onready var level_completed = $CanvasLayer/LevelCompleted
+@onready var level_completed = $GUI/LevelCompleted
 
 @export var next_level:PackedScene
 

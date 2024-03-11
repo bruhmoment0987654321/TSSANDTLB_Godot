@@ -19,6 +19,10 @@ custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 text = "Start Game"
 
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2

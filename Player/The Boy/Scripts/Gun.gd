@@ -1,5 +1,5 @@
 extends Sprite2D
-@export var lag_speed = 0.5
+@export var position_lag_speed = 0.5
 @export var gun_location = Vector2(0,-16)
 @export var fire_rate = 0.2
 @export var bullet_speed = 1000
@@ -11,11 +11,11 @@ func _ready():
 
 func _physics_process(delta):
 	var mouse_pos = get_global_mouse_position()
-	position = lerp(position,get_parent().position+gun_location,lag_speed)
+	position = lerp(position,get_parent().position+gun_location,position_lag_speed)
 	look_at(mouse_pos)
 	shoot()
 func shoot():
-	if Input.is_action_pressed("shoot") and can_fire and Global.ammo > 0:
+	if Input.is_action_just_pressed("shoot") and can_fire and Global.ammo > 0:
 		var b = bullet.instantiate()
 		b.rotation = rotation
 		b.speed = bullet_speed

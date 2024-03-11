@@ -11,9 +11,11 @@ extends CharacterBody2D
 @onready var look_timer = $LookTimer
 @onready var dash_particles = $DashParticles
 @onready var jump_buffer_timer = $JumpBufferTimer
+@onready var jump_dash_timer = $JumpDashTimer
 
 #getting position for spawn point
 @onready var spawn_position = global_position
+
 #camera variables
 @export_group("Camera")
 ##this is used for the distance the player can look down whenever hold DOWN
@@ -24,6 +26,7 @@ extends CharacterBody2D
 enum STATE{NORMAL,DASH,DEAD}
 var player_state = STATE.NORMAL
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
 #dash variables
 @export_group("Dashing") 
 ##having the player dash or not?
@@ -34,11 +37,22 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_time = 0.2
 ##how many times the player can dash for until he isn't able to.
 @export var max_dash_amount = 2
+
+@export_group("Jump-Dash")
+##how long the jump dash lasts
+@export var jump_dash_time = 0.1
+##the distance you go during your jump dash. 
+@export var jump_dash_distance = 200
+##the height you go during you jump dash
+@export var jump_dash_height = -200
+
+@export_group("Dash Visuals")
 ##the color the player looks like whenever the dash runs out
 @export var dash_color_running_out = Color.WHITE
 ##how many particles are created when dashing
 @export var dash_particle_amount = 200
 
+var jump_dash = false
 var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_direction = Vector2() #get direciton we'll dash in
@@ -55,6 +69,7 @@ func _physics_process(delta):
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
+		jump_dashing()
 		update_animation(input_axis)
 		var was_on_floor = is_on_floor()
 		move_and_slide()
@@ -69,6 +84,7 @@ func _physics_process(delta):
 			ending_dash()
 		move_and_slide()
 	if player_state == STATE.DEAD:
+		Global.death_count += 1
 		global_position = spawn_position
 		Global.dash_amount = max_dash_amount
 		player_state = STATE.NORMAL
@@ -102,6 +118,7 @@ func handle_dash():
 		player_state = STATE.DASH
 
 func handle_acceleration(input_axis,delta):
+	if jump_dash: return
 	var _walk_multiplied = 1
 	if Input.is_action_pressed("run"):
 		_walk_multiplied = movement_data.run_multiplier
@@ -113,14 +130,29 @@ func apply_friction(input_axis,delta):
 		velocity.x = move_toward(velocity.x, 0, movement_data.friction*delta)
 
 func apply_air_resistance(input_axis,delta):
+	if jump_dash: return
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
+
+func jump_dashing():
+	if jump_dash:
+		dash_particles.emitting = true
+		if not sprite.flip_h: velocity.x = jump_dash_distance
+		else: velocity.x = jump_dash_distance * -1
+		velocity.y = jump_dash_height
+		if jump_dash_timer.time_left == 0.0: jump_dash = false
+		var dash_node = ghost_trail.instantiate()
+		dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
+		dash_node.global_position = global_position+Vector2(0,-16)
+		dash_node.flip_h = sprite.flip_h
+		get_parent().add_child(dash_node)
+	else: dash_particles.emitting = false
 
 func is_dashing():
 	velocity = dash_direction*dashsp
 	dash_particles.emitting = true
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
-		velocity.y = movement_data.jump_velocity
+		jump_dash = true
 		ending_dash()
 	if dash_timer.time_left > 0.0 and Global.dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
 		Global.dash_amount -= 1
@@ -135,6 +167,8 @@ func is_dashing():
 func ending_dash():
 	Global.dash_amount -= 1
 	dash_particles.emitting = false
+	if jump_dash:
+		jump_dash_timer.start(jump_dash_time)
 	player_state = STATE.NORMAL
 
 func update_animation(input_axis):
