@@ -1,9 +1,9 @@
 [gd_scene load_steps=21 format=3 uid="uid://4umvkjl17kdk"]
 
-[ext_resource type="Script" path="res://Player/Slime_Player/Scripts/slime_player.gd" id="1_ku6s6"]
-[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/Scripts/DefaultBoyMovementData.tres" id="2_gts6j"]
+[ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
+[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_gts6j"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
-[ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/Scenes/ghost_trail.tscn" id="3_ye5ww"]
+[ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/ghost_trail.tscn" id="3_ye5ww"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
 [ext_resource type="Texture2D" uid="uid://demmqdy2lag6w" path="res://Player/Slime_Player/Sprites/slime_walk.png" id="5_yu2k6"]
 [ext_resource type="Texture2D" uid="uid://4atm2pp3n0hr" path="res://Player/Slime_Player/Sprites/dash_particle.png" id="6_snjms"]

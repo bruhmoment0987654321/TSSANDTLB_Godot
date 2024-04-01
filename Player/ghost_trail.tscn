@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://h2xp4gfs1i1l"]
 
-[ext_resource type="Script" path="res://Visual/Scripts/Sprite.gd" id="1_jqck2"]
+[ext_resource type="Script" path="res://Player/Sprite.gd" id="1_jqck2"]
 
 [node name="Sprite" type="Sprite2D"]
 show_behind_parent = true

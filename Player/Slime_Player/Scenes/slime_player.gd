@@ -45,6 +45,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var jump_dash_distance = 200
 ##the height you go during you jump dash
 @export var jump_dash_height = -200
+##the amount of decreased air resistance when you press left or right
+@export var jump_dash_friction_decrease_amount = 0.9
+var jump_dash_friction_decrease = 1
+var after_jump_dash = false
 
 @export_group("Dash Visuals")
 ##the color the player looks like whenever the dash runs out
@@ -53,7 +57,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_particle_amount = 200
 
 var jump_dash = false
-var ghost_trail = preload("res://Player/Scenes/ghost_trail.tscn")
+var ghost_trail = preload("res://Player/ghost_trail.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0
@@ -65,11 +69,11 @@ func _physics_process(delta):
 		apply_gravity(delta)
 		handle_jump()
 		handle_dash()
+		jump_dashing()
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
-		jump_dashing()
 		update_animation(input_axis)
 		var was_on_floor = is_on_floor()
 		move_and_slide()
@@ -118,12 +122,15 @@ func handle_dash():
 		player_state = STATE.DASH
 
 func handle_acceleration(input_axis,delta):
-	if jump_dash: return
 	var _walk_multiplied = 1
 	if Input.is_action_pressed("run"):
 		_walk_multiplied = movement_data.run_multiplier
 	if input_axis: #if direction != 0
-		velocity.x = move_toward(velocity.x,movement_data.hspeed*input_axis*_walk_multiplied,movement_data.acceleration*delta)
+		if after_jump_dash: 
+			jump_dash_friction_decrease = jump_dash_friction_decrease_amount
+		else:
+			jump_dash_friction_decrease = 1
+			velocity.x = move_toward(velocity.x,movement_data.hspeed*input_axis*_walk_multiplied,movement_data.acceleration*delta)
 
 func apply_friction(input_axis,delta):
 	if input_axis == 0 and is_on_floor():
@@ -132,21 +139,28 @@ func apply_friction(input_axis,delta):
 func apply_air_resistance(input_axis,delta):
 	if jump_dash: return
 	if input_axis == 0 and not is_on_floor():
-		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
+		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*jump_dash_friction_decrease*delta)
 
 func jump_dashing():
 	if jump_dash:
+		print("dashiing")
 		dash_particles.emitting = true
 		if not sprite.flip_h: velocity.x = jump_dash_distance
 		else: velocity.x = jump_dash_distance * -1
 		velocity.y = jump_dash_height
-		if jump_dash_timer.time_left == 0.0: jump_dash = false
 		var dash_node = ghost_trail.instantiate()
 		dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
 		dash_node.global_position = global_position+Vector2(0,-16)
 		dash_node.flip_h = sprite.flip_h
 		get_parent().add_child(dash_node)
-	else: dash_particles.emitting = false
+		if jump_dash_timer.time_left == 0.0: 
+			jump_dash = false
+			after_jump_dash = true
+	else:
+		dash_particles.emitting = false
+		if is_on_floor():
+			print("done")
+			after_jump_dash = false
 
 func is_dashing():
 	velocity = dash_direction*dashsp

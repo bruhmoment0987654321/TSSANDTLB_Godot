@@ -1,12 +1,12 @@
 [gd_scene load_steps=21 format=3 uid="uid://bbghu8sfawxun"]
 
-[ext_resource type="Script" path="res://Player/The Boy/Scripts/Boy.gd" id="1_7tlbh"]
+[ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
-[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/Scripts/DefaultBoyMovementData.tres" id="2_ji7om"]
+[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_ji7om"]
 [ext_resource type="Texture2D" uid="uid://h7s0dpdivm64" path="res://Player/The Boy/Sprites/Boy_jump_fall.png" id="3_oocpd"]
 [ext_resource type="Texture2D" uid="uid://ddkma3r4y1gas" path="res://Player/The Boy/Sprites/Boy_walk.png" id="4_ppebw"]
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
-[ext_resource type="Script" path="res://Player/The Boy/Scripts/Gun.gd" id="7_syyny"]
+[ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
 size = Vector2(14, 28)

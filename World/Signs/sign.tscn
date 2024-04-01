@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://dmweheags37um"]
 
-[ext_resource type="Script" path="res://World/Scripts/Sign.gd" id="1_orje5"]
+[ext_resource type="Script" path="res://World/Signs/Sign.gd" id="1_orje5"]
 [ext_resource type="Texture2D" uid="uid://dtgti8gkbi4jr" path="res://World/Sprites/sign.png" id="2_rgu1s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0vglp"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cdo4fuosmrhg"]
 
-[ext_resource type="Script" path="res://World/Scripts/giant_sign.gd" id="1_60gf4"]
+[ext_resource type="Script" path="res://World/Signs/giant_sign.gd" id="1_60gf4"]
 [ext_resource type="Texture2D" uid="uid://dl0s3j4wapbc4" path="res://World/Sprites/Giant_sign.png" id="1_r4b43"]
 [ext_resource type="Texture2D" uid="uid://bamywwkhiia2b" path="res://World/Sprites/Giant_sign_transform.png" id="2_rtjsp"]
 

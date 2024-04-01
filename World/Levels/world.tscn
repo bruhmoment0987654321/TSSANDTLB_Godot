@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://c3h8u55rgcwii"]
 
-[ext_resource type="Script" path="res://World/Scripts/world.gd" id="1_1l263"]
+[ext_resource type="Script" path="res://World/Levels/world.gd" id="1_1l263"]
 [ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="2_ptlux"]
-[ext_resource type="Script" path="res://World/Scenes/Levels/GUI.gd" id="2_ycbf4"]
-[ext_resource type="Script" path="res://World/Scenes/Levels/AmmoBar.gd" id="3_djkqy"]
+[ext_resource type="Script" path="res://World/Levels/GUI.gd" id="2_ycbf4"]
+[ext_resource type="Script" path="res://World/Levels/AmmoBar.gd" id="3_djkqy"]
 [ext_resource type="Texture2D" uid="uid://dqp7adj2rft5s" path="res://World/Sprites/Slime_coin.png" id="5_1fnjh"]
-[ext_resource type="Script" path="res://World/UI/Scripts/DeathCount.gd" id="5_bewyu"]
-[ext_resource type="Script" path="res://World/UI/Scripts/coinsUI.gd" id="6_1d8nb"]
+[ext_resource type="Script" path="res://World/UI/Scenes/DeathCount.gd" id="5_bewyu"]
+[ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="6_1d8nb"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/UI/Scenes/level_completed.tscn" id="6_fmkl4"]
-[ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Scenes/Levels/TheSewer/section_1_tile_map.tscn" id="7_34poa"]
+[ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Levels/TheSewer/section_1_tile_map.tscn" id="7_34poa"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1l263")
