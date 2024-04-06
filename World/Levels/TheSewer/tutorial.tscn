@@ -1,12 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://djmcohicqqy8c"]
+[gd_scene load_steps=11 format=3 uid="uid://djmcohicqqy8c"]
 
 [ext_resource type="PackedScene" uid="uid://c3h8u55rgcwii" path="res://World/Levels/world.tscn" id="1_msdou"]
-[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="2_3qcus"]
 [ext_resource type="PackedScene" uid="uid://fflq44rc8mui" path="res://World/Signs/giant_signtutorial1.tscn" id="2_q3gfd"]
 [ext_resource type="PackedScene" uid="uid://m4yfgb6pm43g" path="res://World/Levels/TheSewer/levelone.tscn" id="2_wmpc2"]
 [ext_resource type="PackedScene" uid="uid://dw18s50r6thip" path="res://World/Signs/giant_signtutorial2.tscn" id="3_e3hjx"]
 [ext_resource type="PackedScene" uid="uid://c77164ni5ld0i" path="res://World/Signs/giant_signtutorial3.tscn" id="3_lture"]
-[ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="7_v5eke"]
+[ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="6_46gkl"]
 [ext_resource type="PackedScene" uid="uid://b68lvx2qgm7fs" path="res://Hazards/Scenes/spike.tscn" id="8_j0ckw"]
 [ext_resource type="PackedScene" uid="uid://cge0g3oy2vvcu" path="res://World/Levels/exit.tscn" id="9_6hdte"]
 [ext_resource type="PackedScene" uid="uid://d2i2108evih26" path="res://World/Collectibles/coin.tscn" id="9_n5kts"]
@@ -27,9 +26,13 @@ rotation = -1.5708
 [node name="GiantSign" parent="." index="2" instance=ExtResource("2_q3gfd")]
 position = Vector2(88, 144)
 
-[node name="Slime_player" parent="." index="3" instance=ExtResource("2_3qcus")]
-position = Vector2(0, 144)
-movement_data = ExtResource("7_v5eke")
+[node name="TheBoy" parent="." index="3" instance=ExtResource("6_46gkl")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="TheBoy" index="7"]
+position = Vector2(0, -64)
+remote_path = NodePath("../../Cam")
+update_rotation = false
+update_scale = false
 
 [node name="Section1TileMap" parent="." index="5"]
 position = Vector2(2, 0)
@@ -112,3 +115,8 @@ position = Vector2(1184, -232)
 
 [node name="DashGem" parent="." index="30" instance=ExtResource("10_kv3ms")]
 position = Vector2(1200, -136)
+
+[node name="Cam" type="Camera2D" parent="." index="31"]
+position = Vector2(0, -64)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0

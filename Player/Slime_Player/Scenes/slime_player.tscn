@@ -112,7 +112,6 @@ floor_max_angle = 0.872665
 floor_snap_length = 3.0
 script = ExtResource("1_ku6s6")
 movement_data = ExtResource("2_gts6j")
-camera_look_offset = Vector2(20, 20)
 dash_distance = 50
 jump_dash_distance = 350
 jump_dash_height = -150
@@ -147,11 +146,6 @@ one_shot = true
 
 [node name="LookTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Camera" type="Camera2D" parent="."]
-position = Vector2(0, -62)
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
 
 [node name="HazardDetector" type="Area2D" parent="."]
 collision_layer = 0

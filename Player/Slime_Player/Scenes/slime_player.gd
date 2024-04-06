@@ -16,12 +16,6 @@ extends CharacterBody2D
 #getting position for spawn point
 @onready var spawn_position = global_position
 
-#camera variables
-@export_group("Camera")
-##this is used for the distance the player can look down whenever hold DOWN
-@export var look_timer_amount = 5
-##The camera won't center the player. this changes the placement of the camera based on where the player is
-@export var camera_look_offset = Vector2(10,10)
 #slime player state
 enum STATE{NORMAL,DASH,DEAD}
 var player_state = STATE.NORMAL

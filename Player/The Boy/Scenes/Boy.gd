@@ -3,22 +3,20 @@ extends CharacterBody2D
 @onready var sprite = $AnimatedSprite2D
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var dash_timer = $DashTimer
-@onready var camera = $Camera
 @onready var fire_rate_timer = $FireRateTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var gun = $Gun
 
-##This is where you place the movement data for the player, The variables are pretty self-explanitory
-@export var movement_data : PlayerMovementData
 #getting position for spawn point
 @onready var spawn_position = global_position
-#camera variables
-@export_group("Camera")
-##this is used for the distance the player can look down whenever hold DOWN
-@export var look_timer_amount = 5
-##The camera won't center the player. this changes the placement of the camera based on where the player is
-@export var camera_look_offset = Vector2(10,10)
+
+##This is where you place the movement data for the player, The variables are pretty self-explanitory
+@export var movement_data : PlayerMovementData
+
+enum STATE{NORMAL,DEAD}
+
 var player_state = STATE.NORMAL
+
 @export_group("Shooting")
 ##the distance the player will be shot back at whenever shooting
 @export var launch_power = 1000
@@ -34,10 +32,12 @@ var player_state = STATE.NORMAL
 @export var increased_ammo_cost = 2
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
+
+@export_group("Double Jump")
+@export var double_jump_height = -100
+var double_jump = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-enum STATE{NORMAL,DEAD}
 
 func _ready():
 	Global.ammo = max_ammo
@@ -76,22 +76,30 @@ func apply_gravity(delta):
 		velocity.y += gravity* movement_data.gravity_scale*movement_data.gravity_acceleration * delta
 
 func handle_jump():
+	if is_on_floor(): double_jump = true
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_just_pressed("jump") or jump_buffer_timer.time_left > 0.0:
 			velocity.y = movement_data.jump_velocity
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
+		
+		if Input.is_action_just_pressed("jump") and double_jump:
+			velocity.y = double_jump_height
 	elif Input.is_action_just_pressed("jump"):
 		jump_buffer_timer.start(movement_data.jump_buffer)
 
 func gun_jump():
+	var power = launch_power
+	var ammo_cost = ammo_used
 	if Input.is_action_just_pressed("shoot") and Global.ammo > 0:
-		var power = launch_power
-		var ammo_cost = ammo_used
-		if Input.is_action_pressed("run"): 
-			power *= increased_launch_power_multiplied
-			ammo_cost *= increased_ammo_cost
+		Global.ammo -= ammo_cost
+		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
+		var angle = gun.rotation+deg_to_rad(180)
+		velocity = Vector2(1,0).rotated(angle)*power
+	elif Input.is_action_just_pressed("gun_jump") and Global.ammo > 0:
+		power *= increased_launch_power_multiplied
+		ammo_cost *= increased_ammo_cost
 		Global.ammo -= ammo_cost
 		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
 		var angle = gun.rotation+deg_to_rad(180)
