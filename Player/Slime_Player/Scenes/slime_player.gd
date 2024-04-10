@@ -137,7 +137,6 @@ func apply_air_resistance(input_axis,delta):
 
 func jump_dashing():
 	if jump_dash:
-		print("dashiing")
 		dash_particles.emitting = true
 		if not sprite.flip_h: velocity.x = jump_dash_distance
 		else: velocity.x = jump_dash_distance * -1
@@ -153,7 +152,6 @@ func jump_dashing():
 	else:
 		dash_particles.emitting = false
 		if is_on_floor():
-			print("done")
 			after_jump_dash = false
 
 func is_dashing():

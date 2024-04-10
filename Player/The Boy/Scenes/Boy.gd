@@ -32,10 +32,6 @@ var player_state = STATE.NORMAL
 @export var increased_ammo_cost = 2
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
-
-@export_group("Double Jump")
-@export var double_jump_height = -100
-var double_jump = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -76,16 +72,12 @@ func apply_gravity(delta):
 		velocity.y += gravity* movement_data.gravity_scale*movement_data.gravity_acceleration * delta
 
 func handle_jump():
-	if is_on_floor(): double_jump = true
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_just_pressed("jump") or jump_buffer_timer.time_left > 0.0:
 			velocity.y = movement_data.jump_velocity
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
-		
-		if Input.is_action_just_pressed("jump") and double_jump:
-			velocity.y = double_jump_height
 	elif Input.is_action_just_pressed("jump"):
 		jump_buffer_timer.start(movement_data.jump_buffer)
 
