@@ -11,6 +11,7 @@ func _process(delta):
 func _on_body_entered(body):
 	if sprite.visible:
 		Global.dash_amount += 1
+		Global.ammo = 100
 		timer.start()
 		first_time = false
 		sprite.visible = false

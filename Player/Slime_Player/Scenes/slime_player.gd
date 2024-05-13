@@ -57,6 +57,7 @@ var dash_direction = Vector2() #get direciton we'll dash in
 var dashsp = 0
 func _ready():
 	Global.dash_amount = max_dash_amount
+
 func _physics_process(delta):
 	handle_camera()
 	if player_state == STATE.NORMAL:

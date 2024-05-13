@@ -13,4 +13,3 @@ func _on_body_entered(body):
 func _on_body_exited(body):
 	sprite.play("turn_off")
 	sprite.queue("idle")
-
