@@ -141,6 +141,10 @@ gun_jump={
 
 2d/use_edge_connections=false
 
+[physics]
+
+2d/default_gravity=1000.0
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

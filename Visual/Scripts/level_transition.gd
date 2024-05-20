@@ -9,3 +9,9 @@ func fade_from_black():
 func fade_to_black():
 	anim_player.play("fade_to_black")
 	await anim_player.animation_finished
+
+func animation_playing():
+	if anim_player.is_playing():
+		return false
+	else:
+		return true

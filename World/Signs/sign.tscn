@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dmweheags37um"]
+[gd_scene load_steps=24 format=3 uid="uid://dmweheags37um"]
 
 [ext_resource type="Script" path="res://World/Signs/Sign.gd" id="1_orje5"]
 [ext_resource type="Texture2D" uid="uid://dtgti8gkbi4jr" path="res://World/Sprites/sign.png" id="2_rgu1s"]
@@ -236,6 +236,19 @@ _data = {
 "talk": SubResource("Animation_g0uol")
 }
 
+[sub_resource type="Theme" id="Theme_hxl0d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xou6c"]
+bg_color = Color(0.168627, 0.168627, 0.164706, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [node name="Sign" type="Area2D"]
 collision_layer = 0
 collision_mask = 2
@@ -255,4 +268,18 @@ libraries = {
 "": SubResource("AnimationLibrary_7cqky")
 }
 
+[node name="Dialog" type="AcceptDialog" parent="."]
+title = ""
+initial_position = 2
+size = Vector2i(100, 106)
+transient = false
+borderless = true
+always_on_top = true
+theme = SubResource("Theme_hxl0d")
+theme_override_styles/panel = SubResource("StyleBoxFlat_xou6c")
+dialog_close_on_escape = false
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="confirmed" from="Dialog" to="." method="_on_dialog_confirmed"]

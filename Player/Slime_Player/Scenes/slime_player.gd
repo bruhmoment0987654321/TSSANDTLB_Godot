@@ -41,6 +41,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var jump_dash_height = -200
 ##the amount of decreased air resistance when you press left or right
 @export var jump_dash_friction_decrease_amount = 0.9
+
 var jump_dash_friction_decrease = 1
 var after_jump_dash = false
 
@@ -54,6 +55,7 @@ var jump_dash = false
 var ghost_trail = preload("res://Player/ghost_trail.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
 var dash_direction = Vector2() #get direciton we'll dash in
+var dash_energy = 0
 var dashsp = 0
 func _ready():
 	Global.dash_amount = max_dash_amount
@@ -77,8 +79,8 @@ func _physics_process(delta):
 			coyote_jump_timer.start(movement_data.coyote_time)
 			
 	if player_state == STATE.DASH:
-		if dash_timer.time_left > 0.0:
-			is_dashing()
+		if dash_energy > 0:
+			is_dashing(delta)
 		else:
 			ending_dash()
 		move_and_slide()
@@ -113,8 +115,33 @@ func handle_dash():
 	if Input.is_action_just_pressed("dash") and Global.dash_amount > 0:
 		dash_direction = get_dir_from_input()
 		dashsp = dash_distance/dash_time
-		dash_timer.start(dash_time)
+		dash_energy = dash_distance
 		player_state = STATE.DASH
+		
+func is_dashing(delta):
+	dash_energy -= dashsp*delta
+	velocity = dash_direction*dashsp
+	dash_particles.emitting = true
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		jump_dash = true
+		ending_dash()
+	if dash_timer.time_left > 0.0 and Global.dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
+		Global.dash_amount -= 1
+		dash_particles.emitting = false
+		dash_timer.start(dash_time)
+	var dash_node = ghost_trail.instantiate()
+	dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
+	dash_node.global_position = global_position+Vector2(0,-16)
+	dash_node.flip_h = sprite.flip_h
+	get_parent().add_child(dash_node)
+
+func ending_dash():
+	Global.dash_amount -= 1
+	velocity = Vector2(0,0)
+	dash_particles.emitting = false
+	if jump_dash:
+		jump_dash_timer.start(jump_dash_time)
+	player_state = STATE.NORMAL
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
@@ -154,29 +181,6 @@ func jump_dashing():
 		dash_particles.emitting = false
 		if is_on_floor():
 			after_jump_dash = false
-
-func is_dashing():
-	velocity = dash_direction*dashsp
-	dash_particles.emitting = true
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
-		jump_dash = true
-		ending_dash()
-	if dash_timer.time_left > 0.0 and Global.dash_amount > 0 and Input.is_action_just_pressed("dash") and dash_timer.time_left < dash_time_less:
-		Global.dash_amount -= 1
-		dash_particles.emitting = false
-		dash_timer.start(dash_time)
-	var dash_node = ghost_trail.instantiate()
-	dash_node.texture = sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
-	dash_node.global_position = global_position+Vector2(0,-16)
-	dash_node.flip_h = sprite.flip_h
-	get_parent().add_child(dash_node)
-
-func ending_dash():
-	Global.dash_amount -= 1
-	dash_particles.emitting = false
-	if jump_dash:
-		jump_dash_timer.start(jump_dash_time)
-	player_state = STATE.NORMAL
 
 func update_animation(input_axis):
 	if Global.dash_amount <= 0:

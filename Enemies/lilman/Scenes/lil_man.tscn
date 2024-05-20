@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://dq5hclarh538y"]
+
+[ext_resource type="Texture2D" uid="uid://bqgskky62lvnx" path="res://Enemies/lilman/Sprites/Spr_lilman_hit.png" id="1_wbgb7"]
+[ext_resource type="Texture2D" uid="uid://cdh23uiiwsm2" path="res://Enemies/lilman/Sprites/Spr_lilman_strip4.png" id="2_rd6j1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lb7mq"]
+size = Vector2(27, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7kqok"]
+atlas = ExtResource("1_wbgb7")
+region = Rect2(0, 0, 27, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1htu"]
+atlas = ExtResource("2_rd6j1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovcar"]
+atlas = ExtResource("2_rd6j1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxali"]
+atlas = ExtResource("2_rd6j1")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gjdw"]
+atlas = ExtResource("2_rd6j1")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ciq5c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7kqok")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1htu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovcar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxali")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gjdw")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[node name="Lil Man" type="CharacterBody2D"]
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -14.5)
+shape = SubResource("RectangleShape2D_lb7mq")
+
+[node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_ciq5c")
+animation = &"walk"
