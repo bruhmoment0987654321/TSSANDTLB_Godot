@@ -54,7 +54,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_le0vu")
 }],
 "loop": true,
-"name": &"fall",
+"name": &"Fall",
 "speed": 5.0
 }, {
 "frames": [{
@@ -71,7 +71,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_sl1gv")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"Idle",
 "speed": 5.0
 }, {
 "frames": [{
@@ -79,7 +79,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_0i6hg")
 }],
 "loop": true,
-"name": &"jump",
+"name": &"Jump",
 "speed": 5.0
 }, {
 "frames": [{
@@ -93,7 +93,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_sjwcs")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"Walk",
 "speed": 7.0
 }]
 
@@ -124,10 +124,10 @@ z_index = 1
 position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_tptkg")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
+[node name="Slime" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjx7w")
-animation = &"idle"
+animation = &"Walk"
+offset = Vector2(0, -16)
 
 [node name="JumpDashTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -142,9 +142,6 @@ wait_time = 0.1
 one_shot = true
 
 [node name="DashTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="LookTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="HazardDetector" type="Area2D" parent="."]

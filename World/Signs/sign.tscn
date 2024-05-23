@@ -1,7 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://dmweheags37um"]
+[gd_scene load_steps=27 format=3 uid="uid://dmweheags37um"]
 
 [ext_resource type="Script" path="res://World/Signs/Sign.gd" id="1_orje5"]
 [ext_resource type="Texture2D" uid="uid://dtgti8gkbi4jr" path="res://World/Sprites/sign.png" id="2_rgu1s"]
+[ext_resource type="Script" path="res://World/Signs/Dialog.gd" id="3_gbc8x"]
+[ext_resource type="Texture2D" uid="uid://dhbvaxk8r5yrq" path="res://World/Signs/interact_icon.png" id="4_s4wmi"]
+[ext_resource type="Script" path="res://World/Signs/Interact.gd" id="5_dufyq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0vglp"]
 size = Vector2(32, 23)
@@ -270,7 +273,7 @@ libraries = {
 
 [node name="Dialog" type="AcceptDialog" parent="."]
 title = ""
-initial_position = 2
+position = Vector2i(220, 40)
 size = Vector2i(100, 106)
 transient = false
 borderless = true
@@ -278,6 +281,15 @@ always_on_top = true
 theme = SubResource("Theme_hxl0d")
 theme_override_styles/panel = SubResource("StyleBoxFlat_xou6c")
 dialog_close_on_escape = false
+script = ExtResource("3_gbc8x")
+
+[node name="Interact" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -40)
+texture = ExtResource("4_s4wmi")
+script = ExtResource("5_dufyq")
+amp = 5.0
+spd = 2.5
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

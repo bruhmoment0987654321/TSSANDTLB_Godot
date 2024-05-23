@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://5lr5c7kwglb4"]
+
+[ext_resource type="Script" path="res://World/UI/Scenes/teleporters.gd" id="1_34um4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_701bi"]
+
+[node name="Teleporters" type="Node2D"]
+script = ExtResource("1_34um4")
+
+[node name="To" type="Marker2D" parent="."]
+position = Vector2(15, 0)
+gizmo_extents = 1.0
+
+[node name="From" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="From"]
+shape = SubResource("RectangleShape2D_701bi")
+
+[connection signal="body_entered" from="From" to="." method="_on_from_body_entered"]

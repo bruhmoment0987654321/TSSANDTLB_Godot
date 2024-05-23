@@ -1,7 +1,8 @@
 extends Area2D
 @onready var sprite = $AnimationPlayer
-## Place Dialog Here
+@onready var interact = $Interact
 
+## Place Dialog Here
 @export_multiline var text : String
 @onready var accept_dialog = $Dialog
 
@@ -18,6 +19,10 @@ func _process(delta):
 			talking = true
 			accept_dialog.visible = true
 			accept_dialog.dialog_text = text
+		interact.visible = true
+	else:
+		interact.visible = false
+
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "idle":
 		if Global.chance(0.4):
@@ -31,8 +36,6 @@ func _on_animation_player_animation_finished(anim_name):
 	
 	if anim_name == "talk":
 		sprite.play("talk")
-
-
 
 func _on_dialog_confirmed():
 	sprite.play("idle")

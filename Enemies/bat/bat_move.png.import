@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://k1lpjhvkt8uf"
-path="res://.godot/imported/Spr_bat_strip2.png-d095f86890f2544d3abd294ff80ceb89.ctex"
+uid="uid://bj1iyosk3f4l4"
+path="res://.godot/imported/bat_move.png-8f995f6f4dd59f2910cffcf580185c68.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Enemies/bat/Spr_bat_strip2.png"
-dest_files=["res://.godot/imported/Spr_bat_strip2.png-d095f86890f2544d3abd294ff80ceb89.ctex"]
+source_file="res://Enemies/bat/bat_move.png"
+dest_files=["res://.godot/imported/bat_move.png-8f995f6f4dd59f2910cffcf580185c68.ctex"]
 
 [params]
 

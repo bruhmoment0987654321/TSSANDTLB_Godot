@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3h8u55rgcwii"]
+[gd_scene load_steps=11 format=3 uid="uid://c3h8u55rgcwii"]
 
-[ext_resource type="Script" path="res://World/Levels/world.gd" id="1_1l263"]
+[ext_resource type="Script" path="res://World/Levels/world1.gd" id="1_1l263"]
 [ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="2_ptlux"]
 [ext_resource type="Script" path="res://World/Levels/GUI.gd" id="2_ycbf4"]
 [ext_resource type="Script" path="res://World/Levels/AmmoBar.gd" id="3_djkqy"]
@@ -9,10 +9,13 @@
 [ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="6_1d8nb"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/UI/Scenes/level_completed.tscn" id="6_fmkl4"]
 [ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Levels/TheSewer/section_1_tile_map.tscn" id="7_34poa"]
+[ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="10_pibks"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1l263")
 Background = Color(0.501961, 0.168627, 0, 1)
+
+[node name="Cam" parent="." instance=ExtResource("10_pibks")]
 
 [node name="GUI" type="CanvasLayer" parent="."]
 script = ExtResource("2_ycbf4")

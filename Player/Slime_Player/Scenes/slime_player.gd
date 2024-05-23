@@ -1,20 +1,29 @@
 extends CharacterBody2D
 
+#putting other nodes in variables 
+@onready var sprite = $Slime
+@onready var coyote_jump_timer = $CoyoteJumpTimer
+@onready var dash_timer = $DashTimer
+@onready var dash_particles = $DashParticles
+@onready var jump_buffer_timer = $JumpBufferTimer
+@onready var jump_dash_timer = $JumpDashTimer
+@onready var cam = $"../Cam"
+
+#getting position for spawn point
+@onready var spawn_position = global_position
+
 @export_group("Movement Data")
 ##This is where you place the movement data for the player. The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
-#putting other nodes in variables 
-@onready var sprite = $AnimatedSprite2D
-@onready var coyote_jump_timer = $CoyoteJumpTimer
-@onready var dash_timer = $DashTimer
-@onready var look_timer = $LookTimer
-@onready var dash_particles = $DashParticles
-@onready var jump_buffer_timer = $JumpBufferTimer
-@onready var jump_dash_timer = $JumpDashTimer
+@export_group("Visuals")
+@export var jump_squish : Vector2 = Vector2(0.7,1.3)
+@export var landing_squish : Vector2 = Vector2(1.3,0.7)
+@export var squish_speed = 3
 
-#getting position for spawn point
-@onready var spawn_position = global_position
+#squash and stretch
+var motion_previous = Vector2()
+var was_airborne = false
 
 #slime player state
 enum STATE{NORMAL,DASH,DEAD}
@@ -57,6 +66,7 @@ var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than 
 var dash_direction = Vector2() #get direciton we'll dash in
 var dash_energy = 0
 var dashsp = 0
+
 func _ready():
 	Global.dash_amount = max_dash_amount
 
@@ -71,13 +81,13 @@ func _physics_process(delta):
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
-		update_animation(input_axis)
+		update_animation(input_axis,delta)
 		var was_on_floor = is_on_floor()
+		motion_previous = velocity
 		move_and_slide()
 		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
 			coyote_jump_timer.start(movement_data.coyote_time)
-			
 	if player_state == STATE.DASH:
 		if dash_energy > 0:
 			is_dashing(delta)
@@ -103,6 +113,7 @@ func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_just_pressed("jump") or jump_buffer_timer.time_left > 0.0:
 			velocity.y = movement_data.jump_velocity
+			turn_squishy(jump_squish.x,jump_squish.y)
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
@@ -117,6 +128,7 @@ func handle_dash():
 		dashsp = dash_distance/dash_time
 		dash_energy = dash_distance
 		player_state = STATE.DASH
+		cam.apply_shake(4)
 		
 func is_dashing(delta):
 	dash_energy -= dashsp*delta
@@ -182,21 +194,36 @@ func jump_dashing():
 		if is_on_floor():
 			after_jump_dash = false
 
-func update_animation(input_axis):
+func update_animation(input_axis,delta):
 	if Global.dash_amount <= 0:
 		sprite.modulate = dash_color_running_out
 	else:
 		sprite.modulate = Color.WHITE
 	if input_axis :
 		sprite.flip_h = (input_axis < 0)
-		sprite.play("walk")
+		sprite.play("Walk")
 	else:
-		sprite.play("idle")
+		sprite.play("Idle")
 	if not is_on_floor():
 		if velocity.y < 0:
-			sprite.play("jump")
+			sprite.play("Jump")
 		else:
-			sprite.play("fall")
+			sprite.play("Fall")
+	squash_and_stretch(delta)
+
+func turn_squishy(x,y):
+	sprite.scale = Vector2(x,y)
+
+func squash_and_stretch(delta):
+	if is_on_floor():
+		if was_airborne:
+			was_airborne = false
+			turn_squishy(landing_squish.x,landing_squish.y)
+	else:
+		was_airborne = true
+	
+	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
+	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
 
 func get_dir_from_input():
 	var move_dir = Vector2()
@@ -212,3 +239,4 @@ func get_dir_from_input():
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
+	cam.apply_shake(5)
