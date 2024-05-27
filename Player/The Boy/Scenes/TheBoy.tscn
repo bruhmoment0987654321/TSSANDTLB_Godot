@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=22 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
@@ -107,6 +107,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32e7g"]
 size = Vector2(8, 23)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tmqrk"]
+radius = 11.0
+
 [node name="TheBoy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
@@ -114,6 +117,9 @@ script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
 launch_power = 270
 launch_power_decrease_multiplied = 0.8
+charge_rate = 40
+
+[node name="Player Position" type="Marker2D" parent="."]
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -144,6 +150,7 @@ debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 [node name="Gun" type="Sprite2D" parent="."]
 texture = ExtResource("6_6uu5g")
 script = ExtResource("7_syyny")
+position_lag_speed = 21.0
 gun_location = Vector2(0, -8)
 fire_rate = 0.1
 
@@ -153,4 +160,13 @@ position = Vector2(-1, 0)
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="CheckpointDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_tmqrk")
+
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
+[connection signal="area_entered" from="CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]

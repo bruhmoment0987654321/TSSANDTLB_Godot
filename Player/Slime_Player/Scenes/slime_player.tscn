@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=23 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
 [ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_gts6j"]
@@ -104,18 +104,28 @@ size = Vector2(12, 7)
 _data = [Vector2(0, 1), 0.0, -0.0705893, 0, 0, Vector2(1, 0.0185312), -4.05371, 0.0, 0, 0]
 point_count = 2
 
-[node name="Slime_player" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xumxy"]
+size = Vector2(19, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wswn7"]
+radius = 11.0
+
+[node name="Slime_player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 13
 floor_constant_speed = true
 floor_max_angle = 0.872665
 floor_snap_length = 3.0
 script = ExtResource("1_ku6s6")
 movement_data = ExtResource("2_gts6j")
+jump_squish = Vector2(0.5, 1.5)
+landing_squish = Vector2(1.5, 0.5)
 dash_distance = 50
 jump_dash_distance = 350
 jump_dash_height = -150
 dash_color_running_out = Color(0.607843, 0.607843, 0.607843, 1)
+
+[node name="Player Position" type="Marker2D" parent="."]
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
 z_index = 1
@@ -169,4 +179,23 @@ angular_velocity_min = 90.0
 angular_velocity_max = 180.0
 scale_amount_curve = SubResource("Curve_vvjwj")
 
+[node name="EnemyDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+position = Vector2(0.5, -5)
+shape = SubResource("RectangleShape2D_xumxy")
+debug_color = Color(0, 0.633445, 0.440378, 0.42)
+
+[node name="CheckpointDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_wswn7")
+
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
+[connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
+[connection signal="area_entered" from="CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]

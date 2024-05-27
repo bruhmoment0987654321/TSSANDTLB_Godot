@@ -1,11 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://dq5hclarh538y"]
+[gd_scene load_steps=15 format=3 uid="uid://dq5hclarh538y"]
 
 [ext_resource type="Script" path="res://Enemies/lilman/Scenes/lil_man.gd" id="1_dci6j"]
 [ext_resource type="Texture2D" uid="uid://bqgskky62lvnx" path="res://Enemies/lilman/Sprites/Spr_lilman_hit.png" id="1_wbgb7"]
 [ext_resource type="Texture2D" uid="uid://cdh23uiiwsm2" path="res://Enemies/lilman/Sprites/Spr_lilman_strip4.png" id="2_rd6j1"]
+[ext_resource type="PackedScene" uid="uid://c4puss72atg63" path="res://Enemies/Scenes/enemy_area.tscn" id="2_x0qu0"]
+[ext_resource type="PackedScene" uid="uid://c0ms5ofac4ret" path="res://Hazards/Scenes/hazard_area.tscn" id="4_oeohh"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lb7mq"]
-size = Vector2(25, 29)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2sje"]
+size = Vector2(33, 34)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrx4s"]
+size = Vector2(27, 29)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kqok"]
 atlas = ExtResource("1_wbgb7")
@@ -56,21 +61,41 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mv1hp"]
-size = Vector2(23, 28)
+size = Vector2(21, 26)
 
-[node name="Lil Man" type="CharacterBody2D"]
+[node name="Lil Man" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 8
+collision_mask = 3
 script = ExtResource("1_dci6j")
+speed = 70
 
-[node name="Hitbox" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -14.5)
-shape = SubResource("RectangleShape2D_lb7mq")
+[node name="EnemyArea" parent="." instance=ExtResource("2_x0qu0")]
 
-[node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea"]
+position = Vector2(-0.5, -15)
+shape = SubResource("RectangleShape2D_s2sje")
+debug_color = Color(0, 0.632367, 0.452254, 0.42)
+
+[node name="HazardArea" parent="." instance=ExtResource("4_oeohh")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
+position = Vector2(-0.5, -13.5)
+shape = SubResource("RectangleShape2D_nrx4s")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -16)
 sprite_frames = SubResource("SpriteFrames_ciq5c")
 animation = &"walk"
 
-[node name="Hurtbox" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -14)
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -13)
 shape = SubResource("RectangleShape2D_mv1hp")
 debug_color = Color(0.981531, 0, 0.370245, 0.42)
+
+[node name="Ground Check" type="RayCast2D" parent="."]
+position = Vector2(11, -20)
+target_position = Vector2(0, 29)
+
+[node name="Wall Check" type="RayCast2D" parent="."]
+position = Vector2(0, -12)
+target_position = Vector2(13, 1)

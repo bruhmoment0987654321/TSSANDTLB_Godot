@@ -3,9 +3,14 @@ extends Node2D
 
 @export var next_level:PackedScene
 
+@export var check_point : Vector2
+
+@export var check_point_2 : Vector2
+
+@export var check_point_3 :Vector2
+
 @export var Background = Color.BLACK 
 func _ready():
-	RenderingServer.set_default_clear_color(Background)
 	Global.level_completed.connect(show_level_completed)
 
 func show_level_completed():
@@ -17,3 +22,4 @@ func show_level_completed():
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(next_level)
 	LevelTransition.fade_from_black()
+

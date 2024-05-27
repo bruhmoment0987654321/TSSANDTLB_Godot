@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1eck1jvwshxu"]
+[gd_scene load_steps=5 format=3 uid="uid://d1eck1jvwshxu"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/bullet.gd" id="1_4x4st"]
 [ext_resource type="Texture2D" uid="uid://ca50k42pil2ar" path="res://Player/The Boy/Sprites/Soda_bullet.png" id="1_opbea"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_na2s5"]
 size = Vector2(25, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6dyo4"]
+size = Vector2(19, 10)
 
 [node name="bullet" type="Area2D"]
 script = ExtResource("1_4x4st")
@@ -22,5 +25,15 @@ shape = SubResource("RectangleShape2D_na2s5")
 position = Vector2(3.5, 0.5)
 scale = Vector2(1.35, 0.55)
 
+[node name="EnemyDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+position = Vector2(0.5, -5)
+shape = SubResource("RectangleShape2D_6dyo4")
+debug_color = Color(0, 0.633445, 0.440378, 0.42)
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]

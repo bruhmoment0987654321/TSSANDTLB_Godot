@@ -5,8 +5,9 @@ extends CharacterBody2D
 @onready var dash_timer = $DashTimer
 @onready var fire_rate_timer = $FireRateTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
+@onready var cam = $"../Cam"
 @onready var gun = $Gun
-
+@onready var player_position = $"Player Position"
 #getting position for spawn point
 @onready var spawn_position = global_position
 
@@ -16,6 +17,15 @@ extends CharacterBody2D
 enum STATE{NORMAL,DEAD}
 
 var player_state = STATE.NORMAL
+
+@export_group("Visuals")
+@export var squish_speed = 3
+@export var jump_squish : Vector2 = Vector2(0.7,1.3)
+@export var landing_squish : Vector2 = Vector2(1.3,0.7)
+
+#squash and stretch
+var motion_previous = Vector2()
+var was_airborne = false
 
 @export_group("Shooting")
 ##the distance the player will be shot back at whenever shooting
@@ -32,6 +42,7 @@ var player_state = STATE.NORMAL
 @export var increased_ammo_cost = 2
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -40,9 +51,6 @@ func _ready():
 
 func _process(delta):
 	Global.ammo = min(Global.ammo + (delta * charge_rate), 100.0)
-
-func _physics_process(delta):
-	handle_camera()
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()
@@ -51,19 +59,14 @@ func _physics_process(delta):
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
-		update_animation(input_axis)
+		update_animation(input_axis,delta)
 		var was_on_floor = is_on_floor()
 		move_and_slide()
 		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
 			coyote_jump_timer.start()
 	if player_state == STATE.DEAD:
-		global_position = spawn_position
-		Global.death_count += 1
-		player_state = STATE.NORMAL
-		Global.ammo = max_ammo
-func handle_camera():
-	pass
+		death()
 
 func apply_gravity(delta):
 	if not is_on_floor() and velocity.y < 0:
@@ -75,6 +78,7 @@ func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_just_pressed("jump") or jump_buffer_timer.time_left > 0.0:
 			velocity.y = movement_data.jump_velocity
+			turn_squishy(jump_squish.x,jump_squish.y)
 	elif not is_on_floor():
 		if Input.is_action_just_released("jump") and velocity.y < movement_data.jump_velocity/3:
 			velocity.y = movement_data.jump_velocity/3
@@ -112,7 +116,7 @@ func apply_air_resistance(input_axis,delta):
 	if input_axis == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
 
-func update_animation(input_axis):
+func update_animation(input_axis,delta):
 	if input_axis :
 		sprite.flip_h = (input_axis < 0)
 		sprite.play("walk")
@@ -123,6 +127,44 @@ func update_animation(input_axis):
 			sprite.play("jump")
 		else:
 			sprite.play("fall")
+	squash_and_stretch(delta)
+
+func death():
+	global_position = spawn_position
+	Global.death_count += 1
+	player_state = STATE.NORMAL
+	Global.ammo = max_ammo
+	velocity = Vector2(0,0)
+	cam.apply_shake(5)
+	print(str(global_position.x) + ", " + str(global_position.y))
+
+func turn_squishy(x,y):
+	sprite.scale = Vector2(x,y)
+	
+func squash_and_stretch(delta):
+	if is_on_floor():
+		if was_airborne:
+			was_airborne = false
+			#squishy
+			turn_squishy(landing_squish.x,landing_squish.y)
+	else:
+		was_airborne = true
+	
+	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
+	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
+
+func _on_checkpoint_detector_area_entered(area):
+	if area.is_in_group("Checkpoint_1"):
+		spawn_position = area.owner.check_point
+		print("Hit Checkpoint_1")
+	if area.is_in_group("Checkpoint_2"):
+		spawn_position = area.owner.check_point_2
+		print("Hit Checkpoint_2")
+	if area.is_in_group("Checkpoint_3"):
+		spawn_position = area.owner.check_point_3
+		print("Hit Checkpoint_3")
+
+

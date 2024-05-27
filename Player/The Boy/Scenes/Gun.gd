@@ -11,7 +11,7 @@ func _ready():
 
 func _physics_process(delta):
 	var mouse_pos = get_global_mouse_position()
-	position = lerp(position,get_parent().position+gun_location,position_lag_speed)
+	position = lerp(position,get_parent().position+gun_location,position_lag_speed*delta)
 	look_at(mouse_pos)
 	shoot()
 func shoot():

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://xk405eg7hpkd"]
+
+[ext_resource type="Texture2D" uid="uid://droavqmkwc34o" path="res://World/Backgrounds/Sprites/Sewer Up/sewer_background_upward.png" id="1_t5ima"]
+[ext_resource type="Texture2D" uid="uid://0r457tol8wr1" path="res://World/Backgrounds/Sprites/Sewer Up/sewer_background_upward_L1.png" id="2_qb4n0"]
+[ext_resource type="Texture2D" uid="uid://3b7xrc1yat1k" path="res://World/Backgrounds/Sprites/Sewer Up/sewer_background_upward_L2.png" id="3_nnnxl"]
+[ext_resource type="Texture2D" uid="uid://6kg4fnbs47w0" path="res://World/Backgrounds/Sprites/Sewer Up/sewer_background_upward_L3.png" id="4_vy4eo"]
+[ext_resource type="Texture2D" uid="uid://cw1ylqur30lt7" path="res://World/Backgrounds/Sprites/Sewer Up/sewer_background_upward_L4.png" id="5_numky"]
+
+[node name="Sewer Background Upward" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Background"]
+texture = ExtResource("1_t5ima")
+centered = false
+
+[node name="Layer 1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 1)
+motion_mirroring = Vector2(0, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 1"]
+texture = ExtResource("2_qb4n0")
+centered = false
+
+[node name="Layer 2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 1.1)
+motion_mirroring = Vector2(0, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 2"]
+texture = ExtResource("3_nnnxl")
+centered = false
+
+[node name="Layer 3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 1.2)
+motion_mirroring = Vector2(0, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 3"]
+texture = ExtResource("4_vy4eo")
+centered = false
+
+[node name="Layer 4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 1.4)
+motion_mirroring = Vector2(0, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 4"]
+texture = ExtResource("5_numky")
+centered = false

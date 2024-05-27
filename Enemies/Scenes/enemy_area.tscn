@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c4puss72atg63"]
+
+[node name="EnemyArea" type="Area2D"]
+collision_layer = 8
+collision_mask = 0

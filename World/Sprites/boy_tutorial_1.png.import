@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3jnfvnyr54pw"
-path="res://.godot/imported/sewer_background_L2.png-b95b9fa20a4fd72e944f1f59f9f5ca09.ctex"
+uid="uid://cki0hrbvhpk62"
+path="res://.godot/imported/boy_tutorial_1.png-24a48ef66eae717630b7c3ebc514b0e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://World/Backgrounds/Sprites/sewer_background_L2.png"
-dest_files=["res://.godot/imported/sewer_background_L2.png-b95b9fa20a4fd72e944f1f59f9f5ca09.ctex"]
+source_file="res://World/Sprites/boy_tutorial_1.png"
+dest_files=["res://.godot/imported/boy_tutorial_1.png-24a48ef66eae717630b7c3ebc514b0e9.ctex"]
 
 [params]
 

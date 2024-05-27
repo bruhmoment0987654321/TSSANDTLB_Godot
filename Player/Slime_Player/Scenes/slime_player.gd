@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var jump_dash_timer = $JumpDashTimer
 @onready var cam = $"../Cam"
+@onready var player_position = $"Player Position"
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -17,9 +18,9 @@ extends CharacterBody2D
 @export var movement_data : PlayerMovementData
 
 @export_group("Visuals")
+@export var squish_speed = 3
 @export var jump_squish : Vector2 = Vector2(0.7,1.3)
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
-@export var squish_speed = 3
 
 #squash and stretch
 var motion_previous = Vector2()
@@ -35,7 +36,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 ##having the player dash or not?
 @export var player_dash = true
 ##the distance the dash will go
-@export var dash_distance = 60
+@export var dash_distance = 100
 ##the amount of time the dash lasts for
 @export var dash_time = 0.2
 ##how many times the player can dash for until he isn't able to.
@@ -71,7 +72,6 @@ func _ready():
 	Global.dash_amount = max_dash_amount
 
 func _physics_process(delta):
-	handle_camera()
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()
@@ -83,7 +83,6 @@ func _physics_process(delta):
 		apply_air_resistance(input_axis,delta)
 		update_animation(input_axis,delta)
 		var was_on_floor = is_on_floor()
-		motion_previous = velocity
 		move_and_slide()
 		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
@@ -95,13 +94,7 @@ func _physics_process(delta):
 			ending_dash()
 		move_and_slide()
 	if player_state == STATE.DEAD:
-		Global.death_count += 1
-		global_position = spawn_position
-		Global.dash_amount = max_dash_amount
-		player_state = STATE.NORMAL
-
-func handle_camera():
-	pass
+		death()
 
 func apply_gravity(delta):
 	if not is_on_floor() and velocity.y < 0:
@@ -195,7 +188,7 @@ func jump_dashing():
 			after_jump_dash = false
 
 func update_animation(input_axis,delta):
-	if Global.dash_amount <= 0:
+	if Global.dash_amount == 0:
 		sprite.modulate = dash_color_running_out
 	else:
 		sprite.modulate = Color.WHITE
@@ -211,13 +204,23 @@ func update_animation(input_axis,delta):
 			sprite.play("Fall")
 	squash_and_stretch(delta)
 
+func death():
+	Global.death_count += 1
+	global_position = spawn_position
+	Global.dash_amount = max_dash_amount
+	player_state = STATE.NORMAL
+	velocity = Vector2(0,0)
+	cam.apply_shake(5)
+	print(str(global_position.x) + ", " + str(global_position.y))
+
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
-
+	
 func squash_and_stretch(delta):
 	if is_on_floor():
 		if was_airborne:
 			was_airborne = false
+			#squishy
 			turn_squishy(landing_squish.x,landing_squish.y)
 	else:
 		was_airborne = true
@@ -239,4 +242,18 @@ func get_dir_from_input():
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
-	cam.apply_shake(5)
+
+func _on_enemy_detector_area_entered(area):
+	if player_state == STATE.DASH or jump_dash:
+		area.get_parent().dead()
+
+func _on_checkpoint_detector_area_entered(area):
+	if area.is_in_group("Checkpoint_1"):
+		spawn_position = area.owner.check_point
+		print("Hit Checkpoint_1")
+	if area.is_in_group("Checkpoint_2"):
+		spawn_position = area.owner.check_point_2
+		print("Hit Checkpoint_2")
+	if area.is_in_group("Checkpoint_3"):
+		spawn_position = area.owner.check_point_3
+		print("Hit Checkpoint_3")

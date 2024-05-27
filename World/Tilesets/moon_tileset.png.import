@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cen3q4ieac7vk"
-path="res://.godot/imported/sewer_background_L3.png-4abc2265958efe9070a796283a57ec59.ctex"
+uid="uid://dlcji72wh5k8v"
+path="res://.godot/imported/moon_tileset.png-30433396b512f99a8201a76f67614909.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://World/Backgrounds/Sprites/sewer_background_L3.png"
-dest_files=["res://.godot/imported/sewer_background_L3.png-4abc2265958efe9070a796283a57ec59.ctex"]
+source_file="res://World/Tilesets/moon_tileset.png"
+dest_files=["res://.godot/imported/moon_tileset.png-30433396b512f99a8201a76f67614909.ctex"]
 
 [params]
 

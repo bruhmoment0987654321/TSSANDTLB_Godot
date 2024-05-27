@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyjhmhytv7ftf"]
+[gd_scene load_steps=4 format=3 uid="uid://cyjhmhytv7ftf"]
 
 [ext_resource type="Script" path="res://World/UI/start_menu.gd" id="1_2xbsw"]
 [ext_resource type="Texture2D" uid="uid://3h35mw8rj3ho" path="res://Spr_title.png" id="2_i7rgc"]
+[ext_resource type="PackedScene" uid="uid://djmcohicqqy8c" path="res://World/Levels/TheSewer/tutorial.tscn" id="2_smi6d"]
 
-[node name="StartMenu" type="CenterContainer"]
+[node name="StartMenu" type="CanvasLayer"]
+script = ExtResource("1_2xbsw")
+first_level = ExtResource("2_smi6d")
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -14,32 +20,28 @@ offset_top = -137.0
 offset_right = 80.0
 grow_horizontal = 2
 grow_vertical = 0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-script = ExtResource("1_2xbsw")
-first_level = "res://World/Levels/TheSewer/level1.tscn"
 
-[node name="Title" type="Sprite2D" parent="."]
-position = Vector2(80, -120)
+[node name="Title" type="Sprite2D" parent="CenterContainer"]
+position = Vector2(78, -121)
 texture = ExtResource("2_i7rgc")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="StartGameButton" type="Button" parent="VBoxContainer"]
+[node name="StartGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 text = "Start Game"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="Options" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Options"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="VBoxContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

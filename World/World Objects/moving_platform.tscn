@@ -1,0 +1,102 @@
+[gd_scene load_steps=11 format=3 uid="uid://4bq2a8yh6wi1"]
+
+[ext_resource type="Script" path="res://Moving Platform.gd" id="1_p1ge7"]
+[ext_resource type="Texture2D" uid="uid://jtld0m3hxvjg" path="res://World/World Objects/movingplatform.png" id="2_ss8uq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cqmu"]
+atlas = ExtResource("2_ss8uq")
+region = Rect2(0, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rp8i"]
+atlas = ExtResource("2_ss8uq")
+region = Rect2(32, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ii8x"]
+atlas = ExtResource("2_ss8uq")
+region = Rect2(64, 0, 32, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t3gfn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6cqmu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rp8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ii8x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5b4o7"]
+size = Vector2(32, 8.46154)
+
+[sub_resource type="Animation" id="Animation_64yyf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_lb7oh"]
+resource_name = "move"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(-1.56, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_foegf"]
+_data = {
+"RESET": SubResource("Animation_64yyf"),
+"move": SubResource("Animation_lb7oh")
+}
+
+[node name="Moving Platform" type="Path2D"]
+script = ExtResource("1_p1ge7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+progress = 48.415
+rotates = false
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
+remote_path = NodePath("../../AnimatableBody2D")
+update_rotation = false
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="AnimatableBody2D"]
+sprite_frames = SubResource("SpriteFrames_t3gfn")
+frame_progress = 0.46542
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(0, 1.19209e-07)
+scale = Vector2(1, 0.945455)
+shape = SubResource("RectangleShape2D_5b4o7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_foegf")
+}

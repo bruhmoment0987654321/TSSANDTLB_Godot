@@ -1,0 +1,156 @@
+[gd_scene load_steps=18 format=3 uid="uid://t8ypksjd0nxf"]
+
+[ext_resource type="PackedScene" uid="uid://c0ms5ofac4ret" path="res://Hazards/Scenes/hazard_area.tscn" id="1_5ke0h"]
+[ext_resource type="Script" path="res://Enemies/eyesaw/Scenes/eyesaw.gd" id="1_fkdyd"]
+[ext_resource type="Texture2D" uid="uid://c7w2nh7nf5cny" path="res://Enemies/eyesaw/Spr_saw_idle.png" id="2_r5dkk"]
+[ext_resource type="Texture2D" uid="uid://cljngf3i2cuim" path="res://Enemies/eyesaw/Spr_saw_spin_strip6.png" id="3_qwn60"]
+[ext_resource type="Texture2D" uid="uid://cyx5c2ikhjye0" path="res://Enemies/eyesaw/Spr_eye_look_strip8.png" id="4_p0lfx"]
+
+[sub_resource type="Animation" id="Animation_wbpqo"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Saw:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Saw:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Saw:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rh6gx"]
+_data = {
+"idle": SubResource("Animation_wbpqo")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqm8s"]
+atlas = ExtResource("2_r5dkk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0l5j"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(0, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfnvy"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(34, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6t1du"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(68, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ht3r5"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(102, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrchw"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(136, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4u1d2"]
+atlas = ExtResource("3_qwn60")
+region = Rect2(170, 0, 34, 35)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vvf56"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqm8s")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0l5j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfnvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6t1du")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ht3r5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrchw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4u1d2")
+}],
+"loop": true,
+"name": &"spin",
+"speed": 14.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dmfsw"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_13na4"]
+radius = 113.137
+
+[node name="Eyesaw" type="Node2D"]
+script = ExtResource("1_fkdyd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rh6gx")
+}
+
+[node name="Saw" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -0.333333)
+sprite_frames = SubResource("SpriteFrames_vvf56")
+animation = &"idle"
+frame_progress = 0.578221
+
+[node name="Eye" type="Sprite2D" parent="."]
+position = Vector2(0, 0.808709)
+texture = ExtResource("4_p0lfx")
+hframes = 8
+
+[node name="HazardArea" parent="." instance=ExtResource("1_5ke0h")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
+shape = SubResource("CircleShape2D_dmfsw")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_13na4")
+debug_color = Color(0.976471, 0, 0.415686, 0.145098)
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]
