@@ -57,7 +57,7 @@ size = Vector2(82, 40)
 size = Vector2(68, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmir5"]
-size = Vector2(66, 30)
+size = Vector2(61, 26)
 
 [node name="Bat" type="CharacterBody2D" groups=["Enemies"]]
 script = ExtResource("1_kli3l")
@@ -71,22 +71,29 @@ offset = Vector2(0, -15)
 [node name="EnemyArea" parent="." instance=ExtResource("2_y8rsy")]
 
 [node name="Hurtbox" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(0, -15)
+position = Vector2(2, -15)
 shape = SubResource("RectangleShape2D_gjl47")
 debug_color = Color(0.970819, 0, 0.452156, 0.42)
 
 [node name="HazardArea" parent="." instance=ExtResource("3_g12xc")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
-position = Vector2(0, -15)
+position = Vector2(2, -15)
 shape = SubResource("RectangleShape2D_h7wq0")
 debug_color = Color(0, 0.636236, 0.407409, 0.42)
 
+[node name="Wall Check3" type="RayCast2D" parent="."]
+position = Vector2(1, -24)
+target_position = Vector2(-34, 0)
+
+[node name="Wall Check2" type="RayCast2D" parent="."]
+position = Vector2(1, -15)
+target_position = Vector2(-34, 0)
+
 [node name="Wall Check" type="RayCast2D" parent="."]
-position = Vector2(0, -14)
-scale = Vector2(1, 5)
+position = Vector2(1, -6)
 target_position = Vector2(-34, 0)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(2, -15)
 shape = SubResource("RectangleShape2D_qmir5")

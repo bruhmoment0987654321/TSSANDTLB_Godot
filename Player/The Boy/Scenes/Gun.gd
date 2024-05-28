@@ -10,6 +10,9 @@ func _ready():
 	top_level = true
 
 func _physics_process(delta):
+	var look_vector = Vector2(0,0)
+	look_vector.x = Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left")
+	look_vector.y = Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
 	var mouse_pos = get_global_mouse_position()
 	position = lerp(position,get_parent().position+gun_location,position_lag_speed*delta)
 	look_at(mouse_pos)

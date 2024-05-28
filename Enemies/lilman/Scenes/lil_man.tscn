@@ -7,10 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://c0ms5ofac4ret" path="res://Hazards/Scenes/hazard_area.tscn" id="4_oeohh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s2sje"]
-size = Vector2(33, 34)
+size = Vector2(31, 33)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrx4s"]
-size = Vector2(27, 29)
+size = Vector2(25, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kqok"]
 atlas = ExtResource("1_wbgb7")
@@ -72,20 +72,22 @@ speed = 70
 [node name="EnemyArea" parent="." instance=ExtResource("2_x0qu0")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(-0.5, -15)
+position = Vector2(-0.5, -14.5)
 shape = SubResource("RectangleShape2D_s2sje")
 debug_color = Color(0, 0.632367, 0.452254, 0.42)
 
 [node name="HazardArea" parent="." instance=ExtResource("4_oeohh")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
-position = Vector2(-0.5, -13.5)
+position = Vector2(-0.5, -14)
 shape = SubResource("RectangleShape2D_nrx4s")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -16)
 sprite_frames = SubResource("SpriteFrames_ciq5c")
 animation = &"walk"
+frame = 2
+frame_progress = 0.294081
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -13)
@@ -98,4 +100,4 @@ target_position = Vector2(0, 29)
 
 [node name="Wall Check" type="RayCast2D" parent="."]
 position = Vector2(0, -12)
-target_position = Vector2(13, 1)
+target_position = Vector2(13, 0)

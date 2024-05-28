@@ -20,12 +20,27 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1nnl1"]
 size = Vector2(36, 64)
 
+[sub_resource type="Animation" id="Animation_3xaty"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_k8x5u"]
 resource_name = "hidden"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile/Sprite2D2:color")
+tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -40,7 +55,7 @@ resource_name = "revealed"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile/Sprite2D2:color")
+tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -48,21 +63,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_3xaty"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile/Sprite2D2:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3w53j"]
@@ -76,7 +76,7 @@ _data = {
 size = Vector2(257, 152)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i6s6c"]
-size = Vector2(320, 169.5)
+size = Vector2(321, 189.375)
 
 [node name="World" instance=ExtResource("1_05lhq")]
 next_level = ExtResource("2_s4c18")
@@ -410,11 +410,12 @@ texture = ExtResource("16_jslux")
 [node name="Fake Tile2" parent="." index="81" instance=ExtResource("14_8faej")]
 position = Vector2(1192, -2320)
 
-[node name="Sprite2D2" type="Polygon2D" parent="Fake Tile2" index="0"]
+[node name="Sprite2D3" type="Polygon2D" parent="Fake Tile2" index="0"]
 texture_repeat = 3
-position = Vector2(-128, -48)
+position = Vector2(-136, -24)
+scale = Vector2(1.11429, 1)
 texture = ExtResource("15_tgarh")
-polygon = PackedVector2Array(312, 200, -16, 200, -16, -16, 312, -16, 312, 96)
+polygon = PackedVector2Array(280, 176, -14.359, 176, -14.359, -24, 280, -24, 280, 40)
 uv = PackedVector2Array(32, 32, 0, 32, 0, 0, 32, 0)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
@@ -425,5 +426,5 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fake Tile2" index="2"]
-position = Vector2(16, 45.5)
+position = Vector2(15.5, 48.3125)
 shape = SubResource("RectangleShape2D_i6s6c")

@@ -21,9 +21,10 @@ extends CharacterBody2D
 @export var squish_speed = 3
 @export var jump_squish : Vector2 = Vector2(0.7,1.3)
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
+@export var dash_squish_up : Vector2 = Vector2(0.5,1.5)
+@export var dash_squish_right : Vector2 = Vector2(1.5,0.5)
 
 #squash and stretch
-var motion_previous = Vector2()
 var was_airborne = false
 
 #slime player state

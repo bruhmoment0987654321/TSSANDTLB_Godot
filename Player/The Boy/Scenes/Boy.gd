@@ -22,9 +22,9 @@ var player_state = STATE.NORMAL
 @export var squish_speed = 3
 @export var jump_squish : Vector2 = Vector2(0.7,1.3)
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
+@export var shoot_squish : Vector2 = Vector2(0.6,1.4)
 
 #squash and stretch
-var motion_previous = Vector2()
 var was_airborne = false
 
 @export_group("Shooting")
@@ -93,6 +93,8 @@ func gun_jump():
 		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
 		var angle = gun.rotation+deg_to_rad(180)
 		velocity = Vector2(1,0).rotated(angle)*power
+		turn_squishy(shoot_squish.x,shoot_squish.y)
+		cam.apply_shake(3)
 	elif Input.is_action_just_pressed("gun_jump") and Global.ammo > 0:
 		power *= increased_launch_power_multiplied
 		ammo_cost *= increased_ammo_cost

@@ -1,0 +1,116 @@
+[gd_scene load_steps=11 format=3 uid="uid://cu30tuvn4rmt3"]
+
+[ext_resource type="Script" path="res://World/Backgrounds/space_background.gd" id="1_or3yb"]
+[ext_resource type="Texture2D" uid="uid://buowtu8fvdypu" path="res://World/Backgrounds/Sprites/Space/Space_background.png" id="1_rrnp5"]
+[ext_resource type="Texture2D" uid="uid://q6a23kcq8uw" path="res://World/Backgrounds/Sprites/Space/Space_background_L1.png" id="2_b2mnv"]
+[ext_resource type="Texture2D" uid="uid://d3n2pvypun7jd" path="res://World/Backgrounds/Sprites/Space/Space_background_L2.png" id="3_u4qhn"]
+[ext_resource type="Texture2D" uid="uid://co3vgxrxmf86v" path="res://World/Backgrounds/Sprites/Space/Space_background_L3.png" id="4_6e8in"]
+[ext_resource type="Texture2D" uid="uid://ilqp43oqqeuv" path="res://World/Backgrounds/Sprites/Space/Space_background_L4.png" id="5_jbhta"]
+[ext_resource type="Texture2D" uid="uid://blmy2t6iubxev" path="res://World/Backgrounds/Sprites/Space/Space_background_L5.png" id="6_w30en"]
+
+[sub_resource type="Animation" id="Animation_wsywr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_th3ck"]
+resource_name = "default"
+length = 6.00001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p1t5p"]
+_data = {
+"RESET": SubResource("Animation_wsywr"),
+"default": SubResource("Animation_th3ck")
+}
+
+[node name="Sewer Background" type="Node2D"]
+script = ExtResource("1_or3yb")
+speed_scale = 0.9
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Background"]
+texture_filter = 1
+texture = ExtResource("1_rrnp5")
+centered = false
+
+[node name="Layer 1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_offset = Vector2(0, -180)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 1"]
+texture_filter = 1
+texture = ExtResource("2_b2mnv")
+centered = false
+
+[node name="Layer 2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.7, 0.7)
+motion_offset = Vector2(0, -360)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 2"]
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("3_u4qhn")
+centered = false
+
+[node name="Layer 3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.8, 0.8)
+motion_offset = Vector2(0, -180)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 3"]
+texture_filter = 1
+texture = ExtResource("4_6e8in")
+centered = false
+
+[node name="Layer 4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.9, 0.9)
+motion_offset = Vector2(0, -360)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Layer 4"]
+texture_filter = 1
+texture = ExtResource("5_jbhta")
+centered = false
+
+[node name="Layer 5" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(640, 0)
+
+[node name="animationplayer" type="AnimationPlayer" parent="ParallaxBackground/Layer 5"]
+libraries = {
+"": SubResource("AnimationLibrary_p1t5p")
+}
+
+[node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/Layer 5"]
+texture = ExtResource("6_w30en")
+centered = false
+hframes = 10

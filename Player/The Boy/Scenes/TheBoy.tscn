@@ -112,12 +112,13 @@ radius = 11.0
 
 [node name="TheBoy" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 13
 script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
 launch_power = 270
-launch_power_decrease_multiplied = 0.8
+launch_power_decrease_multiplied = 0.7
 charge_rate = 40
+ammo_used = 25
 
 [node name="Player Position" type="Marker2D" parent="."]
 

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @onready var sprite = $Sprite
 @onready var wall_check = $"Wall Check"
+@onready var wall_check_2 = $"Wall Check2"
+@onready var wall_check_3 = $"Wall Check3"
 
 @export var speed = -80
 @export var health = 100
@@ -12,7 +14,7 @@ func _ready():
 	sprite.play("fly")
 
 func _physics_process(delta):
-	if wall_check.is_colliding():
+	if wall_check.is_colliding() or wall_check_2.is_colliding() or wall_check_3.is_colliding():
 		flip()
 	velocity.x = speed
 	

@@ -54,7 +54,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_b2mtb"]
 resource_name = "on"
-length = 5.0
+length = 2.00001
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -75,10 +75,10 @@ tracks/1/path = NodePath("Screen:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3, 4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_hhk8j"]
@@ -208,12 +208,12 @@ libraries = {
 }
 
 [node name="SignIdle" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(2, -32)
 texture = ExtResource("2_br8aj")
 hframes = 6
 
 [node name="SignTransform" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -32)
 texture = ExtResource("3_rieo0")
 hframes = 10
@@ -224,7 +224,7 @@ visible = false
 position = Vector2(0.5, -36)
 texture = ExtResource("4_p3r2c")
 hframes = 5
-frame = 3
+frame = 1
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

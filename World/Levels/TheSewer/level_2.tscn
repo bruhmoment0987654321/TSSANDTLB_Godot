@@ -407,7 +407,7 @@ position = Vector2(8, -24)
 shape = SubResource("RectangleShape2D_vrvrr")
 
 [node name="Exit" parent="." index="102" instance=ExtResource("8_n461r")]
-position = Vector2(3856, -432)
+position = Vector2(3856, -408)
 scale = Vector2(2.04, 1.88)
 
 [node name="Sewer Background" parent="." index="103" instance=ExtResource("9_stpcv")]
