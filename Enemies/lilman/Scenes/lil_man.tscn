@@ -1,16 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq5hclarh538y"]
+[gd_scene load_steps=13 format=3 uid="uid://dq5hclarh538y"]
 
 [ext_resource type="Script" path="res://Enemies/lilman/Scenes/lil_man.gd" id="1_dci6j"]
 [ext_resource type="Texture2D" uid="uid://bqgskky62lvnx" path="res://Enemies/lilman/Sprites/Spr_lilman_hit.png" id="1_wbgb7"]
 [ext_resource type="Texture2D" uid="uid://cdh23uiiwsm2" path="res://Enemies/lilman/Sprites/Spr_lilman_strip4.png" id="2_rd6j1"]
 [ext_resource type="PackedScene" uid="uid://c4puss72atg63" path="res://Enemies/Scenes/enemy_area.tscn" id="2_x0qu0"]
-[ext_resource type="PackedScene" uid="uid://c0ms5ofac4ret" path="res://Hazards/Scenes/hazard_area.tscn" id="4_oeohh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s2sje"]
-size = Vector2(31, 33)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrx4s"]
-size = Vector2(21, 26)
+size = Vector2(29, 31)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kqok"]
 atlas = ExtResource("1_wbgb7")
@@ -72,15 +68,9 @@ speed = 70
 [node name="EnemyArea" parent="." instance=ExtResource("2_x0qu0")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(-0.5, -14.5)
+position = Vector2(-0.5, -13.5)
 shape = SubResource("RectangleShape2D_s2sje")
 debug_color = Color(0, 0.632367, 0.452254, 0.42)
-
-[node name="HazardArea" parent="." instance=ExtResource("4_oeohh")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
-position = Vector2(-0.5, -13)
-shape = SubResource("RectangleShape2D_nrx4s")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -16)

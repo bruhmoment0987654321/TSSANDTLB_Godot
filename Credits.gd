@@ -1,6 +1,7 @@
 extends Node2D
 @onready var words = $Words
 @onready var skull = $Skull
+@onready var feedback_button = %"Feedback Button"
 
 @export var music = preload("res://Music/Demo-end (By Jake Russel).wav")
 @export var credit_speed = 16
@@ -32,5 +33,10 @@ func _process(delta):
 	if words.position.y > -900:
 		words.position.y -= credit_speed*delta
 		skull.position.y -= credit_speed*delta
+		feedback_button.position.y -= credit_speed*delta
 	if Input.is_action_just_pressed("exit_game"):
 		get_tree().quit()
+
+
+func _on_feedback_button_pressed():
+	OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSeyTIbTCD64_eZ6G_IvPnoK4rz1qQV0x4uA4Pk8b43sce34Yw/viewform?usp=sf_link") 

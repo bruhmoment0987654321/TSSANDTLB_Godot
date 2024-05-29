@@ -9,6 +9,7 @@
 
 [node name="Credits" type="Node2D"]
 script = ExtResource("1_rtyne")
+credit_speed = 100
 
 [node name="Cam" parent="." instance=ExtResource("2_b1m1y")]
 
@@ -44,8 +45,20 @@ polygon = PackedVector2Array(-304, -176, -304, 152, 304, 152, 304, -176, 272, -1
 position = Vector2(0, 24)
 polygon = PackedVector2Array(-280, -208, -288, -176, 280, -176, 280, -208)
 
-[node name="TheBoy" parent="." instance=ExtResource("4_chn8a")]
-position = Vector2(-8, -96)
+[node name="Feedback Button" type="Button" parent="."]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = 1202.0
+offset_right = 88.0
+offset_bottom = 1245.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Click for feedback"
 
 [node name="AmmoBar" type="ProgressBar" parent="."]
 offset_left = -304.0
@@ -59,3 +72,8 @@ script = ExtResource("5_6k1ph")
 [node name="Skull" type="Sprite2D" parent="."]
 position = Vector2(0, 500)
 texture = ExtResource("6_jdx26")
+
+[node name="TheBoy" parent="." instance=ExtResource("4_chn8a")]
+position = Vector2(-8, -96)
+
+[connection signal="pressed" from="Feedback Button" to="." method="_on_feedback_button_pressed"]

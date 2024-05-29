@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://0roup8v2h2b8"]
+[gd_scene load_steps=8 format=3 uid="uid://0roup8v2h2b8"]
 
 [ext_resource type="Texture2D" uid="uid://cmyg4h8xv4byk" path="res://World/World Objects/Spr_portal_strip4.png" id="1_hnjap"]
+[ext_resource type="Script" path="res://World/World Objects/portal.gd" id="2_nckt6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vht7p"]
 atlas = ExtResource("1_hnjap")
@@ -42,3 +43,4 @@ animations = [{
 sprite_frames = SubResource("SpriteFrames_opgj2")
 frame_progress = 0.866952
 offset = Vector2(4, 0)
+script = ExtResource("2_nckt6")

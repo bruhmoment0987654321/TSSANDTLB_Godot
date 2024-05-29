@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bkuua8tvn8rha"]
+[gd_scene load_steps=29 format=3 uid="uid://bkuua8tvn8rha"]
 
 [ext_resource type="PackedScene" uid="uid://c3h8u55rgcwii" path="res://World/Levels/TheSewer/world1.tscn" id="1_05lhq"]
 [ext_resource type="PackedScene" uid="uid://5lr5c7kwglb4" path="res://World/UI/Scenes/teleporters.tscn" id="2_btiui"]
@@ -21,12 +21,67 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1nnl1"]
 size = Vector2(71, 64)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i6s6c"]
+size = Vector2(321, 189.375)
+
+[sub_resource type="Animation" id="Animation_cpue5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D3:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r1y7m"]
+resource_name = "hidden"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D3:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8a8ai"]
+resource_name = "revealed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D3:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d56ag"]
+_data = {
+"RESET": SubResource("Animation_cpue5"),
+"hidden": SubResource("Animation_r1y7m"),
+"revealed": SubResource("Animation_8a8ai")
+}
+
 [sub_resource type="Animation" id="Animation_3xaty"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
+tracks/0/path = NodePath("Fake Tile3/Sprite2D4:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -41,7 +96,7 @@ resource_name = "hidden"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
+tracks/0/path = NodePath("Fake Tile3/Sprite2D4:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -56,7 +111,7 @@ resource_name = "revealed"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Tile2/Sprite2D3:color")
+tracks/0/path = NodePath("Fake Tile3/Sprite2D4:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -73,11 +128,8 @@ _data = {
 "revealed": SubResource("Animation_acqd5")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3t6q3"]
-size = Vector2(257, 152)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i6s6c"]
-size = Vector2(321, 189.375)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0m8er"]
+size = Vector2(294.5, 234.5)
 
 [node name="World" instance=ExtResource("1_05lhq")]
 next_level = ExtResource("2_s4c18")
@@ -402,33 +454,15 @@ position = Vector2(1120, -1440)
 [node name="Coin8" parent="." index="84" instance=ExtResource("11_nwq2f")]
 position = Vector2(1104, -96)
 
-[node name="Fake Tile" parent="." index="85" instance=ExtResource("14_8faej")]
-position = Vector2(1136, -1472)
+[node name="Portal3" parent="." index="85" instance=ExtResource("17_v7ebg")]
+position = Vector2(1120, -1408)
 
-[node name="Sprite2D2" type="Polygon2D" parent="Fake Tile" index="0"]
-texture_repeat = 3
-position = Vector2(-32, -16)
-texture = ExtResource("15_tgarh")
-polygon = PackedVector2Array(264, 104, -16, 104, -16, -16, 264, -16, 264, 40)
-uv = PackedVector2Array(32, 32, 0, 32, 0, 0, 32, 0)
-polygons = [PackedInt32Array(0, 1, 2, 3)]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Fake Tile" index="1"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_3w53j")
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fake Tile" index="2"]
-position = Vector2(104.5, 39)
-shape = SubResource("RectangleShape2D_3t6q3")
-
-[node name="Sprite2D" type="Sprite2D" parent="." index="86"]
+[node name="House" type="Sprite2D" parent="." index="86"]
 position = Vector2(1219, -2189.5)
 texture = ExtResource("16_jslux")
 
 [node name="Fake Tile2" parent="." index="87" instance=ExtResource("14_8faej")]
-position = Vector2(1192, -2320)
+position = Vector2(1193, -2320)
 
 [node name="Sprite2D3" type="Polygon2D" parent="Fake Tile2" index="0"]
 texture_repeat = 3
@@ -439,184 +473,210 @@ polygon = PackedVector2Array(280, 176, -14.359, 176, -14.359, -24, 280, -24, 280
 uv = PackedVector2Array(32, 32, 0, 32, 0, 0, 32, 0)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Fake Tile2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fake Tile2" index="1"]
+position = Vector2(15.5, 48.3125)
+shape = SubResource("RectangleShape2D_i6s6c")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fake Tile2" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_d56ag")
+}
+
+[node name="Fake Tile3" parent="." index="88" instance=ExtResource("14_8faej")]
+position = Vector2(1208, -1592)
+
+[node name="Sprite2D4" type="Polygon2D" parent="Fake Tile3" index="0"]
+texture_repeat = 3
+position = Vector2(-128, 104)
+scale = Vector2(1.11429, 1)
+texture = ExtResource("15_tgarh")
+polygon = PackedVector2Array(280, 176, -14.359, 176, -14.359, -24, 280, -24, 280, 40)
+uv = PackedVector2Array(32, 32, 0, 32, 0, 0, 32, 0)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fake Tile3" index="1"]
 root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_3w53j")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fake Tile2" index="2"]
-position = Vector2(15.5, 48.3125)
-shape = SubResource("RectangleShape2D_i6s6c")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fake Tile3" index="2"]
+position = Vector2(19.25, 194.75)
+shape = SubResource("RectangleShape2D_0m8er")
 
-[node name="Coin9" parent="." index="88" instance=ExtResource("11_nwq2f")]
+[node name="Coin9" parent="." index="89" instance=ExtResource("11_nwq2f")]
 position = Vector2(1136, -216)
 
-[node name="Coin10" parent="." index="89" instance=ExtResource("11_nwq2f")]
+[node name="Coin10" parent="." index="90" instance=ExtResource("11_nwq2f")]
 position = Vector2(1144, -368)
 
-[node name="Coin11" parent="." index="90" instance=ExtResource("11_nwq2f")]
+[node name="Coin11" parent="." index="91" instance=ExtResource("11_nwq2f")]
 position = Vector2(1160, -408)
 
-[node name="Coin12" parent="." index="91" instance=ExtResource("11_nwq2f")]
+[node name="Coin12" parent="." index="92" instance=ExtResource("11_nwq2f")]
 position = Vector2(1168, -448)
 
-[node name="Coin13" parent="." index="92" instance=ExtResource("11_nwq2f")]
+[node name="Coin13" parent="." index="93" instance=ExtResource("11_nwq2f")]
 position = Vector2(1208, -520)
 
-[node name="Coin14" parent="." index="93" instance=ExtResource("11_nwq2f")]
+[node name="Coin14" parent="." index="94" instance=ExtResource("11_nwq2f")]
 position = Vector2(1240, -576)
 
-[node name="Coin15" parent="." index="94" instance=ExtResource("11_nwq2f")]
+[node name="Coin15" parent="." index="95" instance=ExtResource("11_nwq2f")]
 position = Vector2(1216, -736)
 
-[node name="Coin16" parent="." index="95" instance=ExtResource("11_nwq2f")]
+[node name="Coin16" parent="." index="96" instance=ExtResource("11_nwq2f")]
 position = Vector2(776, -768)
 
-[node name="Coin17" parent="." index="96" instance=ExtResource("11_nwq2f")]
+[node name="Coin17" parent="." index="97" instance=ExtResource("11_nwq2f")]
 position = Vector2(776, -704)
 
-[node name="Coin18" parent="." index="97" instance=ExtResource("11_nwq2f")]
+[node name="Coin18" parent="." index="98" instance=ExtResource("11_nwq2f")]
 position = Vector2(872, -696)
 
-[node name="Coin22" parent="." index="98" instance=ExtResource("11_nwq2f")]
+[node name="Coin22" parent="." index="99" instance=ExtResource("11_nwq2f")]
 position = Vector2(360, -624)
 
-[node name="Coin23" parent="." index="99" instance=ExtResource("11_nwq2f")]
+[node name="Coin23" parent="." index="100" instance=ExtResource("11_nwq2f")]
 position = Vector2(416, -680)
 
-[node name="Coin24" parent="." index="100" instance=ExtResource("11_nwq2f")]
+[node name="Coin24" parent="." index="101" instance=ExtResource("11_nwq2f")]
 position = Vector2(512, -680)
 
-[node name="Coin25" parent="." index="101" instance=ExtResource("11_nwq2f")]
+[node name="Coin25" parent="." index="102" instance=ExtResource("11_nwq2f")]
 position = Vector2(576, -784)
 
-[node name="Coin26" parent="." index="102" instance=ExtResource("11_nwq2f")]
+[node name="Coin26" parent="." index="103" instance=ExtResource("11_nwq2f")]
 position = Vector2(512, -848)
 
-[node name="Coin27" parent="." index="103" instance=ExtResource("11_nwq2f")]
+[node name="Coin27" parent="." index="104" instance=ExtResource("11_nwq2f")]
 position = Vector2(416, -848)
 
-[node name="Coin28" parent="." index="104" instance=ExtResource("11_nwq2f")]
+[node name="Coin28" parent="." index="105" instance=ExtResource("11_nwq2f")]
 position = Vector2(376, -976)
 
-[node name="Coin29" parent="." index="105" instance=ExtResource("11_nwq2f")]
+[node name="Coin29" parent="." index="106" instance=ExtResource("11_nwq2f")]
 position = Vector2(480, -1008)
 
-[node name="Coin30" parent="." index="106" instance=ExtResource("11_nwq2f")]
+[node name="Coin30" parent="." index="107" instance=ExtResource("11_nwq2f")]
 position = Vector2(512, -1008)
 
-[node name="Coin31" parent="." index="107" instance=ExtResource("11_nwq2f")]
+[node name="Coin31" parent="." index="108" instance=ExtResource("11_nwq2f")]
 position = Vector2(56, -1112)
 
-[node name="Coin32" parent="." index="108" instance=ExtResource("11_nwq2f")]
+[node name="Coin32" parent="." index="109" instance=ExtResource("11_nwq2f")]
 position = Vector2(136, -1224)
 
-[node name="Coin33" parent="." index="109" instance=ExtResource("11_nwq2f")]
+[node name="Coin33" parent="." index="110" instance=ExtResource("11_nwq2f")]
 position = Vector2(304, -1224)
 
-[node name="Coin34" parent="." index="110" instance=ExtResource("11_nwq2f")]
+[node name="Coin34" parent="." index="111" instance=ExtResource("11_nwq2f")]
 position = Vector2(432, -1224)
 
-[node name="Coin35" parent="." index="111" instance=ExtResource("11_nwq2f")]
+[node name="Coin35" parent="." index="112" instance=ExtResource("11_nwq2f")]
 position = Vector2(568, -1224)
 
-[node name="Coin36" parent="." index="112" instance=ExtResource("11_nwq2f")]
+[node name="Coin36" parent="." index="113" instance=ExtResource("11_nwq2f")]
 position = Vector2(912, -1344)
 
-[node name="Coin37" parent="." index="113" instance=ExtResource("11_nwq2f")]
+[node name="Coin37" parent="." index="114" instance=ExtResource("11_nwq2f")]
 position = Vector2(840, -1584)
 
-[node name="Coin38" parent="." index="114" instance=ExtResource("11_nwq2f")]
+[node name="Coin38" parent="." index="115" instance=ExtResource("11_nwq2f")]
 position = Vector2(712, -1624)
 
-[node name="Coin39" parent="." index="115" instance=ExtResource("11_nwq2f")]
+[node name="Coin39" parent="." index="116" instance=ExtResource("11_nwq2f")]
 position = Vector2(648, -1648)
 
-[node name="Coin40" parent="." index="116" instance=ExtResource("11_nwq2f")]
+[node name="Coin40" parent="." index="117" instance=ExtResource("11_nwq2f")]
 position = Vector2(560, -1648)
 
-[node name="Coin41" parent="." index="117" instance=ExtResource("11_nwq2f")]
+[node name="Coin41" parent="." index="118" instance=ExtResource("11_nwq2f")]
 position = Vector2(400, -1648)
 
-[node name="Coin42" parent="." index="118" instance=ExtResource("11_nwq2f")]
+[node name="Coin42" parent="." index="119" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -1680)
 
-[node name="Coin43" parent="." index="119" instance=ExtResource("11_nwq2f")]
+[node name="Coin43" parent="." index="120" instance=ExtResource("11_nwq2f")]
 position = Vector2(472, -1792)
 
-[node name="Coin44" parent="." index="120" instance=ExtResource("11_nwq2f")]
+[node name="Coin44" parent="." index="121" instance=ExtResource("11_nwq2f")]
 position = Vector2(448, -1952)
 
-[node name="Coin45" parent="." index="121" instance=ExtResource("11_nwq2f")]
+[node name="Coin45" parent="." index="122" instance=ExtResource("11_nwq2f")]
 position = Vector2(752, -2096)
 
-[node name="Coin46" parent="." index="122" instance=ExtResource("11_nwq2f")]
+[node name="Coin46" parent="." index="123" instance=ExtResource("11_nwq2f")]
 position = Vector2(976, -2120)
 
-[node name="Coin47" parent="." index="123" instance=ExtResource("11_nwq2f")]
+[node name="Coin47" parent="." index="124" instance=ExtResource("11_nwq2f")]
 position = Vector2(976, -2200)
 
-[node name="Coin48" parent="." index="124" instance=ExtResource("11_nwq2f")]
+[node name="Coin48" parent="." index="125" instance=ExtResource("11_nwq2f")]
 position = Vector2(976, -2264)
 
-[node name="Coin49" parent="." index="125" instance=ExtResource("11_nwq2f")]
+[node name="Coin49" parent="." index="126" instance=ExtResource("11_nwq2f")]
 position = Vector2(1024, -2248)
 
-[node name="Coin50" parent="." index="126" instance=ExtResource("11_nwq2f")]
+[node name="Coin50" parent="." index="127" instance=ExtResource("11_nwq2f")]
 position = Vector2(816, -2248)
 
-[node name="Coin51" parent="." index="127" instance=ExtResource("11_nwq2f")]
+[node name="Coin51" parent="." index="128" instance=ExtResource("11_nwq2f")]
 position = Vector2(632, -2248)
 
-[node name="Coin52" parent="." index="128" instance=ExtResource("11_nwq2f")]
+[node name="Coin52" parent="." index="129" instance=ExtResource("11_nwq2f")]
 position = Vector2(496, -2248)
 
-[node name="Coin53" parent="." index="129" instance=ExtResource("11_nwq2f")]
+[node name="Coin53" parent="." index="130" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -2280)
 
-[node name="Coin54" parent="." index="130" instance=ExtResource("11_nwq2f")]
+[node name="Coin54" parent="." index="131" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -2304)
 
-[node name="Coin55" parent="." index="131" instance=ExtResource("11_nwq2f")]
+[node name="Coin55" parent="." index="132" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -2328)
 
-[node name="Coin56" parent="." index="132" instance=ExtResource("11_nwq2f")]
+[node name="Coin56" parent="." index="133" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -2352)
 
-[node name="Coin57" parent="." index="133" instance=ExtResource("11_nwq2f")]
+[node name="Coin57" parent="." index="134" instance=ExtResource("11_nwq2f")]
 position = Vector2(352, -2376)
 
-[node name="Coin19" parent="." index="134" instance=ExtResource("11_nwq2f")]
+[node name="Coin19" parent="." index="135" instance=ExtResource("11_nwq2f")]
 position = Vector2(952, -680)
 
-[node name="Coin20" parent="." index="135" instance=ExtResource("11_nwq2f")]
+[node name="Coin20" parent="." index="136" instance=ExtResource("11_nwq2f")]
 position = Vector2(1032, -664)
 
-[node name="Coin21" parent="." index="136" instance=ExtResource("11_nwq2f")]
+[node name="Coin21" parent="." index="137" instance=ExtResource("11_nwq2f")]
 position = Vector2(1072, -632)
 
-[node name="Coin58" parent="." index="137" instance=ExtResource("11_nwq2f")]
+[node name="Coin58" parent="." index="138" instance=ExtResource("11_nwq2f")]
 position = Vector2(1152, -1536)
 
-[node name="Coin59" parent="." index="138" instance=ExtResource("11_nwq2f")]
+[node name="Coin59" parent="." index="139" instance=ExtResource("11_nwq2f")]
 position = Vector2(1216, -1536)
 
-[node name="Coin60" parent="." index="139" instance=ExtResource("11_nwq2f")]
+[node name="Coin60" parent="." index="140" instance=ExtResource("11_nwq2f")]
 position = Vector2(1280, -1536)
 
-[node name="Spike23" parent="." index="140" instance=ExtResource("6_tgww3")]
+[node name="Spike23" parent="." index="141" instance=ExtResource("6_tgww3")]
 position = Vector2(584, -64)
 
-[node name="Spike42" parent="." index="141" instance=ExtResource("6_tgww3")]
+[node name="Spike42" parent="." index="142" instance=ExtResource("6_tgww3")]
 position = Vector2(744, -64)
 
-[node name="Spike43" parent="." index="142" instance=ExtResource("6_tgww3")]
+[node name="Spike43" parent="." index="143" instance=ExtResource("6_tgww3")]
 position = Vector2(904, -64)
 
-[node name="Spike44" parent="." index="143" instance=ExtResource("6_tgww3")]
+[node name="Spike44" parent="." index="144" instance=ExtResource("6_tgww3")]
 position = Vector2(1056, -64)
 
-[node name="Portal" parent="." index="144" instance=ExtResource("17_v7ebg")]
+[node name="Portal" parent="." index="145" instance=ExtResource("17_v7ebg")]
 position = Vector2(352, -2408)
 rotation = 1.5708
+
+[node name="Portal2" parent="." index="146" instance=ExtResource("17_v7ebg")]
+modulate = Color(0, 0.694118, 0.0784314, 1)
+position = Vector2(1072, -584)
+rotation = -1.5708

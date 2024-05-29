@@ -147,7 +147,7 @@ func death():
 
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
-	
+
 func squash_and_stretch(delta):
 	if is_on_floor():
 		if was_airborne:
@@ -174,4 +174,5 @@ func _on_checkpoint_detector_area_entered(area):
 		spawn_position = area.owner.check_point_3
 		print("Hit Checkpoint_3")
 
-
+func _on_enemy_detector_area_entered(area):
+	player_state = STATE.DEAD
