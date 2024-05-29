@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var jump_dash_timer = $JumpDashTimer
 @onready var cam = $"../Cam"
 @onready var player_position = $"Player Position"
+@onready var killer_timer = $KillerTimer
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -42,6 +43,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_time = 0.2
 ##how many times the player can dash for until he isn't able to.
 @export var max_dash_amount = 2
+##the amount of buffer time that the player has that makes him invincible
+@export var overkill_length = 1.0
+
+@export var dash_sound_FX = preload("res://Music/dash (new).wav")
 
 @export_group("Jump-Dash")
 ##how long the jump dash lasts
@@ -122,8 +127,9 @@ func handle_dash():
 		dashsp = dash_distance/dash_time
 		dash_energy = dash_distance
 		player_state = STATE.DASH
+		AudioManager.play_FX(dash_sound_FX)
 		cam.apply_shake(4)
-		
+
 func is_dashing(delta):
 	dash_energy -= dashsp*delta
 	velocity = dash_direction*dashsp
@@ -147,6 +153,7 @@ func ending_dash():
 	dash_particles.emitting = false
 	if jump_dash:
 		jump_dash_timer.start(jump_dash_time)
+	killer_timer.start(overkill_length)
 	player_state = STATE.NORMAL
 
 func handle_acceleration(input_axis,delta):
@@ -245,8 +252,10 @@ func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
 
 func _on_enemy_detector_area_entered(area):
-	if player_state == STATE.DASH or jump_dash:
+	if player_state == STATE.DASH or jump_dash or killer_timer.time_left > 0.0:
 		area.get_parent().dead()
+	else:
+		player_state = STATE.DEAD
 
 func _on_checkpoint_detector_area_entered(area):
 	if area.is_in_group("Checkpoint_1"):

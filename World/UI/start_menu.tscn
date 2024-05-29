@@ -1,15 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://cyjhmhytv7ftf"]
+[gd_scene load_steps=6 format=3 uid="uid://cyjhmhytv7ftf"]
 
 [ext_resource type="Script" path="res://World/UI/start_menu.gd" id="1_2xbsw"]
 [ext_resource type="Texture2D" uid="uid://3h35mw8rj3ho" path="res://Spr_title.png" id="2_i7rgc"]
 [ext_resource type="PackedScene" uid="uid://djmcohicqqy8c" path="res://World/Levels/TheSewer/tutorial.tscn" id="2_smi6d"]
 [ext_resource type="PackedScene" uid="uid://de8v6rl72fvre" path="res://World/Levels/TheMind/tutorial_boy.tscn" id="3_158ee"]
+[ext_resource type="PackedScene" uid="uid://dhxtuepu8j57g" path="res://World/Backgrounds/sewer_background.tscn" id="4_iqyhc"]
 
-[node name="StartMenu" type="CanvasLayer"]
+[node name="StartMenu" type="CanvasLayer" groups=["Start Menu"]]
 script = ExtResource("1_2xbsw")
 slime_level = ExtResource("2_smi6d")
 boy_level = ExtResource("3_158ee")
 metadata/_edit_use_anchors_ = true
+
+[node name="Sewer Background" parent="." instance=ExtResource("4_iqyhc")]
 
 [node name="Play As Slime" type="Button" parent="."]
 unique_name_in_owner = true

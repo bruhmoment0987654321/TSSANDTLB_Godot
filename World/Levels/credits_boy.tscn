@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmvrlftxicvx8"]
+
+[ext_resource type="Script" path="res://Credits.gd" id="1_rtyne"]
+[ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_b1m1y"]
+[ext_resource type="Theme" uid="uid://cyx15bijxghda" path="res://Visual/default_theme.tres" id="3_a7npk"]
+[ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="4_chn8a"]
+[ext_resource type="Script" path="res://World/Levels/AmmoBar.gd" id="5_6k1ph"]
+[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="6_jdx26"]
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_rtyne")
+
+[node name="Cam" parent="." instance=ExtResource("2_b1m1y")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -456.0
+offset_top = -224.0
+offset_right = 472.0
+offset_bottom = 312.0
+color = Color(0, 0, 0, 1)
+
+[node name="Words" type="Label" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = 231.0
+offset_right = 320.0
+offset_bottom = 1148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_a7npk")
+horizontal_alignment = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-304, -176, -304, 152, 304, 152, 304, -176, 272, -176, 272, 128, -272, 128, -272, -176)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2(0, 24)
+polygon = PackedVector2Array(-280, -208, -288, -176, 280, -176, 280, -208)
+
+[node name="TheBoy" parent="." instance=ExtResource("4_chn8a")]
+position = Vector2(-8, -96)
+
+[node name="AmmoBar" type="ProgressBar" parent="."]
+offset_left = -304.0
+offset_top = -144.0
+offset_right = -264.0
+offset_bottom = 88.0
+value = 100.0
+fill_mode = 3
+script = ExtResource("5_6k1ph")
+
+[node name="Skull" type="Sprite2D" parent="."]
+position = Vector2(0, 500)
+texture = ExtResource("6_jdx26")

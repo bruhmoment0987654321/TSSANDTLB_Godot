@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc1ttk4lvlkym"]
+
+[ext_resource type="Script" path="res://Credits.gd" id="1_x2h3q"]
+[ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_easci"]
+[ext_resource type="Theme" uid="uid://cyx15bijxghda" path="res://Visual/default_theme.tres" id="3_di5wa"]
+[ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="4_3h1xj"]
+[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="5_3vp7i"]
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_x2h3q")
+
+[node name="Cam" parent="." instance=ExtResource("2_easci")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -456.0
+offset_top = -224.0
+offset_right = 472.0
+offset_bottom = 312.0
+color = Color(0, 0, 0, 1)
+
+[node name="Words" type="Label" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = 231.0
+offset_right = 320.0
+offset_bottom = 1148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_di5wa")
+horizontal_alignment = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-304, -176, -304, 152, 304, 152, 304, -176, 272, -176, 272, 128, -272, 128, -272, -176)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2(0, 24)
+polygon = PackedVector2Array(-280, -208, -288, -176, 280, -176, 280, -208)
+
+[node name="Slime_player" parent="." instance=ExtResource("4_3h1xj")]
+position = Vector2(0, -136)
+dash_distance = 100
+
+[node name="Skull" type="Sprite2D" parent="."]
+position = Vector2(0, 500)
+texture = ExtResource("5_3vp7i")

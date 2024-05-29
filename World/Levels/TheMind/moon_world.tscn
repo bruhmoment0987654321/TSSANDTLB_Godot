@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://orra4mbd5s77"]
 
-[ext_resource type="Script" path="res://World/Levels/world1.gd" id="1_xd1mb"]
+[ext_resource type="Script" path="res://World/Levels/TheMind/moon_world.gd" id="1_js8ri"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_nqh1d"]
 [ext_resource type="Script" path="res://World/Levels/GUI.gd" id="3_hrqqt"]
 [ext_resource type="Script" path="res://World/Levels/AmmoBar.gd" id="4_s3dwm"]
@@ -13,8 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="11_i5ltn"]
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_xd1mb")
-Background = Color(0.501961, 0.168627, 0, 1)
+script = ExtResource("1_js8ri")
 
 [node name="Cam" parent="." instance=ExtResource("2_nqh1d")]
 position = Vector2(0, 8)

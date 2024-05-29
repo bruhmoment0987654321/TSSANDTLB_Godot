@@ -23,6 +23,7 @@ var player_state = STATE.NORMAL
 @export var jump_squish : Vector2 = Vector2(0.7,1.3)
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
 @export var shoot_squish : Vector2 = Vector2(0.6,1.4)
+@export var shoot_sound_FX = preload("res://Music/shoot.wav")
 
 #squash and stretch
 var was_airborne = false
@@ -94,14 +95,18 @@ func gun_jump():
 		var angle = gun.rotation+deg_to_rad(180)
 		velocity = Vector2(1,0).rotated(angle)*power
 		turn_squishy(shoot_squish.x,shoot_squish.y)
+		AudioManager.play_FX(shoot_sound_FX)
 		cam.apply_shake(3)
 	elif Input.is_action_just_pressed("gun_jump") and Global.ammo > 0:
 		power *= increased_launch_power_multiplied
+		AudioManager.play_FX(shoot_sound_FX,5)
 		ammo_cost *= increased_ammo_cost
 		Global.ammo -= ammo_cost
 		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
 		var angle = gun.rotation+deg_to_rad(180)
 		velocity = Vector2(1,0).rotated(angle)*power
+		turn_squishy(shoot_squish.x,shoot_squish.y)
+		cam.apply_shake(5)
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1

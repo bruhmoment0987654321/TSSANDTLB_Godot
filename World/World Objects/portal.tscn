@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://0roup8v2h2b8"]
+
+[ext_resource type="Texture2D" uid="uid://cmyg4h8xv4byk" path="res://World/World Objects/Spr_portal_strip4.png" id="1_hnjap"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vht7p"]
+atlas = ExtResource("1_hnjap")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7v8ky"]
+atlas = ExtResource("1_hnjap")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hubfk"]
+atlas = ExtResource("1_hnjap")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jb76s"]
+atlas = ExtResource("1_hnjap")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgj2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vht7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7v8ky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hubfk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jb76s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Portal" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_opgj2")
+frame_progress = 0.866952
+offset = Vector2(4, 0)

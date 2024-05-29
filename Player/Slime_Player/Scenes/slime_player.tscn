@@ -123,6 +123,7 @@ landing_squish = Vector2(1.5, 0.5)
 dash_squish_up = Vector2(0.7, 1.3)
 dash_squish_right = Vector2(1.4, 0.6)
 dash_distance = 50
+overkill_length = 0.5
 jump_dash_distance = 350
 jump_dash_height = -150
 dash_color_running_out = Color(0.607843, 0.607843, 0.607843, 1)
@@ -197,6 +198,9 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_wswn7")
+
+[node name="KillerTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
 [connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
