@@ -39,4 +39,4 @@ func _process(delta):
 
 
 func _on_feedback_button_pressed():
-	OS.shell_open("https://docs.google.com/forms/d/e/1FAIpQLSeyTIbTCD64_eZ6G_IvPnoK4rz1qQV0x4uA4Pk8b43sce34Yw/viewform?usp=sf_link") 
+	OS.shell_open("https://forms.gle/c5dz8yyoXRq2pGHM9")

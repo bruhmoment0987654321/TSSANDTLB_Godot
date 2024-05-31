@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://World/Signs/Interact.gd" id="5_dufyq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0vglp"]
-size = Vector2(48, 48)
+size = Vector2(80, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ik8r"]
 atlas = ExtResource("2_rgu1s")
@@ -258,13 +258,13 @@ collision_mask = 2
 script = ExtResource("1_orje5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -20)
 shape = SubResource("RectangleShape2D_0vglp")
 
 [node name="Sign" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -10.5)
 sprite_frames = SubResource("SpriteFrames_rrj7s")
-animation = &"talk"
+animation = &"idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -273,7 +273,7 @@ libraries = {
 
 [node name="Dialog" type="AcceptDialog" parent="."]
 title = ""
-position = Vector2i(220, 40)
+position = Vector2i(220, 0)
 size = Vector2i(100, 106)
 transient = false
 borderless = true

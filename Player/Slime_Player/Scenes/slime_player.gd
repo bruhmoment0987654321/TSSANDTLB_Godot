@@ -252,7 +252,7 @@ func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
 
 func _on_enemy_detector_area_entered(area):
-	if player_state == STATE.DASH or jump_dash or killer_timer.time_left > 0.0:
+	if player_state == STATE.DASH or jump_dash:
 		area.get_parent().dead()
 	else:
 		player_state = STATE.DEAD

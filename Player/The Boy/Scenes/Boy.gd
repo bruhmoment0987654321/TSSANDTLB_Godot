@@ -37,6 +37,8 @@ var was_airborne = false
 @export var increased_launch_power_multiplied = 1.5
 ##the recharge speed of the ammo
 @export var charge_rate = 20
+##when the boy is on the ground, it should charge the ammo faster
+@export var charge_rate_multiplied = 1.2
 ##how much ammo is consumed during shooting
 @export var ammo_used = 20
 ##the increase multiplier when holding run and shoot
@@ -51,7 +53,10 @@ func _ready():
 	Global.ammo = max_ammo
 
 func _process(delta):
-	Global.ammo = min(Global.ammo + (delta * charge_rate), 100.0)
+	if not is_on_floor(): 
+		Global.ammo = min(Global.ammo + (delta * charge_rate), 100.0)
+	else:
+		Global.ammo = min(Global.ammo + (delta * charge_rate*charge_rate_multiplied), 100.0)
 	if player_state == STATE.NORMAL:
 		apply_gravity(delta)
 		handle_jump()

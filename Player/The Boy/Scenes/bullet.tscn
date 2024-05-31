@@ -7,9 +7,11 @@
 size = Vector2(25, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6dyo4"]
-size = Vector2(19, 10)
+size = Vector2(27.25, 11)
 
 [node name="bullet" type="Area2D"]
+collision_layer = 0
+collision_mask = 9
 script = ExtResource("1_4x4st")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -30,10 +32,10 @@ collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
-position = Vector2(0.5, -5)
+position = Vector2(3.625, 0.5)
 shape = SubResource("RectangleShape2D_6dyo4")
 debug_color = Color(0, 0.633445, 0.440378, 0.42)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]

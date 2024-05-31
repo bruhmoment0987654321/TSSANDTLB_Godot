@@ -120,7 +120,7 @@ script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
 launch_power = 300
 launch_power_decrease_multiplied = 0.7
-charge_rate = 40
+charge_rate = 50
 ammo_used = 25
 
 [node name="Player Position" type="Marker2D" parent="."]
@@ -152,10 +152,11 @@ shape = SubResource("RectangleShape2D_32e7g")
 debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 
 [node name="Gun" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
 texture = ExtResource("6_6uu5g")
 script = ExtResource("7_syyny")
 position_lag_speed = 21.0
-gun_location = Vector2(0, -8)
+gun_location = Vector2(0, -10)
 fire_rate = 0.1
 
 [node name="Marker2D" type="Marker2D" parent="Gun"]

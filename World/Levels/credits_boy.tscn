@@ -9,7 +9,7 @@
 
 [node name="Credits" type="Node2D"]
 script = ExtResource("1_rtyne")
-credit_speed = 100
+credit_speed = 40
 
 [node name="Cam" parent="." instance=ExtResource("2_b1m1y")]
 

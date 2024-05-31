@@ -110,7 +110,9 @@ position = Vector2(2144, -1808)
 [node name="Sign" parent="." index="6" instance=ExtResource("2_gwx30")]
 position = Vector2(686, -16)
 text = "Use the Left Mouse button to shoot around with your soda gun. 
-You can also press the Right Mouse Button to go higher. But you can shoot, only move."
+You can also press the Right Mouse Button to go higher. 
+But you can only move,
+Not shoot bullets."
 
 [node name="Sign5" parent="." index="7" instance=ExtResource("2_gwx30")]
 position = Vector2(1232, -1856)

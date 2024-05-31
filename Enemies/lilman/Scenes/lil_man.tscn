@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c4puss72atg63" path="res://Enemies/Scenes/enemy_area.tscn" id="2_x0qu0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s2sje"]
-size = Vector2(29, 31)
+size = Vector2(29, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kqok"]
 atlas = ExtResource("1_wbgb7")
@@ -57,7 +57,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mv1hp"]
-size = Vector2(16, 24)
+size = Vector2(16, 25)
 
 [node name="Lil Man" type="CharacterBody2D" groups=["Enemies"]]
 collision_layer = 8
@@ -68,7 +68,7 @@ speed = 70
 [node name="EnemyArea" parent="." instance=ExtResource("2_x0qu0")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(-0.5, -13.5)
+position = Vector2(-0.5, -15)
 shape = SubResource("RectangleShape2D_s2sje")
 debug_color = Color(0, 0.632367, 0.452254, 0.42)
 
@@ -80,7 +80,7 @@ frame = 2
 frame_progress = 0.294081
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(0, -12.5)
 shape = SubResource("RectangleShape2D_mv1hp")
 debug_color = Color(0.981531, 0, 0.370245, 0.42)
 

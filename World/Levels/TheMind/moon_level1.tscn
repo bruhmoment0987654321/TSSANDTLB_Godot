@@ -33,7 +33,7 @@ size = Vector2(192, 472.5)
 
 [node name="World" instance=ExtResource("1_8dtk0")]
 next_level = ExtResource("2_osxhb")
-check_point = Vector2(2144, -672)
+check_point = Vector2(2144, -688)
 check_point_2 = Vector2(352, -1392)
 
 [node name="Sewer Background" parent="." index="0" instance=ExtResource("10_eme6b")]

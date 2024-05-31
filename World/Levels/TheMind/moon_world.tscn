@@ -59,7 +59,7 @@ offset_right = 86.0
 offset_bottom = 48.0
 script = ExtResource("9_01wcy")
 
-[node name="TileMap Moon" parent="." instance=ExtResource("10_tjnap")]
+[node name="TileMap Moon" parent="." groups=["Block"] instance=ExtResource("10_tjnap")]
 
 [node name="TheBoy" parent="." instance=ExtResource("11_i5ltn")]
 
