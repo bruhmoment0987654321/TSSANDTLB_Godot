@@ -1,0 +1,18 @@
+Version 0.3.7
+
+- Added new death animation
+- Added flashing for enemies getting hit by bullet. 
+- Fixed position of Bat right next to checkpoint in the Boy’s second level
+- Fixed collision boxes with many of the enemies, such as the Bat and the Eyesaw
+- Added new visual when entering checkpoint. 
+- Slime dash is slightly quicker.
+- Added checkpoint for the Slime’s tutorial
+- Changed “lnteract” control to “E” instead of “W”
+- Added particles on enemy’s death
+- Changed colors of title words
+- Changed colors for the slime whenever there is a set amount of dashes the slime has
+- Added landing particles for slime and boy
+- Added ducking animation for the slime and boy
+- Added duck walk to slime and boy
+- Added a Developer Console (Thank you KeilainMan) and some commands created for my game. I won't say how to access it though...
+- Some more secrets added >:]

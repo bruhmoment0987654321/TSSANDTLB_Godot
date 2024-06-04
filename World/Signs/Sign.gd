@@ -14,7 +14,7 @@ func _ready():
 	
 func _process(delta):
 	if occupied:
-		if Input.is_action_just_pressed("up"):
+		if Input.is_action_just_pressed("interact"):
 			sprite.play("talk")
 			talking = true
 			accept_dialog.visible = true

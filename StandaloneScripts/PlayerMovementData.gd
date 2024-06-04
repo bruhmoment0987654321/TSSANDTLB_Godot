@@ -10,3 +10,4 @@ extends Resource
 @export var run_multiplier = 1.6
 @export var jump_buffer = 0.1
 @export var coyote_time = 0.1
+@export var duck_walk_speed_mutiplied = 0.3

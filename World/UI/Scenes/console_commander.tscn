@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://rjmog5grpw68"]
+
+[ext_resource type="Script" path="res://World/UI/Scenes/console_commander.gd" id="1_b6inh"]
+[ext_resource type="Script" path="res://addons/console_and_textchat/console.gd" id="1_i7tiu"]
+
+[node name="Console Commander" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_b6inh")
+
+[node name="ConsoleAndTextchat" type="Panel" parent="."]
+visible = false
+offset_right = 640.0
+offset_bottom = 208.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_i7tiu")
+minimum_size = Vector2(640, 208)

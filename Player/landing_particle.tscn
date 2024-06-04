@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://8g3s11gogmxf"]
+
+[ext_resource type="Texture2D" uid="uid://bm31jhbryh22u" path="res://Visual/Sprites/circle_pixel.png" id="1_7u6nw"]
+
+[sub_resource type="Curve" id="Curve_qr7br"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.66, 0.629719), -0.666286, -0.666286, 0, 0, Vector2(1, 0.0140699), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Landing Particle" type="CPUParticles2D"]
+emitting = false
+amount = 20
+lifetime = 0.7
+one_shot = true
+speed_scale = 3.0
+texture = ExtResource("1_7u6nw")
+emission_shape = 3
+emission_rect_extents = Vector2(13, 1)
+direction = Vector2(100, 0)
+spread = 180.0
+gravity = Vector2(0, -100)
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+tangential_accel_min = -100.0
+tangential_accel_max = 100.0
+damping_min = 10.0
+damping_max = 20.0
+scale_amount_min = 0.1
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_qr7br")
+color = Color(0.69, 0.69, 0.69, 1)

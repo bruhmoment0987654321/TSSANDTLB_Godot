@@ -1,5 +1,24 @@
-[gd_scene format=3 uid="uid://jqi18twg234a"]
+[gd_scene load_steps=2 format=3 uid="uid://jqi18twg234a"]
+
+[ext_resource type="Script" path="res://World/UI/Scenes/checkpoint.gd" id="1_8lxhg"]
 
 [node name="Checkpoint" type="Area2D"]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 2
+script = ExtResource("1_8lxhg")
+visible_length = 3.0
+
+[node name="Checkpoint Inidicator" type="Label" parent="."]
+offset_left = -48.0
+offset_top = -32.0
+offset_right = 49.0
+offset_bottom = 5.0
+text = "Checkpoint"
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="Visible Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Visible Timer" to="." method="_on_visible_timer_timeout"]

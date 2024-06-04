@@ -1,0 +1,118 @@
+[gd_scene load_steps=15 format=3 uid="uid://b5cyd4mxixky5"]
+
+[ext_resource type="Script" path="res://Enemies/Scripts/bat.gd" id="1_kli3l"]
+[ext_resource type="Texture2D" uid="uid://bj1iyosk3f4l4" path="res://Enemies/Sprites/bat_move.png" id="2_5l48g"]
+[ext_resource type="PackedScene" uid="uid://bopv1ey8ybcar" path="res://Visual/Scenes/smoke_particle.tscn" id="2_qen7b"]
+[ext_resource type="Shader" path="res://Visual/Shaders/flash.gdshader" id="2_rm4jw"]
+[ext_resource type="PackedScene" uid="uid://c4puss72atg63" path="res://Enemies/Scenes/enemy_area.tscn" id="2_y8rsy"]
+[ext_resource type="Texture2D" uid="uid://bkp36ojviiw2i" path="res://Enemies/Sprites/Spr_batdead.png" id="4_gkkn5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g51v1"]
+resource_local_to_scene = true
+shader = ExtResource("2_rm4jw")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v42i"]
+atlas = ExtResource("4_gkkn5")
+region = Rect2(0, 0, 49, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vag7"]
+atlas = ExtResource("2_5l48g")
+region = Rect2(0, 0, 72, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ksml"]
+atlas = ExtResource("2_5l48g")
+region = Rect2(72, 0, 72, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayffh"]
+atlas = ExtResource("2_5l48g")
+region = Rect2(144, 0, 72, 30)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iapnr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4v42i")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vag7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ksml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vag7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayffh")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjl47"]
+size = Vector2(69, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qmir5"]
+size = Vector2(56, 22)
+
+[node name="Bat" type="CharacterBody2D" groups=["Enemies"]]
+script = ExtResource("1_kli3l")
+speed = -100
+min_launch_x = -500
+min_launch_y = -200
+
+[node name="Smoke Particle" parent="." instance=ExtResource("2_qen7b")]
+position = Vector2(0, -13)
+color = Color(0.929412, 0.956863, 0.929412, 1)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_g51v1")
+sprite_frames = SubResource("SpriteFrames_iapnr")
+animation = &"fly"
+frame = 1
+frame_progress = 0.21183
+offset = Vector2(0, -15)
+
+[node name="EnemyArea" parent="." instance=ExtResource("2_y8rsy")]
+
+[node name="Hurtbox" type="CollisionShape2D" parent="EnemyArea"]
+position = Vector2(-0.5, -14.5)
+shape = SubResource("RectangleShape2D_gjl47")
+debug_color = Color(0.970819, 0, 0.452156, 0.42)
+
+[node name="Wall Check3" type="RayCast2D" parent="."]
+position = Vector2(1, -24)
+target_position = Vector2(-34, 0)
+
+[node name="Wall Check2" type="RayCast2D" parent="."]
+position = Vector2(1, -15)
+target_position = Vector2(-34, 0)
+
+[node name="Wall Check" type="RayCast2D" parent="."]
+position = Vector2(1, -6)
+target_position = Vector2(-34, 0)
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(2, -14)
+shape = SubResource("RectangleShape2D_qmir5")
+
+[node name="Flash Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(7.7486e-07, -14.5)
+scale = Vector2(3.5, 1.35)
+
+[node name="Death Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Flash Timer" to="." method="_on_flash_timer_timeout"]
+[connection signal="timeout" from="Death Timer" to="." method="_on_death_timer_timeout"]

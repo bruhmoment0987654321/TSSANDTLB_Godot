@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bopv1ey8ybcar"]
+
+[ext_resource type="Texture2D" uid="uid://5yn56nodixpe" path="res://Visual/Sprites/Square_pixel.png" id="1_bgoem"]
+
+[sub_resource type="Curve" id="Curve_tv60w"]
+_data = [Vector2(0, 0), 0.0, -0.0705893, 0, 0, Vector2(0.504, 0.594029), 0.0102934, 0.0102934, 0, 0, Vector2(1, 0.0185312), -4.05371, 0.0, 0, 0]
+point_count = 3
+
+[node name="Smoke Particle" type="CPUParticles2D"]
+emitting = false
+amount = 10
+lifetime = 0.3
+texture = ExtResource("1_bgoem")
+emission_shape = 1
+emission_sphere_radius = 8.11
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 11.0
+initial_velocity_max = 11.0
+scale_amount_curve = SubResource("Curve_tv60w")

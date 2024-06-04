@@ -14,3 +14,4 @@ air_resistance = 200
 run_multiplier = 1.7
 jump_buffer = 0.1
 coyote_time = 0.1
+duck_walk_speed_mutiplied = 0.3

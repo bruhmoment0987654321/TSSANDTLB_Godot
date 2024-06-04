@@ -8,13 +8,19 @@ extends CharacterBody2D
 @onready var cam = $"../Cam"
 @onready var gun = $Gun
 @onready var player_position = $"Player Position"
+@onready var knockback_timer = $KnockbackTimer
+@onready var landing_particle = $"Landing Particle"
+@onready var collider = $Collider
+@onready var hitbox = $HazardDetector/Hitbox
+@onready var enemy_collider = $EnemyDetector/CollisionShape2D
+
 #getting position for spawn point
 @onready var spawn_position = global_position
 
 ##This is where you place the movement data for the player, The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
-enum STATE{NORMAL,DEAD}
+enum STATE{NORMAL,GUN,DEAD,NO_CLIP,}
 
 var player_state = STATE.NORMAL
 
@@ -23,6 +29,10 @@ var player_state = STATE.NORMAL
 @export var jump_squish : Vector2 = Vector2(0.7,1.3)
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
 @export var shoot_squish : Vector2 = Vector2(0.6,1.4)
+@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
+@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
+
+@export_group("Sound FX")
 @export var shoot_sound_FX = preload("res://Music/shoot.wav")
 
 #squash and stretch
@@ -46,6 +56,10 @@ var was_airborne = false
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
 
+@export_group("CHEATS")
+##speed of no_clip movement
+@export var no_clip_speed = 300
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -58,13 +72,16 @@ func _process(delta):
 	else:
 		Global.ammo = min(Global.ammo + (delta * charge_rate*charge_rate_multiplied), 100.0)
 	if player_state == STATE.NORMAL:
+		collider.disabled = false
+		hitbox.disabled = false
+		enemy_collider.disabled = false
 		apply_gravity(delta)
 		handle_jump()
-		gun_jump()
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
+		gun_jump()
 		update_animation(input_axis,delta)
 		var was_on_floor = is_on_floor()
 		move_and_slide()
@@ -73,6 +90,12 @@ func _process(delta):
 			coyote_jump_timer.start()
 	if player_state == STATE.DEAD:
 		death()
+	if player_state == STATE.NO_CLIP:
+		collider.disabled = true
+		hitbox.disabled = true
+		enemy_collider.disabled = true
+		move_free()
+		move_and_slide()
 
 func apply_gravity(delta):
 	if not is_on_floor() and velocity.y < 0:
@@ -95,28 +118,35 @@ func gun_jump():
 	var power = launch_power
 	var ammo_cost = ammo_used
 	if Input.is_action_just_pressed("shoot") and Global.ammo > 0:
-		Global.ammo -= ammo_cost
 		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
 		var angle = gun.rotation+deg_to_rad(180)
 		velocity = Vector2(1,0).rotated(angle)*power
+		Global.ammo -= ammo_cost
 		turn_squishy(shoot_squish.x,shoot_squish.y)
 		AudioManager.play_FX(shoot_sound_FX)
 		cam.apply_shake(3)
 	elif Input.is_action_just_pressed("gun_jump") and Global.ammo > 0:
-		power *= increased_launch_power_multiplied
-		AudioManager.play_FX(shoot_sound_FX,5)
-		ammo_cost *= increased_ammo_cost
-		Global.ammo -= ammo_cost
 		if Global.ammo < ammo_cost: power *= launch_power_decrease_multiplied
 		var angle = gun.rotation+deg_to_rad(180)
+		power *= increased_launch_power_multiplied
+		ammo_cost *= increased_ammo_cost
 		velocity = Vector2(1,0).rotated(angle)*power
+		Global.ammo -= ammo_cost
 		turn_squishy(shoot_squish.x,shoot_squish.y)
+		AudioManager.play_FX(shoot_sound_FX,5)
 		cam.apply_shake(5)
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
 	if Input.is_action_pressed("run"):
 		_walk_multiplied = movement_data.run_multiplier
+	
+	if Input.is_action_pressed("down"):
+		if Input.is_action_pressed("run"):
+			_walk_multiplied = 1
+		else:
+			_walk_multiplied = movement_data.duck_walk_speed_mutiplied
+	
 	if input_axis: #if direction != 0
 		velocity.x = move_toward(velocity.x,movement_data.hspeed*input_axis*_walk_multiplied,movement_data.acceleration*delta)
 
@@ -129,11 +159,34 @@ func apply_air_resistance(input_axis,delta):
 		velocity.x = move_toward(velocity.x,0,movement_data.air_resistance*delta)
 
 func update_animation(input_axis,delta):
-	if input_axis :
-		sprite.flip_h = (input_axis < 0)
-		sprite.play("walk")
+	if is_on_floor():
+		if was_airborne:
+			was_airborne = false
+			#squishy
+			turn_squishy(landing_squish.x,landing_squish.y)
+			#landing particle
+			landing_particle.emitting = true
 	else:
-		sprite.play("idle")
+		landing_particle.emitting = false
+		was_airborne = true
+	
+	if input_axis:
+		sprite.flip_h = (input_axis < 0)
+		if Input.is_action_pressed("down"):
+			sprite.play("duck_walk")
+		else:
+			sprite.play("walk")
+	else:
+		if is_on_floor():
+			if Input.is_action_just_pressed("down"):
+				turn_squishy(duck_squish_press.x,duck_squish_press.y)
+			if Input.is_action_just_released("down"):
+				turn_squishy(duck_squish_release.x,duck_squish_release.y)
+			if Input.is_action_pressed("down"):
+				sprite.play("SQUISH")
+			else:
+				sprite.play("idle")
+	
 	if not is_on_floor():
 		if velocity.y < 0:
 			sprite.play("jump")
@@ -154,16 +207,18 @@ func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
 
 func squash_and_stretch(delta):
-	if is_on_floor():
-		if was_airborne:
-			was_airborne = false
-			#squishy
-			turn_squishy(landing_squish.x,landing_squish.y)
-	else:
-		was_airborne = true
-	
 	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
 	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
+
+func no_clip():
+	if player_state != STATE.NO_CLIP:
+		player_state = STATE.NO_CLIP
+	else:
+		player_state = STATE.NORMAL
+
+func move_free():
+	var direction = Input.get_vector("left", "right", "up", "down")
+	velocity = direction * no_clip_speed
 
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD

@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://dpp3juhkufenh"]
+
+[ext_resource type="Script" path="res://World/Collectibles/Scripts/dash_gem.gd" id="1_1cdht"]
+[ext_resource type="Texture2D" uid="uid://dbxak8w2frjo1" path="res://World/Sprites/Dash_gem.png" id="2_37u54"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oklbq"]
+atlas = ExtResource("2_37u54")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d12fb"]
+atlas = ExtResource("2_37u54")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12r1q"]
+atlas = ExtResource("2_37u54")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chesu"]
+atlas = ExtResource("2_37u54")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sm16h"]
+animations = [{
+"frames": [{
+"duration": 20.0,
+"texture": SubResource("AtlasTexture_oklbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d12fb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12r1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chesu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hryps"]
+radius = 16.0
+
+[node name="DashGem" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_1cdht")
+spawn_time = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sm16h")
+frame_progress = 0.795394
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_hryps")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

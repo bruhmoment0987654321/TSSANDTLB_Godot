@@ -8,8 +8,10 @@ extends CharacterBody2D
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var jump_dash_timer = $JumpDashTimer
 @onready var cam = $"../Cam"
-@onready var player_position = $"Player Position"
-@onready var killer_timer = $KillerTimer
+@onready var landing_particle = $"Landing Particle"
+@onready var collider = $Collider
+@onready var enemy_collider = $EnemyDetector/CollisionShape2D
+@onready var hitbox = $HazardDetector/Hitbox
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -24,12 +26,13 @@ extends CharacterBody2D
 @export var landing_squish : Vector2 = Vector2(1.3,0.7)
 @export var dash_squish_up : Vector2 = Vector2(0.5,1.5)
 @export var dash_squish_right : Vector2 = Vector2(1.5,0.5)
-
+@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
+@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
 #squash and stretch
 var was_airborne = false
 
 #slime player state
-enum STATE{NORMAL,DASH,DEAD}
+enum STATE{NORMAL,DASH,DEAD,NO_CLIP,}
 var player_state = STATE.NORMAL
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -43,8 +46,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var dash_time = 0.2
 ##how many times the player can dash for until he isn't able to.
 @export var max_dash_amount = 2
-##the amount of buffer time that the player has that makes him invincible
-@export var overkill_length = 1.0
 
 @export var dash_sound_FX = preload("res://Music/dash (new).wav")
 
@@ -62,10 +63,16 @@ var jump_dash_friction_decrease = 1
 var after_jump_dash = false
 
 @export_group("Dash Visuals")
-##the color the player looks like whenever the dash runs out
-@export var dash_color_running_out = Color.WHITE
+##the color showing there is only one dash left
+@export_color_no_alpha var dash_color_almost_running_out = Color.WHITE
+##the color that shows there isn't any dash
+@export_color_no_alpha var dash_color_running_out = Color.WHITE
 ##how many particles are created when dashing
 @export var dash_particle_amount = 200
+
+@export_group("CHEATS")
+##speed for no_clip movement
+@export var no_clip_speed = 100
 
 var jump_dash = false
 var ghost_trail = preload("res://Player/ghost_trail.tscn")
@@ -79,6 +86,9 @@ func _ready():
 
 func _physics_process(delta):
 	if player_state == STATE.NORMAL:
+		collider.disabled = false
+		hitbox.disabled = false
+		enemy_collider.disabled = false
 		apply_gravity(delta)
 		handle_jump()
 		handle_dash()
@@ -96,11 +106,19 @@ func _physics_process(delta):
 	if player_state == STATE.DASH:
 		if dash_energy > 0:
 			is_dashing(delta)
+			var input_axis = Input.get_axis("left", "right")
+			handle_acceleration(input_axis,delta)
 		else:
 			ending_dash()
 		move_and_slide()
 	if player_state == STATE.DEAD:
 		death()
+	if player_state == STATE.NO_CLIP:
+		hitbox.disabled = true
+		enemy_collider.disabled = false
+		collider.disabled = true
+		move_free()
+		move_and_slide()
 
 func apply_gravity(delta):
 	if not is_on_floor() and velocity.y < 0:
@@ -153,13 +171,19 @@ func ending_dash():
 	dash_particles.emitting = false
 	if jump_dash:
 		jump_dash_timer.start(jump_dash_time)
-	killer_timer.start(overkill_length)
 	player_state = STATE.NORMAL
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
 	if Input.is_action_pressed("run"):
 		_walk_multiplied = movement_data.run_multiplier
+	
+	if Input.is_action_pressed("down"):
+		if Input.is_action_pressed("run"):
+			_walk_multiplied = 1
+		else:
+			_walk_multiplied = movement_data.duck_walk_speed_mutiplied
+	
 	if input_axis: #if direction != 0
 		if after_jump_dash: 
 			jump_dash_friction_decrease = jump_dash_friction_decrease_amount
@@ -196,15 +220,42 @@ func jump_dashing():
 			after_jump_dash = false
 
 func update_animation(input_axis,delta):
-	if Global.dash_amount == 0:
-		sprite.modulate = dash_color_running_out
+	match Global.dash_amount:
+		0:
+			sprite.modulate = dash_color_running_out
+		1:
+			sprite.modulate = dash_color_almost_running_out
+		2:
+			sprite.modulate = Color.WHITE
+	if is_on_floor():
+		if was_airborne:
+			was_airborne = false
+			#squishy
+			turn_squishy(landing_squish.x,landing_squish.y)
+			#landing particle
+			landing_particle.emitting = true
 	else:
-		sprite.modulate = Color.WHITE
+		landing_particle.emitting = false
+		was_airborne = true
+	
 	if input_axis :
-		sprite.flip_h = (input_axis < 0)
-		sprite.play("Walk")
+		if input_axis:
+			sprite.flip_h = (input_axis < 0)
+		if Input.is_action_pressed("down"):
+			sprite.play("Duck Walk")
+		else:
+			sprite.play("Walk")
 	else:
-		sprite.play("Idle")
+		if is_on_floor():
+			if Input.is_action_just_pressed("down"):
+				turn_squishy(duck_squish_press.x,duck_squish_press.y)
+			if Input.is_action_just_released("down"):
+				turn_squishy(duck_squish_release.x,duck_squish_release.y)
+			if Input.is_action_pressed("down"):
+				sprite.play("SQUISH")
+			else:
+				sprite.play("Idle")
+	
 	if not is_on_floor():
 		if velocity.y < 0:
 			sprite.play("Jump")
@@ -225,14 +276,6 @@ func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
 	
 func squash_and_stretch(delta):
-	if is_on_floor():
-		if was_airborne:
-			was_airborne = false
-			#squishy
-			turn_squishy(landing_squish.x,landing_squish.y)
-	else:
-		was_airborne = true
-	
 	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
 	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
 
@@ -248,12 +291,22 @@ func get_dir_from_input():
 			move_dir.x = 1
 	return move_dir
 
+func no_clip():
+	if player_state != STATE.NO_CLIP:
+		player_state = STATE.NO_CLIP
+	else:
+		player_state = STATE.NORMAL
+
+func move_free():
+	var direction = Input.get_vector("left", "right", "up", "down")
+	velocity = direction * no_clip_speed
+
 func _on_hazard_detector_area_entered(area):
 	player_state = STATE.DEAD
 
 func _on_enemy_detector_area_entered(area):
 	if player_state == STATE.DASH or jump_dash:
-		area.get_parent().dead()
+		area.get_parent().dashed()
 	else:
 		player_state = STATE.DEAD
 

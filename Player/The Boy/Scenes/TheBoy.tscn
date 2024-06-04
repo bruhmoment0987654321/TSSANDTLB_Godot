@@ -1,15 +1,34 @@
-[gd_scene load_steps=23 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=30 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
 [ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_ji7om"]
 [ext_resource type="Texture2D" uid="uid://h7s0dpdivm64" path="res://Player/The Boy/Sprites/Boy_jump_fall.png" id="3_oocpd"]
+[ext_resource type="Texture2D" uid="uid://ch4clpb6erwt3" path="res://Player/The Boy/Sprites/Boy_duck.png" id="3_sr8s0"]
+[ext_resource type="Texture2D" uid="uid://g6xwr3gm8qg5" path="res://Player/The Boy/Sprites/Boy_duck_walk.png" id="4_0kt24"]
 [ext_resource type="Texture2D" uid="uid://ddkma3r4y1gas" path="res://Player/The Boy/Sprites/Boy_walk.png" id="4_ppebw"]
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
+[ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="7_26uja"]
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
 size = Vector2(14, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wel5"]
+atlas = ExtResource("3_sr8s0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_id2d5"]
+atlas = ExtResource("4_0kt24")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vb42"]
+atlas = ExtResource("4_0kt24")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6w23"]
+atlas = ExtResource("4_0kt24")
+region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t2ldu"]
 atlas = ExtResource("3_oocpd")
@@ -53,6 +72,28 @@ region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pnd0j"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wel5")
+}],
+"loop": true,
+"name": &"SQUISH",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_id2d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vb42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6w23")
+}],
+"loop": true,
+"name": &"duck_walk",
+"speed": 6.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t2ldu")
@@ -113,14 +154,16 @@ radius = 11.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8g7j5"]
 size = Vector2(14, 22)
 
-[node name="TheBoy" type="CharacterBody2D"]
+[node name="TheBoy" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
+duck_squish_press = Vector2(1.4, 0.6)
 launch_power = 300
 launch_power_decrease_multiplied = 0.7
-charge_rate = 50
+charge_rate = 40
+charge_rate_multiplied = 1.6
 ammo_used = 25
 
 [node name="Player Position" type="Marker2D" parent="."]
@@ -130,9 +173,11 @@ position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_6grc8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_pnd0j")
 animation = &"idle"
+offset = Vector2(0, -16)
+
+[node name="Landing Particle" parent="." instance=ExtResource("7_26uja")]
 
 [node name="JumpBufferTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -180,6 +225,9 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
 position = Vector2(0, -17)
 shape = SubResource("RectangleShape2D_8g7j5")
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
 [connection signal="area_entered" from="CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]
