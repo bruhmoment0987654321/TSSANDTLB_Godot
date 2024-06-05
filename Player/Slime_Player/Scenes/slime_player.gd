@@ -2,16 +2,18 @@ extends CharacterBody2D
 
 #putting other nodes in variables 
 @onready var sprite = $Slime
-@onready var coyote_jump_timer = $CoyoteJumpTimer
-@onready var dash_timer = $DashTimer
 @onready var dash_particles = $DashParticles
-@onready var jump_buffer_timer = $JumpBufferTimer
-@onready var jump_dash_timer = $JumpDashTimer
 @onready var cam = $"../Cam"
 @onready var landing_particle = $"Landing Particle"
 @onready var collider = $Collider
 @onready var enemy_collider = $EnemyDetector/CollisionShape2D
 @onready var hitbox = $HazardDetector/Hitbox
+@onready var jump_dash_timer = $Timers/JumpDashTimer
+@onready var jump_buffer_timer = $Timers/JumpBufferTimer
+@onready var coyote_jump_timer = $Timers/CoyoteJumpTimer
+@onready var dash_timer = $Timers/DashTimer
+@onready var death_timer = $"Timers/Death Timer"
+@onready var death_animation = $"Death Animation"
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -69,6 +71,25 @@ var after_jump_dash = false
 @export_color_no_alpha var dash_color_running_out = Color.WHITE
 ##how many particles are created when dashing
 @export var dash_particle_amount = 200
+##how long the time stop duration goes when you start to dash
+@export var dash_hit_stop_duration = 0.1
+##the speed of time when dashing into an enemy
+@export var dash_hit_stop_timescale = 0.03
+
+@export_group("Hit Stop")
+##duration (in seconds) of the time stop 
+@export var hit_stop_duration = 0.5
+##the speed of time
+@export var hit_stop_time_scale = 0.05
+##how much the camera zooms in during the hitstop
+@export var hit_stop_camera_zoom = Vector2(0.5,0.5)
+##the speed the camera goes when zoomming in
+@export var hit_scale_zoom_speed = 0.1
+
+@export_group("Death")
+@export var death_time_amount = 5.0
+@export var death_hit_stop_duration = 1.0
+@export var death_zoom_amount = Vector2(2,2)
 
 @export_group("CHEATS")
 ##speed for no_clip movement
@@ -115,7 +136,7 @@ func _physics_process(delta):
 		death()
 	if player_state == STATE.NO_CLIP:
 		hitbox.disabled = true
-		enemy_collider.disabled = false
+		enemy_collider.disabled = true
 		collider.disabled = true
 		move_free()
 		move_and_slide()
@@ -264,13 +285,16 @@ func update_animation(input_axis,delta):
 	squash_and_stretch(delta)
 
 func death():
-	Global.death_count += 1
+	enemy_collider.disabled = true
+	collider.disabled = true
+	await death_timer.timeout
 	global_position = spawn_position
 	Global.dash_amount = max_dash_amount
 	player_state = STATE.NORMAL
 	velocity = Vector2(0,0)
-	cam.apply_shake(5)
 	print(str(global_position.x) + ", " + str(global_position.y))
+	enemy_collider.disabled = true
+	collider.disabled = true
 
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
@@ -291,6 +315,25 @@ func get_dir_from_input():
 			move_dir.x = 1
 	return move_dir
 
+func hit_stop(time_scale,duration,delta, zoom_amount = Vector2(1,1), death = false):
+	Engine.time_scale = time_scale
+	cam.zoom.x = move_toward(zoom_amount.x,1,hit_scale_zoom_speed*delta)
+	cam.zoom.y = move_toward(zoom_amount.y,1,hit_scale_zoom_speed*delta)
+	var timer = get_tree().create_timer(duration*time_scale)
+	
+	await timer.timeout
+	Engine.time_scale = 1
+	cam.zoom.x = move_toward(1,zoom_amount.x,hit_scale_zoom_speed*delta)
+	cam.zoom.y = move_toward(1,zoom_amount.y,hit_scale_zoom_speed*delta)
+	
+	if death:
+		death_timer.start(death_time_amount)
+		death_animation.emitting = true
+		cam.apply_shake(5)
+		sprite.play("Death")
+		Global.death_count += 1
+		player_state = STATE.DEAD
+
 func no_clip():
 	if player_state != STATE.NO_CLIP:
 		player_state = STATE.NO_CLIP
@@ -302,13 +345,14 @@ func move_free():
 	velocity = direction * no_clip_speed
 
 func _on_hazard_detector_area_entered(area):
-	player_state = STATE.DEAD
+	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
 func _on_enemy_detector_area_entered(area):
 	if player_state == STATE.DASH or jump_dash:
 		area.get_parent().dashed()
+		hit_stop(dash_hit_stop_timescale,hit_stop_duration,get_process_delta_time(),hit_stop_camera_zoom)
 	else:
-		player_state = STATE.DEAD
+		hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
 func _on_checkpoint_detector_area_entered(area):
 	if area.is_in_group("Checkpoint_1"):

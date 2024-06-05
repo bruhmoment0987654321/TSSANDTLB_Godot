@@ -69,7 +69,6 @@ size = Vector2(16, 25)
 
 [node name="Lil Man" type="CharacterBody2D" groups=["Enemies"]]
 collision_layer = 8
-collision_mask = 3
 script = ExtResource("1_dci6j")
 speed = 70
 min_launch_x = -500

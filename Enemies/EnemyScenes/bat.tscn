@@ -61,9 +61,10 @@ animations = [{
 size = Vector2(69, 33)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmir5"]
-size = Vector2(56, 22)
+size = Vector2(37, 19)
 
 [node name="Bat" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 8
 script = ExtResource("1_kli3l")
 speed = -100
 min_launch_x = -500
@@ -101,13 +102,14 @@ position = Vector2(1, -6)
 target_position = Vector2(-34, 0)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(2, -14)
+position = Vector2(2.5, -12.5)
 shape = SubResource("RectangleShape2D_qmir5")
 
 [node name="Flash Timer" type="Timer" parent="."]
 one_shot = true
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
 position = Vector2(7.7486e-07, -14.5)
 scale = Vector2(3.5, 1.35)
 

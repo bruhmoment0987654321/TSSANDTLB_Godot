@@ -1,12 +1,15 @@
-[gd_scene load_steps=30 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=34 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
 [ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_ji7om"]
+[ext_resource type="PackedScene" uid="uid://xwyp7qg2kyos" path="res://Visual/Scenes/death_animation.tscn" id="3_ewo57"]
 [ext_resource type="Texture2D" uid="uid://h7s0dpdivm64" path="res://Player/The Boy/Sprites/Boy_jump_fall.png" id="3_oocpd"]
 [ext_resource type="Texture2D" uid="uid://ch4clpb6erwt3" path="res://Player/The Boy/Sprites/Boy_duck.png" id="3_sr8s0"]
 [ext_resource type="Texture2D" uid="uid://g6xwr3gm8qg5" path="res://Player/The Boy/Sprites/Boy_duck_walk.png" id="4_0kt24"]
+[ext_resource type="Texture2D" uid="uid://bc1u17opwn2c1" path="res://Player/The Boy/Sprites/Boy_sad.png" id="4_f2fgo"]
 [ext_resource type="Texture2D" uid="uid://ddkma3r4y1gas" path="res://Player/The Boy/Sprites/Boy_walk.png" id="4_ppebw"]
+[ext_resource type="Texture2D" uid="uid://cf1ia46i4rpg1" path="res://Player/Slime_Player/Sprites/blank.png" id="5_nf1ea"]
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="7_26uja"]
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
@@ -16,6 +19,10 @@ size = Vector2(14, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8wel5"]
 atlas = ExtResource("3_sr8s0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u3g0i"]
+atlas = ExtResource("5_nf1ea")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_id2d5"]
@@ -78,6 +85,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"SQUISH",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u3g0i")
+}],
+"loop": true,
+"name": &"death",
 "speed": 0.0
 }, {
 "frames": [{
@@ -156,7 +171,7 @@ size = Vector2(14, 22)
 
 [node name="TheBoy" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
-collision_mask = 13
+collision_mask = 5
 script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
 duck_squish_press = Vector2(1.4, 0.6)
@@ -165,8 +180,11 @@ launch_power_decrease_multiplied = 0.7
 charge_rate = 40
 charge_rate_multiplied = 1.6
 ammo_used = 25
+hit_stop_time_scale = 0.05
+death_time_amount = 1.0
 
-[node name="Player Position" type="Marker2D" parent="."]
+[node name="Death Animation" parent="." instance=ExtResource("3_ewo57")]
+texture = ExtResource("4_f2fgo")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -174,18 +192,10 @@ shape = SubResource("RectangleShape2D_6grc8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_pnd0j")
-animation = &"idle"
+animation = &"death"
 offset = Vector2(0, -16)
 
 [node name="Landing Particle" parent="." instance=ExtResource("7_26uja")]
-
-[node name="JumpBufferTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
-[node name="CoyoteJumpTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
 
 [node name="HazardDetector" type="Area2D" parent="."]
 collision_layer = 0
@@ -207,9 +217,6 @@ fire_rate = 0.1
 [node name="Marker2D" type="Marker2D" parent="Gun"]
 position = Vector2(-1, 0)
 
-[node name="FireRateTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="CheckpointDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 16
@@ -226,7 +233,23 @@ collision_mask = 8
 position = Vector2(0, -17)
 shape = SubResource("RectangleShape2D_8g7j5")
 
-[node name="KnockbackTimer" type="Timer" parent="."]
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="KnockbackTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="FireRateTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="CoyoteJumpTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="Death Timer" type="Timer" parent="Timers"]
 one_shot = true
 
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]

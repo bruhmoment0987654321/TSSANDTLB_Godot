@@ -134,9 +134,9 @@ animation = &"idle"
 frame_progress = 0.578221
 
 [node name="Eye" type="Sprite2D" parent="."]
-position = Vector2(0, 0.808709)
 texture = ExtResource("4_p0lfx")
 hframes = 8
+frame = 7
 
 [node name="HazardArea" parent="." instance=ExtResource("1_5ke0h")]
 
@@ -144,7 +144,6 @@ hframes = 8
 shape = SubResource("CircleShape2D_dmfsw")
 
 [node name="PlayerDetection" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 

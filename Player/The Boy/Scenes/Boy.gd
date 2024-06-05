@@ -1,18 +1,19 @@
 extends CharacterBody2D
 
 @onready var sprite = $AnimatedSprite2D
-@onready var coyote_jump_timer = $CoyoteJumpTimer
-@onready var dash_timer = $DashTimer
-@onready var fire_rate_timer = $FireRateTimer
-@onready var jump_buffer_timer = $JumpBufferTimer
 @onready var cam = $"../Cam"
 @onready var gun = $Gun
-@onready var player_position = $"Player Position"
-@onready var knockback_timer = $KnockbackTimer
 @onready var landing_particle = $"Landing Particle"
 @onready var collider = $Collider
 @onready var hitbox = $HazardDetector/Hitbox
 @onready var enemy_collider = $EnemyDetector/CollisionShape2D
+@onready var knockback_timer = $Timers/KnockbackTimer
+@onready var fire_rate_timer = $Timers/FireRateTimer
+@onready var coyote_jump_timer = $Timers/CoyoteJumpTimer
+@onready var jump_buffer_timer = $Timers/JumpBufferTimer
+@onready var death_timer = $"Timers/Death Timer"
+@onready var death_animation = $"Death Animation"
+
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -55,6 +56,14 @@ var was_airborne = false
 @export var increased_ammo_cost = 2
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
+
+@export_group("Hit Stop")
+@export var hit_scale_zoom_speed = 0.5
+@export var hit_stop_time_scale = 0.5
+
+@export_group("Death")
+@export var death_time_amount = 2.0
+@export var death_zoom_amount = Vector2(1.7,1.7)
 
 @export_group("CHEATS")
 ##speed of no_clip movement
@@ -195,13 +204,18 @@ func update_animation(input_axis,delta):
 	squash_and_stretch(delta)
 
 func death():
+	enemy_collider.disabled = true
+	collider.disabled = true
+	
+	await death_timer.timeout
 	global_position = spawn_position
-	Global.death_count += 1
 	player_state = STATE.NORMAL
+	gun.visible = true
 	Global.ammo = max_ammo
 	velocity = Vector2(0,0)
 	cam.apply_shake(5)
 	print(str(global_position.x) + ", " + str(global_position.y))
+	gun.global_position = global_position
 
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
@@ -220,8 +234,28 @@ func move_free():
 	var direction = Input.get_vector("left", "right", "up", "down")
 	velocity = direction * no_clip_speed
 
+func hit_stop(time_scale,duration,delta, zoom_amount = Vector2(1,1), death = false):
+	Engine.time_scale = time_scale
+	cam.zoom.x = move_toward(zoom_amount.x,1,hit_scale_zoom_speed*delta)
+	cam.zoom.y = move_toward(zoom_amount.y,1,hit_scale_zoom_speed*delta)
+	var timer = get_tree().create_timer(duration*time_scale)
+	
+	await timer.timeout
+	Engine.time_scale = 1
+	cam.zoom.x = move_toward(1,zoom_amount.x,hit_scale_zoom_speed*delta)
+	cam.zoom.y = move_toward(1,zoom_amount.y,hit_scale_zoom_speed*delta)
+	
+	if death:
+		death_timer.start(death_time_amount)
+		death_animation.emitting = true
+		cam.apply_shake(5)
+		sprite.play("death")
+		gun.visible = false
+		Global.death_count += 1
+		player_state = STATE.DEAD
+
 func _on_hazard_detector_area_entered(area):
-	player_state = STATE.DEAD
+	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
 func _on_checkpoint_detector_area_entered(area):
 	if area.is_in_group("Checkpoint_1"):
@@ -235,4 +269,4 @@ func _on_checkpoint_detector_area_entered(area):
 		print("Hit Checkpoint_3")
 
 func _on_enemy_detector_area_entered(area):
-	player_state = STATE.DEAD
+	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=34 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
 [ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_gts6j"]
@@ -7,12 +7,18 @@
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
 [ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/ghost_trail.tscn" id="3_ye5ww"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
+[ext_resource type="Texture2D" uid="uid://cf1ia46i4rpg1" path="res://Player/Slime_Player/Sprites/blank.png" id="4_ta6ef"]
 [ext_resource type="Texture2D" uid="uid://dn42meiotb1l5" path="res://Player/Slime_Player/Sprites/Slime_duck.png" id="5_nwnqq"]
 [ext_resource type="Texture2D" uid="uid://demmqdy2lag6w" path="res://Player/Slime_Player/Sprites/slime_walk.png" id="5_yu2k6"]
 [ext_resource type="Texture2D" uid="uid://4atm2pp3n0hr" path="res://Player/Slime_Player/Sprites/dash_particle.png" id="6_snjms"]
+[ext_resource type="PackedScene" uid="uid://xwyp7qg2kyos" path="res://Visual/Scenes/death_animation.tscn" id="10_lviiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tptkg"]
 size = Vector2(14, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwava"]
+atlas = ExtResource("4_ta6ef")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qsmwv"]
 atlas = ExtResource("3_f78iy")
@@ -72,6 +78,14 @@ region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fjx7w"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwava")
+}],
+"loop": true,
+"name": &"Death",
+"speed": 0.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qsmwv")
@@ -160,7 +174,7 @@ radius = 11.0
 
 [node name="Slime_player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
-collision_mask = 13
+collision_mask = 5
 floor_constant_speed = true
 floor_max_angle = 0.872665
 floor_snap_length = 3.0
@@ -176,38 +190,30 @@ jump_dash_height = -150
 dash_color_almost_running_out = Color(0.49, 0.49, 0.49, 1)
 dash_color_running_out = Color(0.3, 0.3, 0.3, 1)
 dash_particle_amount = 150
+dash_hit_stop_duration = 0.5
+dash_hit_stop_timescale = 0.05
+hit_stop_duration = 0.65
+hit_stop_camera_zoom = Vector2(1.45, 1.45)
+hit_scale_zoom_speed = 0.001
+death_time_amount = 0.5
+death_hit_stop_duration = 0.6
 no_clip_speed = 300
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_tptkg")
 
+[node name="Death Animation" parent="." instance=ExtResource("10_lviiv")]
+
 [node name="Slime" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjx7w")
-animation = &"Idle"
-frame = 3
-frame_progress = 0.776232
+animation = &"Death"
 offset = Vector2(0, -16)
 
 [node name="Landing Particle" parent="." instance=ExtResource("3_oeigy")]
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
 z_index = 1
-
-[node name="JumpDashTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
-[node name="JumpBufferTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
-[node name="CoyoteJumpTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
-[node name="DashTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="HazardDetector" type="Area2D" parent="."]
 collision_layer = 0
@@ -250,6 +256,26 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_wswn7")
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="JumpDashTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="CoyoteJumpTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="DashTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="Death Timer" type="Timer" parent="Timers"]
+one_shot = true
 
 [connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
 [connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
