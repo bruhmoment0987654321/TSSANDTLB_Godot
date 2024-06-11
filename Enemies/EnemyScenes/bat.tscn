@@ -58,7 +58,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gjl47"]
-size = Vector2(69, 33)
+size = Vector2(65, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmir5"]
 size = Vector2(37, 19)
@@ -85,7 +85,7 @@ offset = Vector2(0, -15)
 [node name="EnemyArea" parent="." instance=ExtResource("2_y8rsy")]
 
 [node name="Hurtbox" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(-0.5, -14.5)
+position = Vector2(1.5, -13.5)
 shape = SubResource("RectangleShape2D_gjl47")
 debug_color = Color(0.970819, 0, 0.452156, 0.42)
 

@@ -6,12 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="3_oeigy"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
 [ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/ghost_trail.tscn" id="3_ye5ww"]
+[ext_resource type="Texture2D" uid="uid://cv28ox51pfvl5" path="res://Visual/Sprites/hollow_diamond_pixel.png" id="4_1fenb"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
 [ext_resource type="Texture2D" uid="uid://cf1ia46i4rpg1" path="res://Player/Slime_Player/Sprites/blank.png" id="4_ta6ef"]
 [ext_resource type="Texture2D" uid="uid://dn42meiotb1l5" path="res://Player/Slime_Player/Sprites/Slime_duck.png" id="5_nwnqq"]
 [ext_resource type="Texture2D" uid="uid://demmqdy2lag6w" path="res://Player/Slime_Player/Sprites/slime_walk.png" id="5_yu2k6"]
-[ext_resource type="Texture2D" uid="uid://4atm2pp3n0hr" path="res://Player/Slime_Player/Sprites/dash_particle.png" id="6_snjms"]
 [ext_resource type="PackedScene" uid="uid://xwyp7qg2kyos" path="res://Visual/Scenes/death_animation.tscn" id="10_lviiv"]
+
+[sub_resource type="Curve" id="Curve_vvjwj"]
+_data = [Vector2(0, 1), 0.0, -0.0705893, 0, 0, Vector2(0.4, 0.0229924), 0.0, 0.0, 0, 0, Vector2(0.66, 0.866163), -1.38452, -1.38452, 0, 0, Vector2(1, 0), -4.05371, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tptkg"]
 size = Vector2(14, 9)
@@ -162,10 +166,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oe3m3"]
 size = Vector2(12, 7)
 
-[sub_resource type="Curve" id="Curve_vvjwj"]
-_data = [Vector2(0, 1), 0.0, -0.0705893, 0, 0, Vector2(1, 0.0185312), -4.05371, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xumxy"]
 size = Vector2(19, 10)
 
@@ -193,42 +193,22 @@ dash_particle_amount = 150
 dash_hit_stop_duration = 0.5
 dash_hit_stop_timescale = 0.05
 hit_stop_duration = 0.65
-hit_stop_camera_zoom = Vector2(1.45, 1.45)
+hit_stop_camera_zoom = Vector2(1.2, 1.2)
 hit_scale_zoom_speed = 0.001
 death_time_amount = 0.5
 death_hit_stop_duration = 0.6
+death_zoom_amount = Vector2(1.5, 1.5)
 no_clip_speed = 300
 
-[node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4.5)
-shape = SubResource("RectangleShape2D_tptkg")
+[node name="Particles" type="Node2D" parent="."]
 
-[node name="Death Animation" parent="." instance=ExtResource("10_lviiv")]
+[node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
 
-[node name="Slime" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_fjx7w")
-animation = &"Death"
-offset = Vector2(0, -16)
-
-[node name="Landing Particle" parent="." instance=ExtResource("3_oeigy")]
-
-[node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
-z_index = 1
-
-[node name="HazardDetector" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
-
-[node name="Hitbox" type="CollisionShape2D" parent="HazardDetector"]
-position = Vector2(0, -4.5)
-shape = SubResource("RectangleShape2D_oe3m3")
-debug_color = Color(0.980392, 0, 0.372549, 0.419608)
-
-[node name="DashParticles" type="CPUParticles2D" parent="."]
+[node name="Dash Particles" type="CPUParticles2D" parent="Particles"]
 position = Vector2(0, -4)
 emitting = false
 amount = 100
-texture = ExtResource("6_snjms")
+texture = ExtResource("4_1fenb")
 emission_shape = 1
 emission_sphere_radius = 8.11
 direction = Vector2(0, 0)
@@ -239,23 +219,21 @@ initial_velocity_max = 11.0
 angular_velocity_min = 90.0
 angular_velocity_max = 180.0
 scale_amount_curve = SubResource("Curve_vvjwj")
+color = Color(0.25, 1, 0.3, 0.780392)
 
-[node name="EnemyDetector" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 8
+[node name="Landing Particle" parent="Particles" instance=ExtResource("3_oeigy")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
-position = Vector2(0.5, -5)
-shape = SubResource("RectangleShape2D_xumxy")
-debug_color = Color(0, 0.633445, 0.440378, 0.42)
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_tptkg")
 
-[node name="CheckpointDetector" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 16
+[node name="Slime" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fjx7w")
+animation = &"Idle"
+offset = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
-position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_wswn7")
+[node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
+z_index = 1
 
 [node name="Timers" type="Node2D" parent="."]
 
@@ -277,6 +255,34 @@ one_shot = true
 [node name="Death Timer" type="Timer" parent="Timers"]
 one_shot = true
 
-[connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
-[connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
-[connection signal="area_entered" from="CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]
+[node name="Other Collisions" type="Node2D" parent="."]
+
+[node name="HazardDetector" type="Area2D" parent="Other Collisions"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Hitbox" type="CollisionShape2D" parent="Other Collisions/HazardDetector"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_oe3m3")
+debug_color = Color(0.980392, 0, 0.372549, 0.419608)
+
+[node name="EnemyDetector" type="Area2D" parent="Other Collisions"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Other Collisions/EnemyDetector"]
+position = Vector2(0.5, -5)
+shape = SubResource("RectangleShape2D_xumxy")
+debug_color = Color(0, 0.633445, 0.440378, 0.42)
+
+[node name="CheckpointDetector" type="Area2D" parent="Other Collisions"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Other Collisions/CheckpointDetector"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_wswn7")
+
+[connection signal="area_entered" from="Other Collisions/HazardDetector" to="." method="_on_hazard_detector_area_entered"]
+[connection signal="area_entered" from="Other Collisions/EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
+[connection signal="area_entered" from="Other Collisions/CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]

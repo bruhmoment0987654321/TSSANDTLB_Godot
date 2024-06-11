@@ -16,3 +16,21 @@ Version 0.3.7
 - Added duck walk to slime and boy
 - Added a Developer Console (Thank you KeilainMan) and some commands created for my game. I won't say how to access it though...
 - Some more secrets added >:]
+
+Version 0.3.8
+
+- Added more commands into the Developer Console
+- Made console close with the key to open it (still won't say)
+- Added hit stop effect for slime and boy
+- Made death animation for the slime and boy
+- Made sure that the enemy standing won't happen again by not having the play interact with it's collider in the first place...
+- Added rotational shaking to the screenshake effect
+- Added camera drag margins when moving left, right, up and down
+- Made Lil Man hitbox smaller
+- Made Bat hitbox smaller
+- Changed particle effect on slime
+- Added visual effects for dash gem. 
+- Removed the run from slime and boy (NOOO!!!!!) since it never had any use case.
+- Probably add an extra effect for the jump-dash
+- Probably add a timer or a speed mode.
+- Try adding a checkpoint of where you last stood when you died.

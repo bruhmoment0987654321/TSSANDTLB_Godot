@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpp3juhkufenh"]
+[gd_scene load_steps=11 format=3 uid="uid://dpp3juhkufenh"]
 
 [ext_resource type="Script" path="res://World/Collectibles/Scripts/dash_gem.gd" id="1_1cdht"]
 [ext_resource type="Texture2D" uid="uid://dbxak8w2frjo1" path="res://World/Sprites/Dash_gem.png" id="2_37u54"]
+[ext_resource type="Texture2D" uid="uid://dt54vbasbxxs5" path="res://World/Sprites/Dash_gem_back.png" id="2_px52w"]
+[ext_resource type="PackedScene" uid="uid://ckuiisyxrtun" path="res://World/Collectibles/Scenes/dash_gem_touched_particle.tscn" id="4_3dyjb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oklbq"]
 atlas = ExtResource("2_37u54")
@@ -47,16 +49,23 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_1cdht")
 spawn_time = 0.0
+squish_speed = 5
+
+[node name="Back" type="Sprite2D" parent="."]
+texture = ExtResource("2_px52w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_sm16h")
 frame_progress = 0.795394
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_hryps")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Dash Gem Touched Particle" parent="." instance=ExtResource("4_3dyjb")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

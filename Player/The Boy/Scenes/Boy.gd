@@ -52,7 +52,7 @@ var was_airborne = false
 @export var charge_rate_multiplied = 1.2
 ##how much ammo is consumed during shooting
 @export var ammo_used = 20
-##the increase multiplier when holding run and shoot
+##the increase multiplier when using the blast
 @export var increased_ammo_cost = 2
 ##the maximum amount of ammo the gun can have
 @export var max_ammo = 100
@@ -147,14 +147,9 @@ func gun_jump():
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
-	if Input.is_action_pressed("run"):
-		_walk_multiplied = movement_data.run_multiplier
 	
 	if Input.is_action_pressed("down"):
-		if Input.is_action_pressed("run"):
-			_walk_multiplied = 1
-		else:
-			_walk_multiplied = movement_data.duck_walk_speed_mutiplied
+		_walk_multiplied = movement_data.duck_walk_speed_mutiplied
 	
 	if input_axis: #if direction != 0
 		velocity.x = move_toward(velocity.x,movement_data.hspeed*input_axis*_walk_multiplied,movement_data.acceleration*delta)

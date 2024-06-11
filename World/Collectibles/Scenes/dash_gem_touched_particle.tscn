@@ -1,0 +1,99 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckuiisyxrtun"]
+
+[ext_resource type="Texture2D" uid="uid://dnd7u4ejbj554" path="res://Visual/Sprites/diamond_pixel.png" id="1_bu4go"]
+[ext_resource type="Script" path="res://World/Collectibles/Scenes/dash_gem_touched_particle.gd" id="2_fedi5"]
+[ext_resource type="Texture2D" uid="uid://b2nkfr3ao2w3" path="res://Visual/Sprites/hollow_circle_pixel.png" id="2_waia4"]
+
+[sub_resource type="Curve" id="Curve_v6yje"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.628, 0.714482), -0.267045, -0.267045, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Animation" id="Animation_8e1x3"]
+resource_name = "zoom out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion Effect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion Effect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_et4rv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion Effect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion Effect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1dgum"]
+_data = {
+"RESET": SubResource("Animation_et4rv"),
+"zoom out": SubResource("Animation_8e1x3")
+}
+
+[node name="Dash Gem Particle" type="CPUParticles2D"]
+emitting = false
+amount = 5
+lifetime = 0.5
+one_shot = true
+speed_scale = 2.0
+texture = ExtResource("1_bu4go")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+damping_min = 9.028
+damping_max = 30.556
+angle_max = 45.0
+scale_amount_curve = SubResource("Curve_v6yje")
+color = Color(0.3916, 0.499587, 0.89, 1)
+script = ExtResource("2_fedi5")
+
+[node name="Explosion Effect" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_waia4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1dgum")
+}

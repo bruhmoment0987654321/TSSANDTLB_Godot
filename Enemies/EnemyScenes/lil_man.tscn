@@ -8,7 +8,7 @@
 [ext_resource type="Shader" path="res://Visual/Shaders/flash.gdshader" id="3_cn2b8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s2sje"]
-size = Vector2(29, 34)
+size = Vector2(23, 28)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ppi4r"]
 resource_local_to_scene = true
@@ -76,7 +76,7 @@ min_launch_x = -500
 [node name="EnemyArea" parent="." instance=ExtResource("2_x0qu0")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(-0.5, -15)
+position = Vector2(-0.5, -14)
 shape = SubResource("RectangleShape2D_s2sje")
 debug_color = Color(0, 0.632367, 0.452254, 0.42)
 
@@ -108,8 +108,8 @@ target_position = Vector2(13, 0)
 [node name="Flash Timer" type="Timer" parent="."]
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-3.57628e-07, -14.5)
-scale = Vector2(1.3, 1.55)
+position = Vector2(-3.57628e-07, -15)
+scale = Vector2(1.3, 1.5)
 
 [node name="Death Timer" type="Timer" parent="."]
 one_shot = true

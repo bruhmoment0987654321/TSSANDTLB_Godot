@@ -21,9 +21,9 @@ func _ready() -> void:
 	c_a_t.print_message("on the asset store. Makes life so much easier.")
 	
 	c_a_t.register_command("print",_print)
-	c_a_t.register_command("no_clip",no_clip,false)
 	c_a_t.register_command("spawn_enemy",spawn_enemy)
 	c_a_t.register_command("enter_level",change_level)
+	c_a_t.register_command("no_clip",no_clip,false)
 	c_a_t._on_text_input_line_text_submitted("/help")
 	
 	dir_contents(sewer_level_dir)
@@ -111,6 +111,8 @@ func create_the_enemy(enemy_name : String,file_name,position):
 	else:
 		c_a_t.print_message(file_name.get_basename() + " doesn't exist as an Scene")
 		c_a_t.print_message("The dev needs to change the file name or find the the right place for the enemy. IDK")
+
+
 
 func dir_contents(path):
 	var dir = DirAccess.open(path)

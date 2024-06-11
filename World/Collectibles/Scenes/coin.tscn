@@ -46,6 +46,7 @@ radius = 8.0
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_i2afx")
+wave_speed = 0.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_neg48")

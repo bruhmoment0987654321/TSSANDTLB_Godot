@@ -1,19 +1,26 @@
 extends CharacterBody2D
 
+signal _grounded_updated(is_grounded)
+
 #putting other nodes in variables 
 @onready var sprite = $Slime
-@onready var dash_particles = $DashParticles
-@onready var cam = $"../Cam"
-@onready var landing_particle = $"Landing Particle"
+#particles
+@onready var death_animation = $"Particles/Death Animation"
+@onready var dash_particles = $Particles/"Dash Particles"
+@onready var landing_particle = $"Particles/Landing Particle"
+#collision boxes
 @onready var collider = $Collider
-@onready var enemy_collider = $EnemyDetector/CollisionShape2D
-@onready var hitbox = $HazardDetector/Hitbox
+@onready var enemy_collider = $"Other Collisions/EnemyDetector/CollisionShape2D"
+@onready var hitbox = $"Other Collisions/HazardDetector/Hitbox"
+#timers
 @onready var jump_dash_timer = $Timers/JumpDashTimer
 @onready var jump_buffer_timer = $Timers/JumpBufferTimer
 @onready var coyote_jump_timer = $Timers/CoyoteJumpTimer
 @onready var dash_timer = $Timers/DashTimer
 @onready var death_timer = $"Timers/Death Timer"
-@onready var death_animation = $"Death Animation"
+#others
+@onready var cam = $"../Cam"
+
 
 #getting position for spawn point
 @onready var spawn_position = global_position
@@ -102,6 +109,8 @@ var dash_direction = Vector2() #get direciton we'll dash in
 var dash_energy = 0
 var dashsp = 0
 
+var is_grounded
+
 func _ready():
 	Global.dash_amount = max_dash_amount
 
@@ -113,15 +122,21 @@ func _physics_process(delta):
 		apply_gravity(delta)
 		handle_jump()
 		handle_dash()
+		
+		var was_grounded = is_grounded
+		is_grounded = is_on_floor()
+		if was_grounded == null || is_grounded != was_grounded:
+			emit_signal("grounded_updated",is_grounded)
+		
 		jump_dashing()
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
 		update_animation(input_axis,delta)
-		var was_on_floor = is_on_floor()
+		var was_on_floor_coyote = is_on_floor()
 		move_and_slide()
-		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
+		var just_left_ledge = was_on_floor_coyote and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
 			coyote_jump_timer.start(movement_data.coyote_time)
 	if player_state == STATE.DASH:
@@ -196,14 +211,9 @@ func ending_dash():
 
 func handle_acceleration(input_axis,delta):
 	var _walk_multiplied = 1
-	if Input.is_action_pressed("run"):
-		_walk_multiplied = movement_data.run_multiplier
 	
 	if Input.is_action_pressed("down"):
-		if Input.is_action_pressed("run"):
-			_walk_multiplied = 1
-		else:
-			_walk_multiplied = movement_data.duck_walk_speed_mutiplied
+		_walk_multiplied = movement_data.duck_walk_speed_mutiplied
 	
 	if input_axis: #if direction != 0
 		if after_jump_dash: 
@@ -236,8 +246,8 @@ func jump_dashing():
 			jump_dash = false
 			after_jump_dash = true
 	else:
-		dash_particles.emitting = false
 		if is_on_floor():
+			dash_particles.emitting = false
 			after_jump_dash = false
 
 func update_animation(input_axis,delta):
