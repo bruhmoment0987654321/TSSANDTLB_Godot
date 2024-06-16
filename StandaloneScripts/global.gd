@@ -6,6 +6,7 @@ var coins = 0
 var dash_amount = 0
 var ammo = 0
 var death_count = 0
+var sign_coin_total = 0
 
 static func chance(percent_num):
 	return percent_num > randf()

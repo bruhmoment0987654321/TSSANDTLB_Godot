@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c3h8u55rgcwii"]
+[gd_scene load_steps=13 format=3 uid="uid://c3h8u55rgcwii"]
 
 [ext_resource type="Script" path="res://World/Levels/SewerTemplate/world1.gd" id="1_2v6sp"]
 [ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="2_ptlux"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dqp7adj2rft5s" path="res://World/Sprites/Slime_coin.png" id="5_1fnjh"]
 [ext_resource type="Script" path="res://World/UI/Scenes/DeathCount.gd" id="5_bewyu"]
 [ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="6_1d8nb"]
+[ext_resource type="Script" path="res://World/Levels/SewerTemplate/sign_coin_count.gd" id="6_edfu4"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/UI/Scenes/level_completed.tscn" id="6_fmkl4"]
+[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Sprites/sign_sprite.tres" id="7_txuws"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="10_pibks"]
 [ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Levels/SewerTemplate/section_1_tile_map.tscn" id="10_yeo8e"]
 
@@ -22,6 +24,7 @@ script = ExtResource("3_cc1s0")
 
 [node name="AmmoBar" type="ProgressBar" parent="GUI"]
 visible = false
+texture_filter = 1
 offset_left = 16.0
 offset_top = 64.0
 offset_right = 56.0
@@ -31,32 +34,52 @@ fill_mode = 3
 script = ExtResource("4_4v5u8")
 
 [node name="SkullTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(27, 336)
+position = Vector2(16, 52)
+scale = Vector2(2, 2)
 texture = ExtResource("2_ptlux")
 
-[node name="LevelCompleted" parent="GUI" instance=ExtResource("6_fmkl4")]
-visible = false
+[node name="Sign Coin Count" type="Label" parent="GUI"]
+texture_filter = 1
+offset_left = 64.0
+offset_top = 91.0
+offset_right = 104.0
+offset_bottom = 128.0
+text = "X"
+script = ExtResource("6_edfu4")
+
+[node name="Sign Coin" type="AnimatedSprite2D" parent="GUI"]
+position = Vector2(32, 104)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("7_txuws")
+frame_progress = 0.169172
 
 [node name="CoinTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(24, 26)
+position = Vector2(16, 22)
 scale = Vector2(2, 2)
 texture = ExtResource("5_1fnjh")
 hframes = 4
 
 [node name="DeathCount" type="Label" parent="GUI"]
+texture_filter = 1
 clip_contents = true
-offset_left = 48.0
-offset_top = 323.0
-offset_right = 96.0
-offset_bottom = 360.0
+offset_left = 33.0
+offset_top = 38.0
+offset_right = 81.0
+offset_bottom = 75.0
 size_flags_horizontal = 0
+text = "X"
 script = ExtResource("5_bewyu")
 
 [node name="Coins" type="Label" parent="GUI"]
-offset_left = 46.0
-offset_top = 11.0
-offset_right = 86.0
-offset_bottom = 48.0
+texture_filter = 1
+offset_left = 33.0
+offset_top = 8.0
+offset_right = 73.0
+offset_bottom = 45.0
+text = "X"
 script = ExtResource("6_1d8nb")
+
+[node name="LevelCompleted" parent="GUI" instance=ExtResource("6_fmkl4")]
+visible = false
 
 [node name="Section1TileMap" parent="." instance=ExtResource("10_yeo8e")]

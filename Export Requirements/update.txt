@@ -17,7 +17,7 @@ Version 0.3.7
 - Added a Developer Console (Thank you KeilainMan) and some commands created for my game. I won't say how to access it though...
 - Some more secrets added >:]
 
-Version 0.3.8
+Version 0.4
 
 - Added more commands into the Developer Console
 - Made console close with the key to open it (still won't say)
@@ -27,10 +27,17 @@ Version 0.3.8
 - Added rotational shaking to the screenshake effect
 - Added camera drag margins when moving left, right, up and down
 - Made Lil Man hitbox smaller
-- Made Bat hitbox smaller
+- Made Bat hitbox smaller and configured it a bit more to fit it's unique shape
 - Changed particle effect on slime
 - Added visual effects for dash gem. 
+- Smoother camera
+- Added a camera influence for some cinematic shots in levels(wow!)
 - Removed the run from slime and boy (NOOO!!!!!) since it never had any use case.
-- Probably add an extra effect for the jump-dash
+- Added a bit of a ledge push or slime and player
+- Changed level layout of Boy tutorial
+- Changed UI layout 
+- Made it so you go back in the main menu after you finish playing with the slime and the boy
+- Added new Sign Coins (woohoo)
+- Added a checkpoint of where you last stood when you died.
+
 - Probably add a timer or a speed mode.
-- Try adding a checkpoint of where you last stood when you died.

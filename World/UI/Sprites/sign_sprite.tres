@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://c8v5nlkt3gc"]
+
+[ext_resource type="Texture2D" uid="uid://cg15mkrmesoej" path="res://World/Sprites/Sign_coins.png" id="1_ngggk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4xfw"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(0, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1k7p"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(28, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmr6c"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(56, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gokxa"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(84, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glf86"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(112, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ga2k1"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(140, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_foqdr"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(168, 0, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l67i4"]
+atlas = ExtResource("1_ngggk")
+region = Rect2(196, 0, 28, 28)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 60.0,
+"texture": SubResource("AtlasTexture_h4xfw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1k7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmr6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gokxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glf86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ga2k1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_foqdr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l67i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4xfw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]

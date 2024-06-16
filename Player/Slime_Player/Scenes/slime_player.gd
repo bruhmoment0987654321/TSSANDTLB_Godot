@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-signal _grounded_updated(is_grounded)
-
 #putting other nodes in variables 
 @onready var sprite = $Slime
 #particles
@@ -13,19 +11,28 @@ signal _grounded_updated(is_grounded)
 @onready var enemy_collider = $"Other Collisions/EnemyDetector/CollisionShape2D"
 @onready var hitbox = $"Other Collisions/HazardDetector/Hitbox"
 #timers
-@onready var jump_dash_timer = $Timers/JumpDashTimer
-@onready var jump_buffer_timer = $Timers/JumpBufferTimer
-@onready var coyote_jump_timer = $Timers/CoyoteJumpTimer
-@onready var dash_timer = $Timers/DashTimer
+@onready var jump_dash_timer = $"Timers/Jump Dash Timer"
+@onready var jump_buffer_timer = $"Timers/Jump Buffer Timer"
+@onready var coyote_jump_timer = $"Timers/Coyote Jump Timer"
+@onready var dash_timer = $"Timers/Dash Timer"
 @onready var death_timer = $"Timers/Death Timer"
+#ledge pushing raycast
+@onready var pushing_right_raycast = $"Ledge Pushing/Pushing Right Raycast"
+@onready var pushing_right_raycast_2 = $"Ledge Pushing/Pushing Right Raycast2"
+@onready var pushing_left_raycast = $"Ledge Pushing/Pushing Left Raycast"
+@onready var pushing_left_raycast_2 = $"Ledge Pushing/Pushing Left Raycast2"
+
 #others
 @onready var cam = $"../Cam"
+@onready var player_position = $"Player Position"
 
 
 #getting position for spawn point
 @onready var spawn_position = global_position
 
-@export_group("Movement Data")
+var prev_spawn_position = Vector2(0,0)
+
+@export_group("Movement")
 ##This is where you place the movement data for the player. The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
@@ -98,6 +105,9 @@ var after_jump_dash = false
 @export var death_hit_stop_duration = 1.0
 @export var death_zoom_amount = Vector2(2,2)
 
+var checkpoint_has_reset = false
+var stop_checking_checkpoints = false
+
 @export_group("CHEATS")
 ##speed for no_clip movement
 @export var no_clip_speed = 100
@@ -109,36 +119,34 @@ var dash_direction = Vector2() #get direciton we'll dash in
 var dash_energy = 0
 var dashsp = 0
 
-var is_grounded
-
 func _ready():
 	Global.dash_amount = max_dash_amount
-
+	SignalBus.emit_set_camera_target(self)
 func _physics_process(delta):
 	if player_state == STATE.NORMAL:
 		collider.disabled = false
 		hitbox.disabled = false
 		enemy_collider.disabled = false
+		
 		apply_gravity(delta)
 		handle_jump()
 		handle_dash()
-		
-		var was_grounded = is_grounded
-		is_grounded = is_on_floor()
-		if was_grounded == null || is_grounded != was_grounded:
-			emit_signal("grounded_updated",is_grounded)
-		
 		jump_dashing()
+		
 		var input_axis = Input.get_axis("left", "right")
 		handle_acceleration(input_axis,delta)
 		apply_friction(input_axis,delta)
 		apply_air_resistance(input_axis,delta)
+		ledge_pushing()
 		update_animation(input_axis,delta)
 		var was_on_floor_coyote = is_on_floor()
 		move_and_slide()
+		
 		var just_left_ledge = was_on_floor_coyote and not is_on_floor() and velocity.y >= 0
 		if just_left_ledge:
 			coyote_jump_timer.start(movement_data.coyote_time)
+			
+		checkpoint_reset()
 	if player_state == STATE.DASH:
 		if dash_energy > 0:
 			is_dashing(delta)
@@ -146,6 +154,7 @@ func _physics_process(delta):
 			handle_acceleration(input_axis,delta)
 		else:
 			ending_dash()
+		ledge_pushing()
 		move_and_slide()
 	if player_state == STATE.DEAD:
 		death()
@@ -245,10 +254,21 @@ func jump_dashing():
 		if jump_dash_timer.time_left == 0.0: 
 			jump_dash = false
 			after_jump_dash = true
-	else:
-		if is_on_floor():
+	elif is_on_floor():
 			dash_particles.emitting = false
 			after_jump_dash = false
+
+func ledge_pushing():
+	var to_push_left = pushing_left_raycast.is_colliding() and pushing_left_raycast_2.is_colliding()\
+	and not pushing_right_raycast.is_colliding() and not pushing_right_raycast_2.is_colliding()
+	
+	var to_push_right = not pushing_left_raycast.is_colliding() and not pushing_left_raycast_2.is_colliding()\
+	and pushing_right_raycast.is_colliding() and pushing_right_raycast_2.is_colliding() 
+	
+	if to_push_left:
+		global_position.x -= movement_data.ledge_push_distance
+	elif to_push_right:
+		global_position.x += movement_data.ledge_push_distance
 
 func update_animation(input_axis,delta):
 	match Global.dash_amount:
@@ -295,20 +315,17 @@ func update_animation(input_axis,delta):
 	squash_and_stretch(delta)
 
 func death():
-	enemy_collider.disabled = true
-	collider.disabled = true
 	await death_timer.timeout
 	global_position = spawn_position
 	Global.dash_amount = max_dash_amount
 	player_state = STATE.NORMAL
 	velocity = Vector2(0,0)
-	print(str(global_position.x) + ", " + str(global_position.y))
-	enemy_collider.disabled = true
-	collider.disabled = true
+	stop_checking_checkpoints = false
+	enemy_collider.disabled = false
 
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
-	
+
 func squash_and_stretch(delta):
 	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
 	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
@@ -354,23 +371,27 @@ func move_free():
 	var direction = Input.get_vector("left", "right", "up", "down")
 	velocity = direction * no_clip_speed
 
+func checkpoint_reset():
+	if not stop_checking_checkpoints:
+		if not is_on_floor():
+			checkpoint_has_reset = false
+		elif not checkpoint_has_reset:
+			prev_spawn_position = spawn_position
+			spawn_position = player_position.global_position
+			checkpoint_has_reset = true
+
 func _on_hazard_detector_area_entered(area):
+	stop_checking_checkpoints = true
+	print(str(global_position.x) + ", " + str(global_position.y))
 	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
 func _on_enemy_detector_area_entered(area):
-	if player_state == STATE.DASH or jump_dash:
+	stop_checking_checkpoints = true
+	if player_state == STATE.DASH or jump_dash or after_jump_dash:
 		area.get_parent().dashed()
 		hit_stop(dash_hit_stop_timescale,hit_stop_duration,get_process_delta_time(),hit_stop_camera_zoom)
 	else:
+		spawn_position = prev_spawn_position
+		print(str(global_position.x) + ", " + str(global_position.y))
 		hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
-func _on_checkpoint_detector_area_entered(area):
-	if area.is_in_group("Checkpoint_1"):
-		spawn_position = area.owner.check_point
-		print("Hit Checkpoint_1")
-	if area.is_in_group("Checkpoint_2"):
-		spawn_position = area.owner.check_point_2
-		print("Hit Checkpoint_2")
-	if area.is_in_group("Checkpoint_3"):
-		spawn_position = area.owner.check_point_3
-		print("Hit Checkpoint_3")

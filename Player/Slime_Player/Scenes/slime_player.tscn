@@ -1,7 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=33 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
-[ext_resource type="Resource" uid="uid://bvgn13wbr33ac" path="res://Player/The Boy/DefaultBoyMovementData.tres" id="2_gts6j"]
+[ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_gufv4"]
 [ext_resource type="Texture2D" uid="uid://bds3d8hyhlklg" path="res://Player/Slime_Player/Sprites/Slime_duck_walk.png" id="3_f78iy"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="3_oeigy"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
@@ -169,9 +169,6 @@ size = Vector2(12, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xumxy"]
 size = Vector2(19, 10)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wswn7"]
-radius = 11.0
-
 [node name="Slime_player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
@@ -179,7 +176,7 @@ floor_constant_speed = true
 floor_max_angle = 0.872665
 floor_snap_length = 3.0
 script = ExtResource("1_ku6s6")
-movement_data = ExtResource("2_gts6j")
+movement_data = ExtResource("2_gufv4")
 jump_squish = Vector2(0.5, 1.5)
 landing_squish = Vector2(1.5, 0.5)
 dash_squish_up = Vector2(0.7, 1.3)
@@ -200,9 +197,12 @@ death_hit_stop_duration = 0.6
 death_zoom_amount = Vector2(1.5, 1.5)
 no_clip_speed = 300
 
+[node name="Player Position" type="Marker2D" parent="."]
+
 [node name="Particles" type="Node2D" parent="."]
 
 [node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
+position = Vector2(0, -4)
 
 [node name="Dash Particles" type="CPUParticles2D" parent="Particles"]
 position = Vector2(0, -4)
@@ -237,25 +237,26 @@ z_index = 1
 
 [node name="Timers" type="Node2D" parent="."]
 
-[node name="JumpDashTimer" type="Timer" parent="Timers"]
+[node name="Jump Dash Timer" type="Timer" parent="Timers"]
 wait_time = 0.1
 one_shot = true
 
-[node name="JumpBufferTimer" type="Timer" parent="Timers"]
+[node name="Jump Buffer Timer" type="Timer" parent="Timers"]
 wait_time = 0.1
 one_shot = true
 
-[node name="CoyoteJumpTimer" type="Timer" parent="Timers"]
+[node name="Coyote Jump Timer" type="Timer" parent="Timers"]
 wait_time = 0.1
 one_shot = true
 
-[node name="DashTimer" type="Timer" parent="Timers"]
+[node name="Dash Timer" type="Timer" parent="Timers"]
 one_shot = true
 
 [node name="Death Timer" type="Timer" parent="Timers"]
 one_shot = true
 
 [node name="Other Collisions" type="Node2D" parent="."]
+visible = false
 
 [node name="HazardDetector" type="Area2D" parent="Other Collisions"]
 collision_layer = 0
@@ -275,14 +276,26 @@ position = Vector2(0.5, -5)
 shape = SubResource("RectangleShape2D_xumxy")
 debug_color = Color(0, 0.633445, 0.440378, 0.42)
 
-[node name="CheckpointDetector" type="Area2D" parent="Other Collisions"]
-collision_layer = 0
-collision_mask = 16
+[node name="Ledge Pushing" type="Node2D" parent="."]
+position = Vector2(-7, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Other Collisions/CheckpointDetector"]
-position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_wswn7")
+[node name="Pushing Right Raycast" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(-1, 0)
+target_position = Vector2(0, -11)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Pushing Right Raycast2" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(1, 0)
+target_position = Vector2(0, -11)
+
+[node name="Pushing Left Raycast" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(15, 0)
+target_position = Vector2(0, -11)
+
+[node name="Pushing Left Raycast2" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(13, 0)
+target_position = Vector2(0, -11)
 
 [connection signal="area_entered" from="Other Collisions/HazardDetector" to="." method="_on_hazard_detector_area_entered"]
 [connection signal="area_entered" from="Other Collisions/EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
-[connection signal="area_entered" from="Other Collisions/CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtjs2l1a5aai4"]
+
+[ext_resource type="Texture2D" uid="uid://bm31jhbryh22u" path="res://Visual/Sprites/circle_pixel.png" id="1_7a1j5"]
+
+[node name="Soda Blast Particles" type="CPUParticles2D"]
+emitting = false
+amount = 10
+lifetime = 0.3
+one_shot = true
+speed_scale = 1.3
+texture = ExtResource("1_7a1j5")
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+damping_min = 150.0
+damping_max = 200.0
+color = Color(0.47, 0.34592, 0.1598, 1)

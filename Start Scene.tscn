@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckgy3ptr4ch4j"]
+
+[ext_resource type="Script" path="res://World/UI/start_menu.gd" id="1_hhxen"]
+[ext_resource type="PackedScene" uid="uid://dhxtuepu8j57g" path="res://World/Backgrounds/sewer_background.tscn" id="2_ls5ss"]
+[ext_resource type="Texture2D" uid="uid://3h35mw8rj3ho" path="res://Spr_title.png" id="3_3r6oj"]
+
+[node name="StartScene" type="CanvasLayer" groups=["Start Menu"]]
+script = ExtResource("1_hhxen")
+
+[node name="Slime Button" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 32.0
+offset_top = 176.0
+offset_right = 195.0
+offset_bottom = 219.0
+text = "Play as the Slime
+"
+
+[node name="Boy Button" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 456.0
+offset_top = 176.0
+offset_right = 603.0
+offset_bottom = 219.0
+text = "Play as the Boy"
+
+[node name="Quit Button" type="Button" parent="."]
+offset_left = 256.0
+offset_top = 312.0
+offset_right = 398.0
+offset_bottom = 355.0
+text = "Quit"
+
+[node name="Sewer Background" parent="." instance=ExtResource("2_ls5ss")]
+
+[node name="Title2" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(315, 109)
+texture = ExtResource("3_3r6oj")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(320, 104)
+texture = ExtResource("3_3r6oj")
+
+[node name="Settings Button" type="Button" parent="."]
+visible = false
+offset_left = 248.0
+offset_top = 192.0
+offset_right = 398.0
+offset_bottom = 235.0
+text = "Settings"
+
+[connection signal="pressed" from="Slime Button" to="." method="_on_slime_button_pressed"]
+[connection signal="pressed" from="Boy Button" to="." method="_on_boy_button_pressed"]
+[connection signal="pressed" from="Quit Button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Settings Button" to="." method="_on_settings_button_pressed"]

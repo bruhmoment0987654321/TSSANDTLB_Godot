@@ -8,12 +8,6 @@ extends Node2D
 
 @export var next_level:PackedScene
 
-@export var check_point : Vector2
-
-@export var check_point_2 : Vector2
-
-@export var check_point_3 :Vector2
-
 @export var Background = Color.BLACK 
 func _ready():
 	AudioManager.play_music(music,-80)

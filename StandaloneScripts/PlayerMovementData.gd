@@ -10,3 +10,4 @@ extends Resource
 @export var jump_buffer = 0.1
 @export var coyote_time = 0.1
 @export var duck_walk_speed_mutiplied = 0.3
+@export var ledge_push_distance = 10

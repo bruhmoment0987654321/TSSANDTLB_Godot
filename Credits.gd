@@ -5,6 +5,9 @@ extends Node2D
 
 @export var music = preload("res://Music/Demo-end (By Jake Russel).wav")
 @export var credit_speed = 16
+@export var transition_FX = preload("res://Music/transition.wav")
+@export var start_menu : PackedScene = null
+var fade = false
 var text = "Credits\n\nLevel Design - Me\n\nArt - Me\n\nMusic - Me (besides one song...)\n\n\n"+ str(Global.death_count)+"""
 
 "Sewer Theme" - Me
@@ -34,9 +37,15 @@ func _process(delta):
 		words.position.y -= credit_speed*delta
 		skull.position.y -= credit_speed*delta
 		feedback_button.position.y -= credit_speed*delta
+	if fade:
+		AudioManager.volume_db -= 5
 	if Input.is_action_just_pressed("exit_game"):
-		get_tree().quit()
-
+		AudioManager.play_FX(transition_FX)
+		
+		await LevelTransition.fade_to_black()
+		if LevelTransition.animation_playing():
+			get_tree().change_scene_to_packed(start_menu)
+			LevelTransition.fade_from_black()
 
 func _on_feedback_button_pressed():
 	OS.shell_open("https://forms.gle/c5dz8yyoXRq2pGHM9")

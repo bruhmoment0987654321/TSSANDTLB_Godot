@@ -298,3 +298,4 @@ sources/1 = SubResource("TileSetAtlasSource_gx11f")
 [node name="Section1TileMap" type="TileMap"]
 tile_set = SubResource("TileSet_8c1bq")
 format = 2
+layer_0/name = "Tile"

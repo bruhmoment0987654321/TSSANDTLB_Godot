@@ -272,6 +272,7 @@ libraries = {
 }
 
 [node name="Dialog" type="AcceptDialog" parent="."]
+canvas_item_default_texture_filter = 0
 title = ""
 position = Vector2i(220, 0)
 size = Vector2i(100, 106)

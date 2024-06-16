@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://orra4mbd5s77"]
+[gd_scene load_steps=14 format=3 uid="uid://orra4mbd5s77"]
 
 [ext_resource type="Script" path="res://World/Levels/MindTemplate/moon_world.gd" id="1_js8ri"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_nqh1d"]
@@ -9,62 +9,78 @@
 [ext_resource type="Texture2D" uid="uid://dqp7adj2rft5s" path="res://World/Sprites/Slime_coin.png" id="7_eg5ba"]
 [ext_resource type="Script" path="res://World/UI/Scenes/DeathCount.gd" id="8_jan5b"]
 [ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="9_01wcy"]
+[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Sprites/sign_sprite.tres" id="10_pso8c"]
 [ext_resource type="PackedScene" uid="uid://7jbis82m004x" path="res://World/Levels/MindTemplate/tile_map_moon.tscn" id="10_tjnap"]
+[ext_resource type="Script" path="res://World/Levels/SewerTemplate/sign_coin_count.gd" id="11_1w2dg"]
 [ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="11_i5ltn"]
 
 [node name="World" type="Node2D" groups=["Level"]]
 script = ExtResource("1_js8ri")
 
 [node name="Cam" parent="." instance=ExtResource("2_nqh1d")]
-position = Vector2(0, 8)
+drag_bottom_margin = 0.05
 
 [node name="GUI" type="CanvasLayer" parent="."]
 script = ExtResource("3_hrqqt")
 
 [node name="AmmoBar" type="ProgressBar" parent="GUI"]
-offset_left = 6.0
-offset_top = 40.0
-offset_right = 46.0
-offset_bottom = 272.0
+texture_filter = 1
+offset_left = 17.0
+offset_top = 160.0
+offset_right = 49.0
+offset_bottom = 327.0
 value = 100.0
 fill_mode = 3
 script = ExtResource("4_s3dwm")
 
 [node name="SkullTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(27, 336)
+position = Vector2(18, 51)
+scale = Vector2(2, 2)
 texture = ExtResource("5_8j2y1")
 
 [node name="LevelCompleted" parent="GUI" instance=ExtResource("6_aa57l")]
 visible = false
 
 [node name="CoinTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(24, 26)
+position = Vector2(18, 22)
 scale = Vector2(2, 2)
 texture = ExtResource("7_eg5ba")
 hframes = 4
 
 [node name="DeathCount" type="Label" parent="GUI"]
+texture_filter = 1
 clip_contents = true
-offset_left = 48.0
-offset_top = 323.0
-offset_right = 96.0
-offset_bottom = 360.0
+offset_left = 35.0
+offset_top = 37.0
+offset_right = 83.0
+offset_bottom = 74.0
 size_flags_horizontal = 0
+text = "X"
 script = ExtResource("8_jan5b")
 
 [node name="Coins" type="Label" parent="GUI"]
-offset_left = 46.0
-offset_top = 11.0
-offset_right = 86.0
-offset_bottom = 48.0
+texture_filter = 1
+offset_left = 35.0
+offset_top = 8.0
+offset_right = 75.0
+offset_bottom = 45.0
+text = "X"
 script = ExtResource("9_01wcy")
+
+[node name="Sign Coin" type="AnimatedSprite2D" parent="GUI"]
+position = Vector2(34, 105)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("10_pso8c")
+
+[node name="Sign Coin Count" type="Label" parent="GUI"]
+texture_filter = 1
+offset_left = 66.0
+offset_top = 92.0
+offset_right = 106.0
+offset_bottom = 129.0
+text = "X"
+script = ExtResource("11_1w2dg")
 
 [node name="TileMap Moon" parent="." groups=["Block"] instance=ExtResource("10_tjnap")]
 
 [node name="TheBoy" parent="." instance=ExtResource("11_i5ltn")]
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="TheBoy"]
-position = Vector2(0, 8)
-remote_path = NodePath("../../Cam")
-update_rotation = false
-update_scale = false

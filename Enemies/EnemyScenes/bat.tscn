@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b5cyd4mxixky5"]
+[gd_scene load_steps=16 format=3 uid="uid://b5cyd4mxixky5"]
 
 [ext_resource type="Script" path="res://Enemies/Scripts/bat.gd" id="1_kli3l"]
 [ext_resource type="Texture2D" uid="uid://bj1iyosk3f4l4" path="res://Enemies/Sprites/bat_move.png" id="2_5l48g"]
@@ -58,7 +58,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gjl47"]
-size = Vector2(65, 25)
+size = Vector2(68, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32bdy"]
+size = Vector2(29, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmir5"]
 size = Vector2(37, 19)
@@ -85,9 +88,14 @@ offset = Vector2(0, -15)
 [node name="EnemyArea" parent="." instance=ExtResource("2_y8rsy")]
 
 [node name="Hurtbox" type="CollisionShape2D" parent="EnemyArea"]
-position = Vector2(1.5, -13.5)
+position = Vector2(1, -22)
 shape = SubResource("RectangleShape2D_gjl47")
 debug_color = Color(0.970819, 0, 0.452156, 0.42)
+
+[node name="Hurtbox2" type="CollisionShape2D" parent="EnemyArea"]
+position = Vector2(2.5, -11)
+shape = SubResource("RectangleShape2D_32bdy")
+debug_color = Color(0.970866, 0, 0.451841, 0.42)
 
 [node name="Wall Check3" type="RayCast2D" parent="."]
 position = Vector2(1, -24)
@@ -102,6 +110,7 @@ position = Vector2(1, -6)
 target_position = Vector2(-34, 0)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(2.5, -12.5)
 shape = SubResource("RectangleShape2D_qmir5")
 

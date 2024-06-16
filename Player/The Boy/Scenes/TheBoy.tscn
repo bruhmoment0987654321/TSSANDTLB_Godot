@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="7_26uja"]
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
+[ext_resource type="PackedScene" uid="uid://dtjs2l1a5aai4" path="res://Player/The Boy/Scenes/soda_blast_particles.tscn" id="14_acsdf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
 size = Vector2(14, 28)
@@ -163,9 +164,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32e7g"]
 size = Vector2(8, 23)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tmqrk"]
-radius = 11.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8g7j5"]
 size = Vector2(14, 22)
 
@@ -183,8 +181,17 @@ ammo_used = 25
 hit_stop_time_scale = 0.05
 death_time_amount = 1.0
 
-[node name="Death Animation" parent="." instance=ExtResource("3_ewo57")]
+[node name="Player Position" type="Marker2D" parent="."]
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="Death Animation" parent="Particles" instance=ExtResource("3_ewo57")]
 texture = ExtResource("4_f2fgo")
+
+[node name="Landing Particle" parent="Particles" instance=ExtResource("7_26uja")]
+
+[node name="Soda Blast Particles" parent="Particles" instance=ExtResource("14_acsdf")]
+position = Vector2(0, -9)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)
@@ -194,17 +201,6 @@ shape = SubResource("RectangleShape2D_6grc8")
 sprite_frames = SubResource("SpriteFrames_pnd0j")
 animation = &"idle"
 offset = Vector2(0, -16)
-
-[node name="Landing Particle" parent="." instance=ExtResource("7_26uja")]
-
-[node name="HazardDetector" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
-
-[node name="Hitbox" type="CollisionShape2D" parent="HazardDetector"]
-position = Vector2(0, -12.5)
-shape = SubResource("RectangleShape2D_32e7g")
-debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 
 [node name="Gun" type="Sprite2D" parent="."]
 position = Vector2(0, -9)
@@ -217,19 +213,22 @@ fire_rate = 0.1
 [node name="Marker2D" type="Marker2D" parent="Gun"]
 position = Vector2(-1, 0)
 
-[node name="CheckpointDetector" type="Area2D" parent="."]
+[node name="Collisions" type="Node2D" parent="."]
+
+[node name="HazardDetector" type="Area2D" parent="Collisions"]
 collision_layer = 0
-collision_mask = 16
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CheckpointDetector"]
-position = Vector2(0, -5)
-shape = SubResource("CircleShape2D_tmqrk")
+[node name="Hitbox" type="CollisionShape2D" parent="Collisions/HazardDetector"]
+position = Vector2(0, -12.5)
+shape = SubResource("RectangleShape2D_32e7g")
+debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 
-[node name="EnemyDetector" type="Area2D" parent="."]
+[node name="EnemyDetector" type="Area2D" parent="Collisions"]
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/EnemyDetector"]
 position = Vector2(0, -17)
 shape = SubResource("RectangleShape2D_8g7j5")
 
@@ -252,6 +251,26 @@ one_shot = true
 [node name="Death Timer" type="Timer" parent="Timers"]
 one_shot = true
 
-[connection signal="area_entered" from="HazardDetector" to="." method="_on_hazard_detector_area_entered"]
-[connection signal="area_entered" from="CheckpointDetector" to="." method="_on_checkpoint_detector_area_entered"]
-[connection signal="area_entered" from="EnemyDetector" to="." method="_on_enemy_detector_area_entered"]
+[node name="Ledge Pushing" type="Node2D" parent="."]
+position = Vector2(-7, 0)
+
+[node name="Pushing Right Raycast" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(-1, 0)
+target_position = Vector2(0, -30)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Pushing Right Raycast2" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(1, 0)
+target_position = Vector2(0, -30)
+
+[node name="Pushing Left Raycast" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(15, 0)
+target_position = Vector2(0, -30)
+
+[node name="Pushing Left Raycast2" type="RayCast2D" parent="Ledge Pushing"]
+position = Vector2(13, 0)
+target_position = Vector2(0, -30)
+
+[connection signal="area_entered" from="Collisions/HazardDetector" to="." method="_on_hazard_detector_area_entered"]
+[connection signal="area_entered" from="Collisions/EnemyDetector" to="." method="_on_enemy_detector_area_entered"]

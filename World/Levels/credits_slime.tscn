@@ -11,6 +11,10 @@ script = ExtResource("1_x2h3q")
 credit_speed = 40
 
 [node name="Cam" parent="." instance=ExtResource("2_easci")]
+limit_left = -304
+limit_top = -184
+limit_right = 304
+limit_bottom = 152
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -456.0
@@ -20,6 +24,7 @@ offset_bottom = 312.0
 color = Color(0, 0, 0, 1)
 
 [node name="Words" type="Label" parent="."]
+texture_filter = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -46,6 +51,7 @@ polygon = PackedVector2Array(-280, -208, -288, -176, 280, -176, 280, -208)
 
 [node name="Skull" type="Sprite2D" parent="."]
 position = Vector2(0, 500)
+scale = Vector2(2, 2)
 texture = ExtResource("5_3vp7i")
 
 [node name="Feedback Button" type="Button" parent="."]
@@ -66,6 +72,5 @@ text = "Click for feedback"
 
 [node name="Slime_player" parent="." instance=ExtResource("4_3h1xj")]
 position = Vector2(0, -136)
-dash_distance = 100
 
 [connection signal="pressed" from="Feedback Button" to="." method="_on_feedback_button_pressed"]
