@@ -6,7 +6,7 @@ extends Node2D
 @export var music = preload("res://Music/Demo-end (By Jake Russel).wav")
 @export var credit_speed = 16
 @export var transition_FX = preload("res://Music/transition.wav")
-@export var start_menu : PackedScene = null
+var start_menu = load("res://Start Scene.tscn")
 var fade = false
 var text = "Credits\n\nLevel Design - Me\n\nArt - Me\n\nMusic - Me (besides one song...)\n\n\n"+ str(Global.death_count)+"""
 
