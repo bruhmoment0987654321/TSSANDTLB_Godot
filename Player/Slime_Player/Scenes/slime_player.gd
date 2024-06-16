@@ -5,7 +5,7 @@ extends CharacterBody2D
 #particles
 @onready var dash_particles = $Particles/"Dash Particles"
 @onready var landing_particle = $"Particles/Landing Particle"
-@onready var death_animation = $"CanvasLayer/Death Animation"
+@onready var death_animation = $"Particles/Death Animation"
 
 #collision boxes
 @onready var collider = $Collider
@@ -214,8 +214,8 @@ func is_dashing(delta):
 
 func ending_dash():
 	Global.dash_amount -= 1
-	velocity = Vector2(0,0)
 	dash_particles.emitting = false
+	velocity = Vector2(0,0)
 	if jump_dash:
 		jump_dash_timer.start(jump_dash_time)
 	player_state = STATE.NORMAL

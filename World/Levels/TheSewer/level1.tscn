@@ -467,7 +467,6 @@ position = Vector2(1144, -1456)
 position = Vector2(1192, -2248)
 
 [node name="Fake Tile2" parent="." index="84" instance=ExtResource("14_8faej")]
-visible = false
 position = Vector2(1193, -2320)
 
 [node name="Sprite2D3" type="Polygon2D" parent="Fake Tile2" index="0"]

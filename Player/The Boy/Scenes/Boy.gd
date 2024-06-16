@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var gun = $Gun
 @onready var player_position = $"Player Position"
 #collisions
-@onready var hitbox = $Collisions/HazardDetector/Hitbox
+@onready var hazard_hitbox = $"Collisions/HazardDetector/Hazard Hitbox"
 @onready var enemy_collider = $Collisions/EnemyDetector/CollisionShape2D
 @onready var collider = $Collider
 #timers
@@ -24,8 +24,8 @@ extends CharacterBody2D
 @onready var pushing_right_raycast_2 = $"Ledge Pushing/Pushing Right Raycast2"
 @onready var pushing_left_raycast = $"Ledge Pushing/Pushing Left Raycast"
 @onready var pushing_left_raycast_2 = $"Ledge Pushing/Pushing Left Raycast2"
-
-
+#areas 
+@onready var danger_area = $"Collisions/Danger Area"
 #getting position for spawn point
 @onready var spawn_position = global_position
 
@@ -82,7 +82,7 @@ var gun_jumping = false
 @export var death_zoom_amount = Vector2(1.7,1.7)
 
 var checkpoint_has_reset = false
-
+var stop_checking_checkpoints = false
 @export_group("CHEATS")
 ##speed of no_clip movement
 @export var no_clip_speed = 300
@@ -101,7 +101,7 @@ func _physics_process(delta):
 		Global.ammo = min(Global.ammo + (delta * charge_rate*charge_rate_multiplied), 100.0)
 	if player_state == STATE.NORMAL:
 		collider.disabled = false
-		hitbox.disabled = false
+		hazard_hitbox.disabled = false
 		enemy_collider.disabled = false
 		apply_gravity(delta)
 		handle_jump()
@@ -122,7 +122,7 @@ func _physics_process(delta):
 		death()
 	if player_state == STATE.NO_CLIP:
 		collider.disabled = true
-		hitbox.disabled = true
+		hazard_hitbox.disabled = true
 		enemy_collider.disabled = true
 		move_free()
 		move_and_slide()
@@ -249,11 +249,17 @@ func update_animation(input_axis,delta):
 	squash_and_stretch(delta)
 
 func death():
+	hazard_hitbox.disabled = true
+	enemy_collider.disabled = true
+	
 	await death_timer.timeout
 	global_position = spawn_position
 	player_state = STATE.NORMAL
 	gun.visible = true
-	enemy_collider.disabled = true
+	death_animation.emitting = false
+	stop_checking_checkpoints = false
+	enemy_collider.disabled = false
+	
 	Global.ammo = max_ammo
 	velocity = Vector2(0,0)
 	cam.apply_shake(5)
@@ -297,18 +303,20 @@ func hit_stop(time_scale,duration,delta, zoom_amount = Vector2(1,1), death = fal
 		player_state = STATE.DEAD
 
 func checkpoint_reset():
-	if not is_on_floor():
-		checkpoint_has_reset = false
-	elif not checkpoint_has_reset:
-		prev_spawn_position = spawn_position
-		spawn_position = player_position.global_position
-		checkpoint_has_reset = true
+	if not stop_checking_checkpoints and not danger_area.has_overlapping_areas():
+		if not is_on_floor():
+			checkpoint_has_reset = false
+		elif not checkpoint_has_reset:
+			prev_spawn_position = spawn_position
+			spawn_position = player_position.global_position
+			checkpoint_has_reset = true
 
 func _on_hazard_detector_area_entered(area):
+	stop_checking_checkpoints = true
 	print(str(global_position.x) + ", " + str(global_position.y))
 	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 
 func _on_enemy_detector_area_entered(area):
-	spawn_position = prev_spawn_position
+	stop_checking_checkpoints = true
 	print(str(global_position.x) + ", " + str(global_position.y))
 	hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)

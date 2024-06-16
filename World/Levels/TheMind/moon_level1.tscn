@@ -27,7 +27,7 @@ _data = {
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st1j0"]
-size = Vector2(360, 919)
+size = Vector2(360, 848)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4xxj3"]
 size = Vector2(245.5, 278.75)
@@ -383,7 +383,7 @@ position = Vector2(2144, -712)
 position = Vector2(1750, -265)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Focus Area" index="0"]
-position = Vector2(159, 149.5)
+position = Vector2(159, 185)
 shape = SubResource("RectangleShape2D_st1j0")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Focus Area" index="1"]

@@ -224,8 +224,6 @@ color = Color(0.25, 1, 0.3, 0.780392)
 [node name="Landing Particle" parent="Particles" instance=ExtResource("3_oeigy")]
 
 [node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
-position = Vector2(320, 180)
-emitting = false
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)

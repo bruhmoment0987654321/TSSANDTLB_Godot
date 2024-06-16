@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=35 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
@@ -167,6 +167,9 @@ size = Vector2(8, 23)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8g7j5"]
 size = Vector2(14, 22)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_c3fn6"]
+radius = 112.004
+
 [node name="TheBoy" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
@@ -214,12 +217,13 @@ fire_rate = 0.1
 position = Vector2(-1, 0)
 
 [node name="Collisions" type="Node2D" parent="."]
+visible = false
 
 [node name="HazardDetector" type="Area2D" parent="Collisions"]
 collision_layer = 0
 collision_mask = 4
 
-[node name="Hitbox" type="CollisionShape2D" parent="Collisions/HazardDetector"]
+[node name="Hazard Hitbox" type="CollisionShape2D" parent="Collisions/HazardDetector"]
 position = Vector2(0, -12.5)
 shape = SubResource("RectangleShape2D_32e7g")
 debug_color = Color(0.980392, 0, 0.372549, 0.419608)
@@ -231,6 +235,15 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/EnemyDetector"]
 position = Vector2(0, -17)
 shape = SubResource("RectangleShape2D_8g7j5")
+
+[node name="Danger Area" type="Area2D" parent="Collisions"]
+position = Vector2(0, -4)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/Danger Area"]
+shape = SubResource("CircleShape2D_c3fn6")
+debug_color = Color(0.983126, 0, 0.355917, 0.42)
 
 [node name="Timers" type="Node2D" parent="."]
 

@@ -29,47 +29,58 @@ offset_right = 627.0
 offset_bottom = 219.0
 text = "Play as the Boy"
 
-[node name="Quit Button" type="Button" parent="."]
-offset_left = 245.0
-offset_top = 301.0
-offset_right = 395.0
-offset_bottom = 344.0
-text = "Quit"
-
 [node name="Sewer Background" parent="." instance=ExtResource("2_ls5ss")]
 
 [node name="Title2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(315, 109)
+position = Vector2(321, 91)
 texture = ExtResource("3_3r6oj")
 
 [node name="Title" type="Sprite2D" parent="."]
-position = Vector2(320, 104)
+position = Vector2(326, 86)
 texture = ExtResource("3_3r6oj")
-
-[node name="Settings Button" type="Button" parent="."]
-visible = false
-offset_left = 245.0
-offset_top = 238.0
-offset_right = 395.0
-offset_bottom = 281.0
-text = "Settings"
 
 [node name="Sign Coin" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(256, 172)
+position = Vector2(262, 154)
 texture = ExtResource("6_i315r")
 hframes = 13
 
 [node name="Sign Coin Counter" type="Label" parent="."]
 visible = false
-offset_left = 276.0
-offset_top = 158.0
-offset_right = 396.0
-offset_bottom = 195.0
-text = "Coin Count: 0"
+offset_left = 282.0
+offset_top = 140.0
+offset_right = 422.0
+offset_bottom = 177.0
+text = "Coin Count: 0/0"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.376
+anchor_top = 0.619
+anchor_right = 0.624
+anchor_bottom = 1.0
+offset_left = -0.140015
+offset_top = 0.159988
+offset_right = 0.139984
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Time Mode Button" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Time Attack Mode"
+
+[node name="Settings Button" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
 
 [connection signal="pressed" from="Slime Button" to="." method="_on_slime_button_pressed"]
 [connection signal="pressed" from="Boy Button" to="." method="_on_boy_button_pressed"]
-[connection signal="pressed" from="Quit Button" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="Settings Button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings Button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit Button" to="." method="_on_quit_button_pressed"]

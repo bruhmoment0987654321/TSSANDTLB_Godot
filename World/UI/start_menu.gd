@@ -19,7 +19,9 @@ func _process(delta):
 	
 	if Global.sign_coin_total > 0:
 		sign_coin.visible = true
-		sign_coin_counter = true
+		sign_coin_counter.visible = true
+	
+	sign_coin_counter.text = "Coin Count: " + str(Global.sign_coin_total) + "/" + str(Global.max_sign_coins)
 
 func _on_slime_button_pressed():
 	fade = true

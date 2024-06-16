@@ -8,7 +8,8 @@ extends Node2D
 @export var transition_FX = preload("res://Music/transition.wav")
 var start_menu = load("res://Start Scene.tscn")
 var fade = false
-var text = "Credits\n\nLevel Design - Me\n\nArt - Me\n\nMusic - Me (besides one song...)\n\n\n"+ str(Global.death_count)+"""
+var text = "Credits\n\nLevel Design - Me\n\nArt - Me\n\nMusic - Me (besides one song...)\n\n\n"\
++ " "+ str(Global.death_count)+"""
 
 "Sewer Theme" - Me
 
@@ -24,7 +25,7 @@ Thank you for playing the demo. I hope you had fun.
 Of course, there will be more soon. 
 You just have to wait a bit.
 
-Also, you can press Escape to exit the game."""
+Also, you can press Escape to go back to the main menu."""
 func _ready():
 	AudioManager.play_music(music,-80)
 	words.text = text
