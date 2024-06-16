@@ -1,16 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://xwyp7qg2kyos"]
+[gd_scene load_steps=3 format=3 uid="uid://xwyp7qg2kyos"]
 
 [ext_resource type="Texture2D" uid="uid://csxxpsghevttp" path="res://Player/Slime_Player/Sprites/Slime_death.png" id="1_je073"]
 
+[sub_resource type="Curve" id="Curve_luyui"]
+min_value = 1.0
+max_value = 5.0
+_data = [Vector2(0.00400001, 1.16678), 0.0, 0.0, 0, 0, Vector2(0.072, 3.03706), -0.466872, -0.466872, 0, 0, Vector2(0.192, 4.76802), 13.6625, 13.6625, 0, 0]
+point_count = 3
+
 [node name="Death Animation" type="CPUParticles2D"]
-emitting = false
+z_index = 4096
 amount = 1
-lifetime = 3.0
-one_shot = true
+lifetime = 2.0
 texture = ExtResource("1_je073")
 direction = Vector2(0, -1)
-spread = 20.0
-initial_velocity_min = 300.0
-initial_velocity_max = 500.0
-angular_velocity_min = -180.0
-angular_velocity_max = 180.0
+spread = 10.0
+gravity = Vector2(0, 900)
+initial_velocity_min = 600.0
+initial_velocity_max = 700.0
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+scale_amount_curve = SubResource("Curve_luyui")

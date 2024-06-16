@@ -3,9 +3,10 @@ extends CharacterBody2D
 #putting other nodes in variables 
 @onready var sprite = $Slime
 #particles
-@onready var death_animation = $"Particles/Death Animation"
 @onready var dash_particles = $Particles/"Dash Particles"
 @onready var landing_particle = $"Particles/Landing Particle"
+@onready var death_animation = $"CanvasLayer/Death Animation"
+
 #collision boxes
 @onready var collider = $Collider
 @onready var enemy_collider = $"Other Collisions/EnemyDetector/CollisionShape2D"
@@ -21,7 +22,8 @@ extends CharacterBody2D
 @onready var pushing_right_raycast_2 = $"Ledge Pushing/Pushing Right Raycast2"
 @onready var pushing_left_raycast = $"Ledge Pushing/Pushing Left Raycast"
 @onready var pushing_left_raycast_2 = $"Ledge Pushing/Pushing Left Raycast2"
-
+#areas
+@onready var danger_area = $"Other Collisions/Danger Area"
 #others
 @onready var cam = $"../Cam"
 @onready var player_position = $"Player Position"
@@ -319,6 +321,7 @@ func death():
 	global_position = spawn_position
 	Global.dash_amount = max_dash_amount
 	player_state = STATE.NORMAL
+	death_animation.emitting = false
 	velocity = Vector2(0,0)
 	stop_checking_checkpoints = false
 	enemy_collider.disabled = false
@@ -372,7 +375,7 @@ func move_free():
 	velocity = direction * no_clip_speed
 
 func checkpoint_reset():
-	if not stop_checking_checkpoints:
+	if not stop_checking_checkpoints and not danger_area.has_overlapping_areas():
 		if not is_on_floor():
 			checkpoint_has_reset = false
 		elif not checkpoint_has_reset:
@@ -391,7 +394,6 @@ func _on_enemy_detector_area_entered(area):
 		area.get_parent().dashed()
 		hit_stop(dash_hit_stop_timescale,hit_stop_duration,get_process_delta_time(),hit_stop_camera_zoom)
 	else:
-		spawn_position = prev_spawn_position
 		print(str(global_position.x) + ", " + str(global_position.y))
 		hit_stop(hit_stop_time_scale,1,get_process_delta_time(),death_zoom_amount,true)
 

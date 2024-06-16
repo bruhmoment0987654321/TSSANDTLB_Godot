@@ -1,4 +1,7 @@
 extends CanvasLayer
+@onready var sign_coin = $"Sign Coin"
+@onready var sign_coin_counter = $"Sign Coin Counter"
+
 
 @export var music = preload("res://Music/Title_song.wav")
 @export var transition_FX = preload("res://Music/transition.wav")
@@ -13,6 +16,10 @@ func _ready():
 func _process(delta):
 	if fade:
 		AudioManager.volume_db -= 5
+	
+	if Global.sign_coin_total > 0:
+		sign_coin.visible = true
+		sign_coin_counter = true
 
 func _on_slime_button_pressed():
 	fade = true

@@ -336,7 +336,8 @@ highest_point = -352
 position = Vector2(2496, -784)
 moving_up = true
 speed = 59
-lowest_point = -864
+right_most_point = 0
+lowest_point = -832
 highest_point = -352
 
 [node name="Eyesaw24" parent="." index="20" instance=ExtResource("4_t1lf7")]

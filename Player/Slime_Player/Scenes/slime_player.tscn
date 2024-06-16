@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=34 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
 [ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_gufv4"]
@@ -169,6 +169,9 @@ size = Vector2(12, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xumxy"]
 size = Vector2(19, 10)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ux4ma"]
+radius = 112.004
+
 [node name="Slime_player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 5
@@ -201,9 +204,6 @@ no_clip_speed = 300
 
 [node name="Particles" type="Node2D" parent="."]
 
-[node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
-position = Vector2(0, -4)
-
 [node name="Dash Particles" type="CPUParticles2D" parent="Particles"]
 position = Vector2(0, -4)
 emitting = false
@@ -222,6 +222,10 @@ scale_amount_curve = SubResource("Curve_vvjwj")
 color = Color(0.25, 1, 0.3, 0.780392)
 
 [node name="Landing Particle" parent="Particles" instance=ExtResource("3_oeigy")]
+
+[node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
+position = Vector2(320, 180)
+emitting = false
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
@@ -275,6 +279,15 @@ collision_mask = 8
 position = Vector2(0.5, -5)
 shape = SubResource("RectangleShape2D_xumxy")
 debug_color = Color(0, 0.633445, 0.440378, 0.42)
+
+[node name="Danger Area" type="Area2D" parent="Other Collisions"]
+position = Vector2(0, -4)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Other Collisions/Danger Area"]
+shape = SubResource("CircleShape2D_ux4ma")
+debug_color = Color(0.983126, 0, 0.355917, 0.42)
 
 [node name="Ledge Pushing" type="Node2D" parent="."]
 position = Vector2(-7, 0)
