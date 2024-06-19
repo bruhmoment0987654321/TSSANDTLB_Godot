@@ -92,7 +92,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	Global.ammo = max_ammo
-	SignalBus.emit_set_camera_target(self)
+	Global.emit_set_camera_target(self)
 
 func _physics_process(delta):
 	if not is_on_floor(): 

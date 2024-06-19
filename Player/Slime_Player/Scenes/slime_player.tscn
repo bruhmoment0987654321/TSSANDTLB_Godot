@@ -292,21 +292,21 @@ position = Vector2(-7, 0)
 
 [node name="Pushing Right Raycast" type="RayCast2D" parent="Ledge Pushing"]
 position = Vector2(-1, 0)
-target_position = Vector2(0, -11)
+target_position = Vector2(0, -15)
 collide_with_areas = true
 collide_with_bodies = false
 
 [node name="Pushing Right Raycast2" type="RayCast2D" parent="Ledge Pushing"]
 position = Vector2(1, 0)
-target_position = Vector2(0, -11)
+target_position = Vector2(0, -15)
 
 [node name="Pushing Left Raycast" type="RayCast2D" parent="Ledge Pushing"]
 position = Vector2(15, 0)
-target_position = Vector2(0, -11)
+target_position = Vector2(0, -15)
 
 [node name="Pushing Left Raycast2" type="RayCast2D" parent="Ledge Pushing"]
 position = Vector2(13, 0)
-target_position = Vector2(0, -11)
+target_position = Vector2(0, -15)
 
 [connection signal="area_entered" from="Other Collisions/HazardDetector" to="." method="_on_hazard_detector_area_entered"]
 [connection signal="area_entered" from="Other Collisions/EnemyDetector" to="." method="_on_enemy_detector_area_entered"]

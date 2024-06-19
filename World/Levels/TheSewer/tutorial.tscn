@@ -328,6 +328,8 @@ scale = Vector2(-1, -1)
 
 [node name="Sign Coin" parent="." index="83" instance=ExtResource("15_qymdj")]
 position = Vector2(1104, -480)
+sign_coin_name = "sewertut_1"
 
 [node name="Sign Coin2" parent="." index="84" instance=ExtResource("15_qymdj")]
 position = Vector2(1600, -288)
+sign_coin_name = "sewertut_2"

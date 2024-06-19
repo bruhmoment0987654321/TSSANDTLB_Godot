@@ -921,6 +921,7 @@ shape = SubResource("RectangleShape2D_p5l8w")
 
 [node name="Sign Coin" parent="." index="201" instance=ExtResource("13_yupb6")]
 position = Vector2(2976, -512)
+sign_coin_name = "sewer2_1"
 
 [node name="Fake Tile" parent="." index="202" instance=ExtResource("14_4honl")]
 position = Vector2(2552, -648)

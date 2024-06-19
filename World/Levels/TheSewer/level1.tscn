@@ -462,9 +462,11 @@ position = Vector2(1120, -1408)
 
 [node name="Sign Coin" parent="." index="82" instance=ExtResource("15_kgk46")]
 position = Vector2(1144, -1456)
+sign_coin_name = "sewer1_1"
 
 [node name="Sign Coin2" parent="." index="83" instance=ExtResource("15_kgk46")]
 position = Vector2(1192, -2248)
+sign_coin_name = "sewer1_2"
 
 [node name="Fake Tile2" parent="." index="84" instance=ExtResource("14_8faej")]
 position = Vector2(1193, -2320)

@@ -215,6 +215,7 @@ position = Vector2(1704, -728)
 
 [node name="Sign Coin" parent="." index="27" instance=ExtResource("12_jyk3x")]
 position = Vector2(1440, -760)
+sign_coin_name = "boytut_1"
 
 [node name="Fake Tile 2" parent="." index="28" instance=ExtResource("11_sdl32")]
 position = Vector2(1600, -744)

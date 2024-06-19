@@ -399,3 +399,4 @@ shape = SubResource("RectangleShape2D_kx5i7")
 
 [node name="Sign Coin" parent="." index="101" instance=ExtResource("13_t1ju4")]
 position = Vector2(2169, -232)
+sign_coin_name = "moon_1"

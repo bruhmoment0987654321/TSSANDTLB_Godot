@@ -123,7 +123,7 @@ var dashsp = 0
 
 func _ready():
 	Global.dash_amount = max_dash_amount
-	SignalBus.emit_set_camera_target(self)
+	Global.emit_set_camera_target(self)
 func _physics_process(delta):
 	if player_state == STATE.NORMAL:
 		collider.disabled = false
