@@ -1,0 +1,186 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3514urg4ncu0"]
+
+[ext_resource type="Script" path="res://World/UI/Scenes/video.gd" id="1_phjs8"]
+[ext_resource type="Theme" uid="uid://bxvqc1s25w2x7" path="res://World/UI/Themes & Sprites/menu_text.tres" id="1_uwy80"]
+[ext_resource type="Script" path="res://World/UI/Scenes/Back Button.gd" id="3_5danh"]
+[ext_resource type="Script" path="res://World/UI/Scenes/Audio.gd" id="3_rm6yx"]
+
+[node name="Main Menu" type="CanvasLayer"]
+
+[node name="Settings" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Settings Tab Holder" type="TabContainer" parent="Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Video" type="TabBar" parent="Settings/Settings Tab Holder"]
+layout_mode = 2
+script = ExtResource("1_phjs8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Settings/Settings Tab Holder/Video"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/Settings Tab Holder/Video/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+
+[node name="Fullscreen" type="Label" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "Fullscreen"
+
+[node name="Borderless" type="Label" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "Borderless"
+
+[node name="Vsync" type="Label" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "Vsync
+"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Settings/Settings Tab Holder/Video/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 31
+
+[node name="Fullscreen Button" type="CheckBox" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Borderless Button" type="CheckBox" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Vsync Button" type="OptionButton" parent="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/h_separation = -6
+item_count = 4
+selected = 1
+popup/item_0/text = "Disabled"
+popup/item_0/id = 0
+popup/item_1/text = "Enabled"
+popup/item_1/id = 1
+popup/item_2/text = "Adaptive"
+popup/item_2/id = 2
+popup/item_3/text = "Mailbox"
+popup/item_3/id = 3
+
+[node name="Back Button" type="Button" parent="Settings/Settings Tab Holder/Video"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -43.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Back"
+script = ExtResource("3_5danh")
+
+[node name="Audio" type="TabBar" parent="Settings/Settings Tab Holder"]
+visible = false
+layout_mode = 2
+script = ExtResource("3_rm6yx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Settings/Settings Tab Holder/Audio"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -59.5
+offset_right = 32.0
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/Settings Tab Holder/Audio/HBoxContainer"]
+layout_mode = 2
+
+[node name="Master" type="Label" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "Master
+"
+
+[node name="Music" type="Label" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "Music
+"
+
+[node name="SFX" type="Label" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_uwy80")
+text = "SFX
+"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Settings/Settings Tab Holder/Audio/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="Master" type="HSlider" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="Music" type="HSlider" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SFX" type="HSlider" parent="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[connection signal="toggled" from="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2/Fullscreen Button" to="Settings/Settings Tab Holder/Video" method="_on_fullscreen_button_toggled"]
+[connection signal="toggled" from="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2/Borderless Button" to="Settings/Settings Tab Holder/Video" method="_on_borderless_button_toggled"]
+[connection signal="item_selected" from="Settings/Settings Tab Holder/Video/HBoxContainer/VBoxContainer2/Vsync Button" to="Settings/Settings Tab Holder/Video" method="_on_vsync_button_item_selected"]
+[connection signal="pressed" from="Settings/Settings Tab Holder/Video/Back Button" to="Settings/Settings Tab Holder/Video/Back Button" method="_on_pressed"]
+[connection signal="value_changed" from="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2/Master" to="Settings/Settings Tab Holder/Audio" method="_on_master_value_changed"]
+[connection signal="value_changed" from="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2/Music" to="Settings/Settings Tab Holder/Audio" method="_on_music_value_changed"]
+[connection signal="value_changed" from="Settings/Settings Tab Holder/Audio/HBoxContainer/VBoxContainer2/SFX" to="Settings/Settings Tab Holder/Audio" method="_on_sfx_value_changed"]

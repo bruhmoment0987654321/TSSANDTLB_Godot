@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
 #other
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite = $Sprite
+@onready var accesory = $Accesory
 @onready var cam = $"../Cam"
 @onready var gun = $Gun
-@onready var player_position = $"Player Position"
+@onready var player_position = $"Positions/Player Position"
 #collisions
 @onready var hazard_hitbox = $"Collisions/HazardDetector/Hazard Hitbox"
 @onready var enemy_collider = $Collisions/EnemyDetector/CollisionShape2D
@@ -19,6 +20,7 @@ extends CharacterBody2D
 @onready var soda_blast_particles = $"Particles/Soda Blast Particles"
 @onready var death_animation = $"Particles/Death Animation"
 @onready var landing_particle = $"Particles/Landing Particle"
+@onready var accesory_death_animation = $"Particles/Accesory Death Animation"
 #ledge pushing raycast
 @onready var pushing_right_raycast = $"Ledge Pushing/Pushing Right Raycast"
 @onready var pushing_right_raycast_2 = $"Ledge Pushing/Pushing Right Raycast2"
@@ -30,29 +32,12 @@ extends CharacterBody2D
 @onready var spawn_position = global_position
 
 var prev_spawn_position = Vector2(0,0)
-
-##This is where you place the movement data for the player, The variables are pretty self-explanitory
+@export_group("Movement")
+##This is where you place the movement data for the player, 
+##The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
-enum STATE{NORMAL,GUN,DEAD,NO_CLIP,}
-
-var player_state = STATE.NORMAL
-
-@export_group("Visuals")
-@export var squish_speed = 3
-@export var jump_squish : Vector2 = Vector2(0.7,1.3)
-@export var landing_squish : Vector2 = Vector2(1.3,0.7)
-@export var shoot_squish : Vector2 = Vector2(0.6,1.4)
-@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
-@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
-
-@export_group("Sound FX")
-@export var shoot_sound_FX = preload("res://Music/shoot.wav")
-
-#squash and stretch
-var was_airborne = false
-
-@export_group("Shooting")
+@export_subgroup("Shooting")
 ##the distance the player will be shot back at whenever shooting
 @export var launch_power = 1000
 ##the original launch power when the ammo_used is less than the amount you have.
@@ -72,10 +57,34 @@ var was_airborne = false
 
 #checking if you are in the gun_jump state
 var gun_jumping = false
+enum STATE{NORMAL,GUN,DEAD,NO_CLIP,}
 
-@export_group("Hit Stop")
+var player_state = STATE.NORMAL
+
+@export_group("Visuals")
+
+@export_subgroup("SQUISHuals")
+@export var squish_speed = 3
+@export var jump_squish : Vector2 = Vector2(0.7,1.3)
+@export var landing_squish : Vector2 = Vector2(1.3,0.7)
+@export var shoot_squish : Vector2 = Vector2(0.6,1.4)
+@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
+@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
+
+#squash and stretch
+var was_airborne = false
+
+@export_subgroup("Accesories")
+@export_file("*.tres","*.res") var equipped_accesory : String = ""
+@export_file("*.png") var accesory_on_death : String = ""
+
+
+@export_subgroup("Hit Stop")
 @export var hit_scale_zoom_speed = 0.5
 @export var hit_stop_time_scale = 0.5
+
+@export_group("Sound FX")
+@export var shoot_sound_FX = preload("res://Music/shoot.wav")
 
 @export_group("Death")
 @export var death_time_amount = 2.0
@@ -83,6 +92,7 @@ var gun_jumping = false
 
 var checkpoint_has_reset = false
 var stop_checking_checkpoints = false
+
 @export_group("CHEATS")
 ##speed of no_clip movement
 @export var no_clip_speed = 300
@@ -93,6 +103,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	Global.ammo = max_ammo
 	Global.emit_set_camera_target(self)
+	if equipped_accesory != "":
+		accesory.sprite_frames = load(equipped_accesory)
+	if accesory_on_death != "":
+		accesory_death_animation.texture = load(accesory_on_death)
 
 func _physics_process(delta):
 	if not is_on_floor(): 
@@ -220,16 +234,20 @@ func update_animation(input_axis,delta):
 			turn_squishy(landing_squish.x,landing_squish.y)
 			#landing particle
 			landing_particle.emitting = true
+			
 	else:
 		landing_particle.emitting = false
 		was_airborne = true
 	
 	if input_axis:
 		sprite.flip_h = (input_axis < 0)
+		accesory.flip_h = (input_axis < 0)
 		if Input.is_action_pressed("down"):
 			sprite.play("duck_walk")
+			accesory.play("duck_walk")
 		else:
 			sprite.play("walk")
+			accesory.play("walk")
 	else:
 		if is_on_floor():
 			if Input.is_action_just_pressed("down"):
@@ -238,14 +256,18 @@ func update_animation(input_axis,delta):
 				turn_squishy(duck_squish_release.x,duck_squish_release.y)
 			if Input.is_action_pressed("down"):
 				sprite.play("SQUISH")
+				accesory.play("SQUISH")
 			else:
 				sprite.play("idle")
+				accesory.play("idle")
 	
 	if not is_on_floor():
 		if velocity.y < 0:
 			sprite.play("jump")
+			accesory.play("jump")
 		else:
 			sprite.play("fall")
+			accesory.play("fall")
 	squash_and_stretch(delta)
 
 func death():
@@ -257,9 +279,9 @@ func death():
 	player_state = STATE.NORMAL
 	gun.visible = true
 	death_animation.emitting = false
+	accesory_death_animation.emitting = false
 	stop_checking_checkpoints = false
 	enemy_collider.disabled = false
-	
 	Global.ammo = max_ammo
 	velocity = Vector2(0,0)
 	cam.apply_shake(5)
@@ -267,10 +289,13 @@ func death():
 
 func turn_squishy(x,y):
 	sprite.scale = Vector2(x,y)
+	accesory.scale = Vector2(x,y)
 
 func squash_and_stretch(delta):
 	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
 	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
+	accesory.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
+	accesory.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
 
 func no_clip():
 	if player_state != STATE.NO_CLIP:
@@ -294,10 +319,13 @@ func hit_stop(time_scale,duration,delta, zoom_amount = Vector2(1,1), death = fal
 	cam.zoom.y = move_toward(1,zoom_amount.y,hit_scale_zoom_speed*delta)
 	
 	if death:
+		if accesory_death_animation.texture != null:
+			accesory_death_animation.emitting = true
 		death_timer.start(death_time_amount)
 		death_animation.emitting = true
 		cam.apply_shake(5)
 		sprite.play("death")
+		accesory.play("death")
 		gun.visible = false
 		Global.death_count += 1
 		player_state = STATE.DEAD

@@ -1,19 +1,73 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckgy3ptr4ch4j"]
+[gd_scene load_steps=10 format=3 uid="uid://ckgy3ptr4ch4j"]
 
 [ext_resource type="Script" path="res://World/UI/start_menu.gd" id="1_hhxen"]
 [ext_resource type="PackedScene" uid="uid://djmcohicqqy8c" path="res://World/Levels/TheSewer/tutorial.tscn" id="2_btine"]
 [ext_resource type="PackedScene" uid="uid://dhxtuepu8j57g" path="res://World/Backgrounds/sewer_background.tscn" id="2_ls5ss"]
 [ext_resource type="Texture2D" uid="uid://3h35mw8rj3ho" path="res://Spr_title.png" id="3_3r6oj"]
 [ext_resource type="PackedScene" uid="uid://de8v6rl72fvre" path="res://World/Levels/TheMind/tutorial_boy.tscn" id="3_7jsu1"]
+[ext_resource type="PackedScene" uid="uid://d3514urg4ncu0" path="res://World/UI/Scenes/main_menu.tscn" id="6_3oq8w"]
 [ext_resource type="Texture2D" uid="uid://cg15mkrmesoej" path="res://World/Sprites/Sign_coins.png" id="6_i315r"]
+[ext_resource type="LabelSettings" uid="uid://c0hsopgep3ksb" path="res://World/UI/Themes & Sprites/level_GUI_label.tres" id="6_satw4"]
+[ext_resource type="PackedScene" uid="uid://leascihp1wwh" path="res://World/UI/Scenes/customization_menu.tscn" id="9_vxer7"]
 
 [node name="StartScene" type="CanvasLayer" groups=["Start Menu"]]
 script = ExtResource("1_hhxen")
 slime_level = ExtResource("2_btine")
 boy_level = ExtResource("3_7jsu1")
 
-[node name="Slime Button" type="Button" parent="."]
+[node name="Start UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Start UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -79.5
+offset_top = -184.0
+offset_right = 79.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Time Mode Button" type="Button" parent="Start UI/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Time Attack Mode!"
+
+[node name="Customization Button" type="Button" parent="Start UI/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Customization!"
+
+[node name="Settings Button" type="Button" parent="Start UI/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit Button" type="Button" parent="Start UI/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Title2" type="Sprite2D" parent="Start UI"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(311, 91)
+texture = ExtResource("3_3r6oj")
+metadata/_edit_lock_ = true
+
+[node name="Title" type="Sprite2D" parent="Start UI"]
+position = Vector2(316, 86)
+texture = ExtResource("3_3r6oj")
+metadata/_edit_lock_ = true
+
+[node name="Slime Button" type="Button" parent="Start UI"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 13.0
 offset_top = 176.0
 offset_right = 176.0
@@ -21,67 +75,41 @@ offset_bottom = 219.0
 text = "Play as the Slime
 "
 
-[node name="Boy Button" type="Button" parent="."]
+[node name="Boy Button" type="Button" parent="Start UI"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 480.0
 offset_top = 176.0
 offset_right = 627.0
 offset_bottom = 219.0
 text = "Play as the Boy"
 
-[node name="Sewer Background" parent="." instance=ExtResource("2_ls5ss")]
-
-[node name="Title2" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(321, 91)
-texture = ExtResource("3_3r6oj")
-
-[node name="Title" type="Sprite2D" parent="."]
-position = Vector2(326, 86)
-texture = ExtResource("3_3r6oj")
-
-[node name="Sign Coin" type="Sprite2D" parent="."]
+[node name="Sign Coin" type="Sprite2D" parent="Start UI"]
 visible = false
-position = Vector2(262, 154)
+position = Vector2(247, 154)
 texture = ExtResource("6_i315r")
 hframes = 13
 
-[node name="Sign Coin Counter" type="Label" parent="."]
+[node name="Sign Coin Counter" type="Label" parent="Start UI"]
 visible = false
-offset_left = 282.0
+layout_mode = 0
+offset_left = 267.0
 offset_top = 140.0
-offset_right = 422.0
+offset_right = 407.0
 offset_bottom = 177.0
 text = "Coin Count: 0/0"
+label_settings = ExtResource("6_satw4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchors_preset = -1
-anchor_left = 0.376
-anchor_top = 0.619
-anchor_right = 0.624
-anchor_bottom = 1.0
-offset_left = -0.140015
-offset_top = -5.84001
-offset_right = 0.139984
-offset_bottom = -6.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Time Mode Button" type="Button" parent="VBoxContainer"]
+[node name="Customization Menu" parent="Start UI" instance=ExtResource("9_vxer7")]
 visible = false
-layout_mode = 2
-text = "Time Attack Mode"
 
-[node name="Settings Button" type="Button" parent="VBoxContainer"]
+[node name="Main Menu" parent="Start UI" instance=ExtResource("6_3oq8w")]
 visible = false
-layout_mode = 2
-text = "Settings"
 
-[node name="Quit Button" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Quit"
+[node name="Sewer Background" parent="." instance=ExtResource("2_ls5ss")]
 
-[connection signal="pressed" from="Slime Button" to="." method="_on_slime_button_pressed"]
-[connection signal="pressed" from="Boy Button" to="." method="_on_boy_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Settings Button" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Quit Button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Start UI/VBoxContainer/Customization Button" to="." method="_on_customization_button_pressed"]
+[connection signal="pressed" from="Start UI/VBoxContainer/Settings Button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Start UI/VBoxContainer/Quit Button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Start UI/Slime Button" to="." method="_on_slime_button_pressed"]
+[connection signal="pressed" from="Start UI/Boy Button" to="." method="_on_boy_button_pressed"]

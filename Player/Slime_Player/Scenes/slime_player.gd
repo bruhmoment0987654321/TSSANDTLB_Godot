@@ -1,16 +1,18 @@
 extends CharacterBody2D
 
 #putting other nodes in variables 
+#sprites
 @onready var sprite = $Slime
+@onready var accesory = $Accesory
 #particles
 @onready var dash_particles = $Particles/"Dash Particles"
 @onready var landing_particle = $"Particles/Landing Particle"
 @onready var death_animation = $"Particles/Death Animation"
-
+@onready var accesory_death_animation = $"Particles/Accesory Death Animation"
 #collision boxes
 @onready var collider = $Collider
 @onready var enemy_collider = $"Other Collisions/EnemyDetector/CollisionShape2D"
-@onready var hitbox = $"Other Collisions/HazardDetector/Hitbox"
+@onready var hazard_hitbox = $"Other Collisions/HazardDetector/Hitbox"
 #timers
 @onready var jump_dash_timer = $"Timers/Jump Dash Timer"
 @onready var jump_buffer_timer = $"Timers/Jump Buffer Timer"
@@ -26,36 +28,19 @@ extends CharacterBody2D
 @onready var danger_area = $"Other Collisions/Danger Area"
 #others
 @onready var cam = $"../Cam"
-@onready var player_position = $"Player Position"
-
-
-#getting position for spawn point
+@onready var player_position = $"Pointers/Player Position"
 @onready var spawn_position = global_position
+#getting position for spawn point
 
 var prev_spawn_position = Vector2(0,0)
 
 @export_group("Movement")
-##This is where you place the movement data for the player. The variables are pretty self-explanitory
+##This is where you place the movement data for the player. 
+##The variables are pretty self-explanitory
 @export var movement_data : PlayerMovementData
 
-@export_group("Visuals")
-@export var squish_speed = 3
-@export var jump_squish : Vector2 = Vector2(0.7,1.3)
-@export var landing_squish : Vector2 = Vector2(1.3,0.7)
-@export var dash_squish_up : Vector2 = Vector2(0.5,1.5)
-@export var dash_squish_right : Vector2 = Vector2(1.5,0.5)
-@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
-@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
-#squash and stretch
-var was_airborne = false
-
-#slime player state
-enum STATE{NORMAL,DASH,DEAD,NO_CLIP,}
-var player_state = STATE.NORMAL
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 #dash variables
-@export_group("Dashing") 
+@export_subgroup("Dashing") 
 ##having the player dash or not?
 @export var player_dash = true
 ##the distance the dash will go
@@ -67,7 +52,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var dash_sound_FX = preload("res://Music/dash (new).wav")
 
-@export_group("Jump-Dash")
+@export_subgroup("Jump-Dash")
 ##how long the jump dash lasts
 @export var jump_dash_time = 0.1
 ##the distance you go during your jump dash. 
@@ -80,7 +65,18 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_dash_friction_decrease = 1
 var after_jump_dash = false
 
-@export_group("Dash Visuals")
+@export_group("Visuals")
+
+@export_subgroup("SQUISHuals")
+@export var squish_speed = 3
+@export var jump_squish : Vector2 = Vector2(0.7,1.3)
+@export var landing_squish : Vector2 = Vector2(1.3,0.7)
+@export var dash_squish_up : Vector2 = Vector2(0.5,1.5)
+@export var dash_squish_right : Vector2 = Vector2(1.5,0.5)
+@export var duck_squish_press : Vector2 = Vector2(1.8,0.3)
+@export var duck_squish_release : Vector2 = Vector2(0.8,1.2)
+
+@export_subgroup("Dash Visuals")
 ##the color showing there is only one dash left
 @export_color_no_alpha var dash_color_almost_running_out = Color.WHITE
 ##the color that shows there isn't any dash
@@ -92,7 +88,7 @@ var after_jump_dash = false
 ##the speed of time when dashing into an enemy
 @export var dash_hit_stop_timescale = 0.03
 
-@export_group("Hit Stop")
+@export_subgroup("Hit Stop")
 ##duration (in seconds) of the time stop 
 @export var hit_stop_duration = 0.5
 ##the speed of time
@@ -101,6 +97,21 @@ var after_jump_dash = false
 @export var hit_stop_camera_zoom = Vector2(0.5,0.5)
 ##the speed the camera goes when zoomming in
 @export var hit_scale_zoom_speed = 0.1
+
+@export_subgroup("Accesories")
+##the accesory the slime will have. This is connect with the 
+##Accessory node in the slime_player, and it is a .tres file. So do with that
+##as you will.
+@export_file("*.tres","*.res") var equipped_accesory : String = ""
+
+#squash and stretch
+var was_airborne = false
+
+#slime player state
+enum STATE{NORMAL,DASH,DEAD,NO_CLIP,}
+var player_state = STATE.NORMAL
+
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_group("Death")
 @export var death_time_amount = 5.0
@@ -114,6 +125,9 @@ var stop_checking_checkpoints = false
 ##speed for no_clip movement
 @export var no_clip_speed = 100
 
+
+@export var text_speed = 0.1
+
 var jump_dash = false
 var ghost_trail = preload("res://Player/ghost_trail.tscn")
 var dash_time_less = dash_time - 0.01 #used so the dash doesnt happen more than once during dash
@@ -124,10 +138,12 @@ var dashsp = 0
 func _ready():
 	Global.dash_amount = max_dash_amount
 	Global.emit_set_camera_target(self)
+	equip_player()
+
 func _physics_process(delta):
 	if player_state == STATE.NORMAL:
 		collider.disabled = false
-		hitbox.disabled = false
+		hazard_hitbox.disabled = false
 		enemy_collider.disabled = false
 		
 		apply_gravity(delta)
@@ -161,7 +177,7 @@ func _physics_process(delta):
 	if player_state == STATE.DEAD:
 		death()
 	if player_state == STATE.NO_CLIP:
-		hitbox.disabled = true
+		hazard_hitbox.disabled = true
 		enemy_collider.disabled = true
 		collider.disabled = true
 		move_free()
@@ -294,10 +310,15 @@ func update_animation(input_axis,delta):
 	if input_axis :
 		if input_axis:
 			sprite.flip_h = (input_axis < 0)
+			accesory.flip_h = (input_axis < 0)
 		if Input.is_action_pressed("down"):
 			sprite.play("Duck Walk")
+			if not accesory.sprite_frames == null:
+				accesory.play("Duck Walk")
 		else:
 			sprite.play("Walk")
+			if not accesory.sprite_frames == null:
+				accesory.play("Walk")
 	else:
 		if is_on_floor():
 			if Input.is_action_just_pressed("down"):
@@ -306,32 +327,53 @@ func update_animation(input_axis,delta):
 				turn_squishy(duck_squish_release.x,duck_squish_release.y)
 			if Input.is_action_pressed("down"):
 				sprite.play("SQUISH")
+				if not accesory.sprite_frames == null:
+					accesory.play("Duck")
 			else:
 				sprite.play("Idle")
+				if not accesory.sprite_frames == null:
+					accesory.play("Idle")
 	
 	if not is_on_floor():
 		if velocity.y < 0:
 			sprite.play("Jump")
+			if not accesory.sprite_frames == null:
+				accesory.play("Jump")
 		else:
 			sprite.play("Fall")
+			if not accesory.sprite_frames == null:
+				accesory.play("Fall")
 	squash_and_stretch(delta)
 
+func equip_player():
+	equipped_accesory = SaveManager.selected_cosmetic_slime
+	if equipped_accesory != "":
+		accesory.sprite_frames = Global.slime_cosmetics[equipped_accesory]
+		accesory_death_animation.texture = Global.slime_cosmetic_on_death[equipped_accesory]
+
 func death():
+	hazard_hitbox.disabled = true
+	enemy_collider.disabled = true
+	
 	await death_timer.timeout
 	global_position = spawn_position
 	Global.dash_amount = max_dash_amount
 	player_state = STATE.NORMAL
 	death_animation.emitting = false
+	accesory_death_animation.emitting = false
 	velocity = Vector2(0,0)
 	stop_checking_checkpoints = false
 	enemy_collider.disabled = false
 
 func turn_squishy(x,y):
+	accesory.scale = Vector2(x,y)
 	sprite.scale = Vector2(x,y)
 
 func squash_and_stretch(delta):
 	sprite.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
 	sprite.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
+	accesory.scale.x = move_toward(sprite.scale.x,1,squish_speed*delta)
+	accesory.scale.y = move_toward(sprite.scale.y,1,squish_speed*delta)
 
 func get_dir_from_input():
 	var move_dir = Vector2()
@@ -359,8 +401,12 @@ func hit_stop(time_scale,duration,delta, zoom_amount = Vector2(1,1), death = fal
 	if death:
 		death_timer.start(death_time_amount)
 		death_animation.emitting = true
+		if accesory_death_animation.texture != null:
+			accesory_death_animation.emitting = true
 		cam.apply_shake(5)
 		sprite.play("Death")
+		if not accesory.sprite_frames == null:
+			accesory.play("Death")
 		Global.death_count += 1
 		player_state = STATE.DEAD
 

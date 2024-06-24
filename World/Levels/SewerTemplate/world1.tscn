@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3h8u55rgcwii"]
+[gd_scene load_steps=14 format=3 uid="uid://c3h8u55rgcwii"]
 
 [ext_resource type="Script" path="res://World/Levels/SewerTemplate/world1.gd" id="1_2v6sp"]
-[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="2_ptlux"]
+[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Themes & Sprites/GUI_skull.png" id="2_ptlux"]
 [ext_resource type="Script" path="res://World/UI/GUI.gd" id="3_cc1s0"]
 [ext_resource type="Script" path="res://World/UI/AmmoBar.gd" id="4_4v5u8"]
 [ext_resource type="Texture2D" uid="uid://dqp7adj2rft5s" path="res://World/Sprites/Slime_coin.png" id="5_1fnjh"]
@@ -9,7 +9,8 @@
 [ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="6_1d8nb"]
 [ext_resource type="Script" path="res://World/Levels/SewerTemplate/sign_coin_count.gd" id="6_edfu4"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/UI/Scenes/level_completed.tscn" id="6_fmkl4"]
-[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Sprites/sign_sprite.tres" id="7_txuws"]
+[ext_resource type="LabelSettings" uid="uid://c0hsopgep3ksb" path="res://World/UI/Themes & Sprites/level_GUI_label.tres" id="6_nm8il"]
+[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Themes & Sprites/sign_sprite.tres" id="7_txuws"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="10_pibks"]
 [ext_resource type="PackedScene" uid="uid://beuldqkuhbmrx" path="res://World/Levels/SewerTemplate/section_1_tile_map.tscn" id="10_yeo8e"]
 
@@ -34,7 +35,7 @@ fill_mode = 3
 script = ExtResource("4_4v5u8")
 
 [node name="SkullTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(16, 52)
+position = Vector2(16, 56)
 scale = Vector2(2, 2)
 texture = ExtResource("2_ptlux")
 
@@ -43,8 +44,9 @@ texture_filter = 1
 offset_left = 64.0
 offset_top = 91.0
 offset_right = 104.0
-offset_bottom = 128.0
+offset_bottom = 142.0
 text = "X"
+label_settings = ExtResource("6_nm8il")
 script = ExtResource("6_edfu4")
 
 [node name="Sign Coin" type="AnimatedSprite2D" parent="GUI"]
@@ -54,7 +56,7 @@ sprite_frames = ExtResource("7_txuws")
 frame_progress = 0.169172
 
 [node name="CoinTexture" type="Sprite2D" parent="GUI"]
-position = Vector2(16, 22)
+position = Vector2(16, 19)
 scale = Vector2(2, 2)
 texture = ExtResource("5_1fnjh")
 hframes = 4
@@ -63,20 +65,22 @@ hframes = 4
 texture_filter = 1
 clip_contents = true
 offset_left = 33.0
-offset_top = 38.0
+offset_top = 43.0
 offset_right = 81.0
-offset_bottom = 75.0
+offset_bottom = 94.0
 size_flags_horizontal = 0
 text = "X"
+label_settings = ExtResource("6_nm8il")
 script = ExtResource("5_bewyu")
 
 [node name="Coins" type="Label" parent="GUI"]
 texture_filter = 1
 offset_left = 33.0
-offset_top = 8.0
+offset_top = 6.0
 offset_right = 73.0
-offset_bottom = 45.0
+offset_bottom = 57.0
 text = "X"
+label_settings = ExtResource("6_nm8il")
 script = ExtResource("6_1d8nb")
 
 [node name="LevelCompleted" parent="GUI" instance=ExtResource("6_fmkl4")]

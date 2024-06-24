@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=58 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
@@ -6,14 +6,21 @@
 [ext_resource type="PackedScene" uid="uid://xwyp7qg2kyos" path="res://Visual/Scenes/death_animation.tscn" id="3_ewo57"]
 [ext_resource type="Texture2D" uid="uid://h7s0dpdivm64" path="res://Player/The Boy/Sprites/Boy_jump_fall.png" id="3_oocpd"]
 [ext_resource type="Texture2D" uid="uid://ch4clpb6erwt3" path="res://Player/The Boy/Sprites/Boy_duck.png" id="3_sr8s0"]
+[ext_resource type="Script" path="res://Player/Slime_Player/Scenes/Popup Location.gd" id="3_uwova"]
 [ext_resource type="Texture2D" uid="uid://g6xwr3gm8qg5" path="res://Player/The Boy/Sprites/Boy_duck_walk.png" id="4_0kt24"]
+[ext_resource type="PackedScene" uid="uid://c4rx57rre1llf" path="res://Visual/Scenes/floating_text.tscn" id="4_43cxa"]
 [ext_resource type="Texture2D" uid="uid://bc1u17opwn2c1" path="res://Player/The Boy/Sprites/Boy_sad.png" id="4_f2fgo"]
 [ext_resource type="Texture2D" uid="uid://ddkma3r4y1gas" path="res://Player/The Boy/Sprites/Boy_walk.png" id="4_ppebw"]
 [ext_resource type="Texture2D" uid="uid://cf1ia46i4rpg1" path="res://Player/Slime_Player/Sprites/blank.png" id="5_nf1ea"]
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="7_26uja"]
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
+[ext_resource type="Texture2D" uid="uid://skksylfqye5e" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_duck.png" id="13_rq2j2"]
 [ext_resource type="PackedScene" uid="uid://dtjs2l1a5aai4" path="res://Player/The Boy/Scenes/soda_blast_particles.tscn" id="14_acsdf"]
+[ext_resource type="Texture2D" uid="uid://bjufjf57egjy6" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_duck_walk.png" id="14_nfh2w"]
+[ext_resource type="Texture2D" uid="uid://nhyp6k1wa1kg" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_jump_fall.png" id="15_iexn6"]
+[ext_resource type="Texture2D" uid="uid://bto2a4etq2fcc" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_idle.png" id="16_qrumg"]
+[ext_resource type="Texture2D" uid="uid://c1giu6lcaqfkr" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_walk.png" id="17_h2g82"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
 size = Vector2(14, 28)
@@ -161,6 +168,149 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xh8o"]
+atlas = ExtResource("13_rq2j2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky0xm"]
+atlas = ExtResource("5_nf1ea")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87q1t"]
+atlas = ExtResource("14_nfh2w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q6kp"]
+atlas = ExtResource("14_nfh2w")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nm83"]
+atlas = ExtResource("14_nfh2w")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ikf4"]
+atlas = ExtResource("15_iexn6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pogg8"]
+atlas = ExtResource("16_qrumg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wwrl"]
+atlas = ExtResource("16_qrumg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wm73f"]
+atlas = ExtResource("16_qrumg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qbb3"]
+atlas = ExtResource("16_qrumg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6yfy"]
+atlas = ExtResource("15_iexn6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdcjv"]
+atlas = ExtResource("17_h2g82")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cicdk"]
+atlas = ExtResource("17_h2g82")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnb2d"]
+atlas = ExtResource("17_h2g82")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qa7j"]
+atlas = ExtResource("17_h2g82")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8rae3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xh8o")
+}],
+"loop": true,
+"name": &"SQUISH",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky0xm")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87q1t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q6kp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nm83")
+}],
+"loop": true,
+"name": &"duck_walk",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ikf4")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pogg8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wwrl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wm73f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qbb3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6yfy")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdcjv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cicdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnb2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qa7j")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32e7g"]
 size = Vector2(8, 23)
 
@@ -175,18 +325,29 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_7tlbh")
 movement_data = ExtResource("2_ji7om")
-duck_squish_press = Vector2(1.4, 0.6)
 launch_power = 300
 launch_power_decrease_multiplied = 0.7
 charge_rate = 40
 charge_rate_multiplied = 1.6
 ammo_used = 25
+duck_squish_press = Vector2(1.4, 0.6)
 hit_stop_time_scale = 0.05
 death_time_amount = 1.0
 
-[node name="Player Position" type="Marker2D" parent="."]
+[node name="Positions" type="Node2D" parent="."]
+
+[node name="Player Position" type="Marker2D" parent="Positions"]
+
+[node name="Popup Location" type="Marker2D" parent="Positions"]
+position = Vector2(0, -19)
+script = ExtResource("3_uwova")
+popup_label = ExtResource("4_43cxa")
+displayed_text = "WOWOWOWOWO"
 
 [node name="Particles" type="Node2D" parent="."]
+
+[node name="Accesory Death Animation" parent="Particles" instance=ExtResource("3_ewo57")]
+texture = ExtResource("4_f2fgo")
 
 [node name="Death Animation" parent="Particles" instance=ExtResource("3_ewo57")]
 texture = ExtResource("4_f2fgo")
@@ -200,9 +361,14 @@ position = Vector2(0, -9)
 position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_6grc8")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_pnd0j")
-animation = &"idle"
+animation = &"walk"
+offset = Vector2(0, -16)
+
+[node name="Accesory" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8rae3")
+animation = &"walk"
 offset = Vector2(0, -16)
 
 [node name="Gun" type="Sprite2D" parent="."]

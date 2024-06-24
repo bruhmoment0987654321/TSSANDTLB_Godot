@@ -28,6 +28,11 @@ ConsoleCommander="*res://World/UI/Scenes/console_commander.tscn"
 SignalBus="*res://StandaloneScripts/SignalBus.gd"
 SaveManager="*res://StandaloneScripts/save_manager.gd"
 
+[debug]
+
+gdscript/warnings/exclude_addons=false
+gdscript/warnings/unused_parameter=0
+
 [display]
 
 window/size/viewport_width=640
@@ -43,7 +48,7 @@ movie_writer/movie_file="C:/Users/Jon/Documents/TSSANDTLB_Godot/Movies/Movies.av
 [gui]
 
 common/snap_controls_to_pixels=false
-theme/custom="res://Visual/default_theme.tres"
+theme/custom="res://World/UI/Themes & Sprites/default_theme.tres"
 theme/custom_font="res://World/UI/Silver.ttf"
 theme/default_font_subpixel_positioning=0
 

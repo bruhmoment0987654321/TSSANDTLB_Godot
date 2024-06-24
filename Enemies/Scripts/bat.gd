@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var smoke_particle = $"Smoke Particle"
 @onready var death_timer = $"Death Timer"
 @onready var hurtbox = $EnemyArea/Hurtbox
+@onready var hurtbox_2 = $EnemyArea/Hurtbox2
 
 enum STATE {NORM,DEAD,}
 
@@ -55,6 +56,7 @@ func _physics_process(delta):
 		smoke_particle.emitting = true
 		collider.disabled = true
 		hurtbox.disabled = true
+		hurtbox_2.disabled = true
 		velocity.y += gravity*delta
 		move_and_slide()
 		

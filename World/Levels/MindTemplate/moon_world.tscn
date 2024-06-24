@@ -1,15 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://orra4mbd5s77"]
+[gd_scene load_steps=15 format=3 uid="uid://orra4mbd5s77"]
 
 [ext_resource type="Script" path="res://World/Levels/MindTemplate/moon_world.gd" id="1_js8ri"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_nqh1d"]
 [ext_resource type="Script" path="res://World/UI/GUI.gd" id="3_hrqqt"]
 [ext_resource type="Script" path="res://World/UI/AmmoBar.gd" id="4_s3dwm"]
-[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="5_8j2y1"]
+[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Themes & Sprites/GUI_skull.png" id="5_8j2y1"]
 [ext_resource type="PackedScene" uid="uid://cesuqvydo11ig" path="res://World/UI/Scenes/level_completed.tscn" id="6_aa57l"]
 [ext_resource type="Texture2D" uid="uid://dqp7adj2rft5s" path="res://World/Sprites/Slime_coin.png" id="7_eg5ba"]
+[ext_resource type="LabelSettings" uid="uid://c0hsopgep3ksb" path="res://World/UI/Themes & Sprites/level_GUI_label.tres" id="8_5yuff"]
 [ext_resource type="Script" path="res://World/UI/Scenes/DeathCount.gd" id="8_jan5b"]
 [ext_resource type="Script" path="res://World/UI/Scenes/coinsUI.gd" id="9_01wcy"]
-[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Sprites/sign_sprite.tres" id="10_pso8c"]
+[ext_resource type="SpriteFrames" uid="uid://c8v5nlkt3gc" path="res://World/UI/Themes & Sprites/sign_sprite.tres" id="10_pso8c"]
 [ext_resource type="PackedScene" uid="uid://7jbis82m004x" path="res://World/Levels/MindTemplate/tile_map_moon.tscn" id="10_tjnap"]
 [ext_resource type="Script" path="res://World/Levels/SewerTemplate/sign_coin_count.gd" id="11_1w2dg"]
 [ext_resource type="PackedScene" uid="uid://bbghu8sfawxun" path="res://Player/The Boy/Scenes/TheBoy.tscn" id="11_i5ltn"]
@@ -56,6 +57,7 @@ offset_right = 83.0
 offset_bottom = 74.0
 size_flags_horizontal = 0
 text = "X"
+label_settings = ExtResource("8_5yuff")
 script = ExtResource("8_jan5b")
 
 [node name="Coins" type="Label" parent="GUI"]
@@ -65,6 +67,7 @@ offset_top = 8.0
 offset_right = 75.0
 offset_bottom = 45.0
 text = "X"
+label_settings = ExtResource("8_5yuff")
 script = ExtResource("9_01wcy")
 
 [node name="Sign Coin" type="AnimatedSprite2D" parent="GUI"]
@@ -79,6 +82,7 @@ offset_top = 92.0
 offset_right = 106.0
 offset_bottom = 129.0
 text = "X"
+label_settings = ExtResource("8_5yuff")
 script = ExtResource("11_1w2dg")
 
 [node name="TileMap Moon" parent="." groups=["Block"] instance=ExtResource("10_tjnap")]

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Credits.gd" id="1_x2h3q"]
 [ext_resource type="PackedScene" uid="uid://by51nb0i0n1lh" path="res://World/UI/Scenes/cam.tscn" id="2_easci"]
-[ext_resource type="Theme" uid="uid://cyx15bijxghda" path="res://Visual/default_theme.tres" id="3_di5wa"]
+[ext_resource type="Theme" uid="uid://cyx15bijxghda" path="res://World/UI/Themes & Sprites/default_theme.tres" id="3_di5wa"]
 [ext_resource type="PackedScene" uid="uid://4umvkjl17kdk" path="res://Player/Slime_Player/Scenes/slime_player.tscn" id="4_3h1xj"]
-[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Sprites/GUI_skull.png" id="5_3vp7i"]
+[ext_resource type="Texture2D" uid="uid://d1jpxya2gi778" path="res://World/UI/Themes & Sprites/GUI_skull.png" id="5_3vp7i"]
 
 [node name="Credits" type="Node2D"]
 script = ExtResource("1_x2h3q")

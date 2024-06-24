@@ -1,7 +1,8 @@
 extends CanvasLayer
-@onready var sign_coin = $"Sign Coin"
-@onready var sign_coin_counter = $"Sign Coin Counter"
-
+@onready var sign_coin = $"Start UI/Sign Coin"
+@onready var sign_coin_counter = $"Start UI/Sign Coin Counter"
+@onready var main_menu = $"Start UI/Main Menu"
+@onready var customization_menu = $"Start UI/Customization Menu"
 
 @export var music = preload("res://Music/Title_song.wav")
 @export var transition_FX = preload("res://Music/transition.wav")
@@ -43,6 +44,7 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 
 func _on_settings_button_pressed():
-	pass # Replace with function body.
+	main_menu.show()
 
-
+func _on_customization_button_pressed():
+	customization_menu.show()

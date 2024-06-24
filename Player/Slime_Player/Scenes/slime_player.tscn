@@ -1,13 +1,15 @@
-[gd_scene load_steps=34 format=3 uid="uid://4umvkjl17kdk"]
+[gd_scene load_steps=36 format=3 uid="uid://4umvkjl17kdk"]
 
 [ext_resource type="Script" path="res://Player/Slime_Player/Scenes/slime_player.gd" id="1_ku6s6"]
 [ext_resource type="Resource" uid="uid://2dgg01wvtvhj" path="res://Player/Slime_Player/DefaultSlimeMovementData.tres" id="2_gufv4"]
 [ext_resource type="Texture2D" uid="uid://bds3d8hyhlklg" path="res://Player/Slime_Player/Sprites/Slime_duck_walk.png" id="3_f78iy"]
+[ext_resource type="Script" path="res://Player/Slime_Player/Scenes/Popup Location.gd" id="3_glqvj"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="3_oeigy"]
 [ext_resource type="Texture2D" uid="uid://66i68cov4e38" path="res://Player/Slime_Player/Sprites/slime_jump.png" id="3_xi8ch"]
 [ext_resource type="PackedScene" uid="uid://h2xp4gfs1i1l" path="res://Player/ghost_trail.tscn" id="3_ye5ww"]
 [ext_resource type="Texture2D" uid="uid://cv28ox51pfvl5" path="res://Visual/Sprites/hollow_diamond_pixel.png" id="4_1fenb"]
 [ext_resource type="Texture2D" uid="uid://byg2ymobjeml" path="res://Player/Slime_Player/Sprites/Slime_idle.png" id="4_10kr3"]
+[ext_resource type="PackedScene" uid="uid://c4rx57rre1llf" path="res://Visual/Scenes/floating_text.tscn" id="4_me0g3"]
 [ext_resource type="Texture2D" uid="uid://cf1ia46i4rpg1" path="res://Player/Slime_Player/Sprites/blank.png" id="4_ta6ef"]
 [ext_resource type="Texture2D" uid="uid://dn42meiotb1l5" path="res://Player/Slime_Player/Sprites/Slime_duck.png" id="5_nwnqq"]
 [ext_resource type="Texture2D" uid="uid://demmqdy2lag6w" path="res://Player/Slime_Player/Sprites/slime_walk.png" id="5_yu2k6"]
@@ -113,7 +115,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Fall",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -138,7 +140,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Jump",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -180,13 +182,13 @@ floor_max_angle = 0.872665
 floor_snap_length = 3.0
 script = ExtResource("1_ku6s6")
 movement_data = ExtResource("2_gufv4")
+dash_time = 0.15
+jump_dash_distance = 350
+jump_dash_height = -150
 jump_squish = Vector2(0.5, 1.5)
 landing_squish = Vector2(1.5, 0.5)
 dash_squish_up = Vector2(0.7, 1.3)
 dash_squish_right = Vector2(1.4, 0.6)
-dash_time = 0.15
-jump_dash_distance = 350
-jump_dash_height = -150
 dash_color_almost_running_out = Color(0.49, 0.49, 0.49, 1)
 dash_color_running_out = Color(0.3, 0.3, 0.3, 1)
 dash_particle_amount = 150
@@ -199,8 +201,17 @@ death_time_amount = 0.5
 death_hit_stop_duration = 0.6
 death_zoom_amount = Vector2(1.5, 1.5)
 no_clip_speed = 300
+text_speed = 0.7
 
-[node name="Player Position" type="Marker2D" parent="."]
+[node name="Pointers" type="Node2D" parent="."]
+
+[node name="Popup Location" type="Marker2D" parent="Pointers"]
+position = Vector2(0, -19)
+script = ExtResource("3_glqvj")
+popup_label = ExtResource("4_me0g3")
+displayed_text = "WOWOWOWOWO"
+
+[node name="Player Position" type="Marker2D" parent="Pointers"]
 
 [node name="Particles" type="Node2D" parent="."]
 
@@ -223,6 +234,9 @@ color = Color(0.25, 1, 0.3, 0.780392)
 
 [node name="Landing Particle" parent="Particles" instance=ExtResource("3_oeigy")]
 
+[node name="Accesory Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
+texture = null
+
 [node name="Death Animation" parent="Particles" instance=ExtResource("10_lviiv")]
 
 [node name="Collider" type="CollisionShape2D" parent="."]
@@ -232,6 +246,12 @@ shape = SubResource("RectangleShape2D_tptkg")
 [node name="Slime" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjx7w")
 animation = &"Idle"
+frame = 3
+frame_progress = 0.897881
+offset = Vector2(0, -16)
+
+[node name="Accesory" type="AnimatedSprite2D" parent="."]
+animation = &""
 offset = Vector2(0, -16)
 
 [node name="Ghost Trail" parent="." instance=ExtResource("3_ye5ww")]
@@ -288,6 +308,7 @@ shape = SubResource("CircleShape2D_ux4ma")
 debug_color = Color(0.983126, 0, 0.355917, 0.42)
 
 [node name="Ledge Pushing" type="Node2D" parent="."]
+visible = false
 position = Vector2(-7, 0)
 
 [node name="Pushing Right Raycast" type="RayCast2D" parent="Ledge Pushing"]

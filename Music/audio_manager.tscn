@@ -3,5 +3,6 @@
 [ext_resource type="Script" path="res://Audio Manager.gd" id="1_k0xse"]
 
 [node name="Audio Manager" type="AudioStreamPlayer"]
+process_mode = 3
 volume_db = -80.0
 script = ExtResource("1_k0xse")

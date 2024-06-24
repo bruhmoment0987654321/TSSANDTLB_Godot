@@ -6,13 +6,21 @@ signal add_dash_amount
 
 signal set_camera_target(entity : Node2D)
 
-
+var slime_cosmetics = {
+	"None" : null,
+	"Propeller Hat" : preload("res://Player/Slime_Player/Sprites/Accessories/Propeller Hat/slime_propeller_hat.tres"),
+	"Crown" : preload("res://Player/Slime_Player/Sprites/Accessories/Crown/slime_crown.tres")
+}
+var slime_cosmetic_on_death = {
+	"None" : null,
+	"Propeller Hat" : preload("res://Player/Slime_Player/Sprites/Accessories/Propeller Hat/pinhat.png"),
+	"Crown" : preload("res://Player/Slime_Player/Sprites/Accessories/Crown/crown.png")
+}
 var coins = 0
 var dash_amount = 0
 var ammo = 0
 var death_count = 0
-var max_sign_coins = 6
-
+var max_sign_coins = 7
 
 func _process(delta):
 	if Input.is_action_just_pressed("fullscreen"):
