@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bbghu8sfawxun"]
+[gd_scene load_steps=38 format=3 uid="uid://bbghu8sfawxun"]
 
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Boy.gd" id="1_7tlbh"]
 [ext_resource type="Texture2D" uid="uid://ceidnawra08rx" path="res://Player/The Boy/Sprites/Boy_idle.png" id="2_d31tu"]
@@ -15,12 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://bwtvpepm6lh57" path="res://Player/The Boy/Sprites/Soda_gun.png" id="6_6uu5g"]
 [ext_resource type="PackedScene" uid="uid://8g3s11gogmxf" path="res://Player/landing_particle.tscn" id="7_26uja"]
 [ext_resource type="Script" path="res://Player/The Boy/Scenes/Gun.gd" id="7_syyny"]
-[ext_resource type="Texture2D" uid="uid://skksylfqye5e" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_duck.png" id="13_rq2j2"]
 [ext_resource type="PackedScene" uid="uid://dtjs2l1a5aai4" path="res://Player/The Boy/Scenes/soda_blast_particles.tscn" id="14_acsdf"]
-[ext_resource type="Texture2D" uid="uid://bjufjf57egjy6" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_duck_walk.png" id="14_nfh2w"]
-[ext_resource type="Texture2D" uid="uid://nhyp6k1wa1kg" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_jump_fall.png" id="15_iexn6"]
-[ext_resource type="Texture2D" uid="uid://bto2a4etq2fcc" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_idle.png" id="16_qrumg"]
-[ext_resource type="Texture2D" uid="uid://c1giu6lcaqfkr" path="res://Player/The Boy/Sprites/Accesories/Default/Boy_default_walk.png" id="17_h2g82"]
+[ext_resource type="SpriteFrames" uid="uid://dxmji6vd78exa" path="res://Player/The Boy/Sprites/Accesories/Default/default_boy_accessory.tres" id="15_a432v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6grc8"]
 size = Vector2(14, 28)
@@ -168,149 +164,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7xh8o"]
-atlas = ExtResource("13_rq2j2")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ky0xm"]
-atlas = ExtResource("5_nf1ea")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_87q1t"]
-atlas = ExtResource("14_nfh2w")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4q6kp"]
-atlas = ExtResource("14_nfh2w")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2nm83"]
-atlas = ExtResource("14_nfh2w")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3ikf4"]
-atlas = ExtResource("15_iexn6")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pogg8"]
-atlas = ExtResource("16_qrumg")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0wwrl"]
-atlas = ExtResource("16_qrumg")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wm73f"]
-atlas = ExtResource("16_qrumg")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5qbb3"]
-atlas = ExtResource("16_qrumg")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d6yfy"]
-atlas = ExtResource("15_iexn6")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pdcjv"]
-atlas = ExtResource("17_h2g82")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cicdk"]
-atlas = ExtResource("17_h2g82")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jnb2d"]
-atlas = ExtResource("17_h2g82")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2qa7j"]
-atlas = ExtResource("17_h2g82")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_8rae3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7xh8o")
-}],
-"loop": true,
-"name": &"SQUISH",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ky0xm")
-}],
-"loop": true,
-"name": &"death",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_87q1t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4q6kp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2nm83")
-}],
-"loop": true,
-"name": &"duck_walk",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3ikf4")
-}],
-"loop": true,
-"name": &"fall",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pogg8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0wwrl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wm73f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5qbb3")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d6yfy")
-}],
-"loop": true,
-"name": &"jump",
-"speed": 0.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pdcjv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cicdk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jnb2d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2qa7j")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32e7g"]
 size = Vector2(8, 23)
 
@@ -358,16 +211,17 @@ texture = ExtResource("4_f2fgo")
 position = Vector2(0, -9)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_6grc8")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_pnd0j")
-animation = &"walk"
+animation = &"idle"
 offset = Vector2(0, -16)
 
 [node name="Accesory" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_8rae3")
+sprite_frames = ExtResource("15_a432v")
 animation = &"walk"
 offset = Vector2(0, -16)
 
@@ -412,6 +266,7 @@ shape = SubResource("CircleShape2D_c3fn6")
 debug_color = Color(0.983126, 0, 0.355917, 0.42)
 
 [node name="Timers" type="Node2D" parent="."]
+visible = false
 
 [node name="KnockbackTimer" type="Timer" parent="Timers"]
 one_shot = true
@@ -431,6 +286,7 @@ one_shot = true
 one_shot = true
 
 [node name="Ledge Pushing" type="Node2D" parent="."]
+visible = false
 position = Vector2(-7, 0)
 
 [node name="Pushing Right Raycast" type="RayCast2D" parent="Ledge Pushing"]

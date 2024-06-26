@@ -102,7 +102,7 @@ var after_jump_dash = false
 ##the accesory the slime will have. This is connect with the 
 ##Accessory node in the slime_player, and it is a .tres file. So do with that
 ##as you will.
-@export_file("*.tres","*.res") var equipped_accesory : String = ""
+@export var equipped_accesory : String = ""
 
 #squash and stretch
 var was_airborne = false
@@ -346,10 +346,13 @@ func update_animation(input_axis,delta):
 	squash_and_stretch(delta)
 
 func equip_player():
-	equipped_accesory = SaveManager.selected_cosmetic_slime
+	var global_equipped_accesory = SaveManager.selected_cosmetic_slime
 	if equipped_accesory != "":
 		accesory.sprite_frames = Global.slime_cosmetics[equipped_accesory]
 		accesory_death_animation.texture = Global.slime_cosmetic_on_death[equipped_accesory]
+	else:
+		accesory.sprite_frames = Global.slime_cosmetics[global_equipped_accesory]
+		accesory_death_animation.texture = Global.slime_cosmetic_on_death[global_equipped_accesory]
 
 func death():
 	hazard_hitbox.disabled = true

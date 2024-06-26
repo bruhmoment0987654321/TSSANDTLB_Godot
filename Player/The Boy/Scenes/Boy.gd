@@ -75,8 +75,10 @@ var player_state = STATE.NORMAL
 var was_airborne = false
 
 @export_subgroup("Accesories")
-@export_file("*.tres","*.res") var equipped_accesory : String = ""
-@export_file("*.png") var accesory_on_death : String = ""
+##this is the accessory that the player will equip during 
+##gameplay. Check the global.gd script to be able to see/add
+##the accessories. 
+@export var equipped_accesory : String = ""
 
 
 @export_subgroup("Hit Stop")
@@ -103,10 +105,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	Global.ammo = max_ammo
 	Global.emit_set_camera_target(self)
-	if equipped_accesory != "":
-		accesory.sprite_frames = load(equipped_accesory)
-	if accesory_on_death != "":
-		accesory_death_animation.texture = load(accesory_on_death)
+	equip_player()
 
 func _physics_process(delta):
 	if not is_on_floor(): 
@@ -146,6 +145,15 @@ func apply_gravity(delta):
 		velocity.y += gravity* movement_data.gravity_scale * delta
 	else:
 		velocity.y += gravity* movement_data.gravity_scale*movement_data.gravity_acceleration * delta
+
+func equip_player():
+	var global_equipped_accesory = SaveManager.selected_cosmetic_boy
+	if equipped_accesory != "":
+		accesory.sprite_frames = Global.the_boy_cosmetics[equipped_accesory]
+		accesory_death_animation.texture = Global.boy_cosmetic_on_death[equipped_accesory]
+	else:
+		accesory.sprite_frames = Global.the_boy_cosmetics[global_equipped_accesory]
+		accesory_death_animation.texture = Global.boy_cosmetic_on_death[global_equipped_accesory]
 
 func handle_jump():
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:

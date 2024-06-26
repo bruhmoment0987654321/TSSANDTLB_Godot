@@ -44,6 +44,6 @@ Version 0.4
 - Added a checkpoint of where you last stood when you died.
 - Fixed music when in transitions
 - Added simple main menu. Give some suggestions on what I should add to it :]
+- Added customization menu
 
-- Add customization menu
 - Probably add a timer or a speed mode.

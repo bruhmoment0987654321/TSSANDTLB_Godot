@@ -42,7 +42,6 @@ layout_mode = 2
 text = "Time Attack Mode!"
 
 [node name="Customization Button" type="Button" parent="Start UI/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "Customization!"
 
