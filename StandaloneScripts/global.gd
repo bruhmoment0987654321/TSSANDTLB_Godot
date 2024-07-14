@@ -12,7 +12,7 @@ var coins = 0
 var dash_amount = 0
 var ammo = 0
 var death_count = 0
-var max_sign_coins = 7
+var max_sign_coins = 8
 
 var slime_cosmetics = {
 	"None" : null,

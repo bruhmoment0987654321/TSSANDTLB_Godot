@@ -18,7 +18,6 @@ func _ready():
 	if not SaveManager.sign_coin_list.is_empty():
 		if SaveManager.sign_coin_list.has(sign_dict["ID"]):
 			sign_dict["Collected"] = SaveManager.sign_coin_list[sign_dict["ID"]]
-			collider.disabled = true
 	if sign_dict["Collected"]:
 		sign_coin_sprite.modulate = touched_color
 	anchor_y = sign_coin.global_position.y
@@ -29,12 +28,10 @@ func _process(delta):
 	timer += delta
 
 func _on_body_entered(body):
-	collider.disabled = true
-	sign_dict["Collected"] = true
 	animation_player.play("Picked Up")
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "Picked Up":
+	if anim_name == "Picked Up" and not sign_dict["Collected"]:
 		SaveManager.sign_coin_total += 1
 		SaveManager.sign_coin_list[sign_dict["ID"]] = sign_dict["Collected"]
 		SaveManager.config.set_value("sign_coin_list",sign_dict["ID"],sign_dict["Collected"])

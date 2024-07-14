@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckgy3ptr4ch4j"]
+[gd_scene load_steps=11 format=3 uid="uid://ckgy3ptr4ch4j"]
 
 [ext_resource type="Script" path="res://World/UI/start_menu.gd" id="1_hhxen"]
 [ext_resource type="PackedScene" uid="uid://djmcohicqqy8c" path="res://World/Levels/TheSewer/tutorial.tscn" id="2_btine"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d3514urg4ncu0" path="res://World/UI/Scenes/main_menu.tscn" id="6_3oq8w"]
 [ext_resource type="Texture2D" uid="uid://cg15mkrmesoej" path="res://World/Sprites/Sign_coins.png" id="6_i315r"]
 [ext_resource type="LabelSettings" uid="uid://c0hsopgep3ksb" path="res://World/UI/Themes & Sprites/level_GUI_label.tres" id="6_satw4"]
+[ext_resource type="PackedScene" uid="uid://diat4sb4bug4l" path="res://World/UI/Scenes/level_select.tscn" id="9_h3kr2"]
 [ext_resource type="PackedScene" uid="uid://leascihp1wwh" path="res://World/UI/Scenes/customization_menu.tscn" id="9_vxer7"]
 
 [node name="StartScene" type="CanvasLayer" groups=["Start Menu"]]
@@ -37,7 +38,6 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Time Mode Button" type="Button" parent="Start UI/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "Time Attack Mode!"
 
@@ -107,8 +107,25 @@ visible = false
 
 [node name="Sewer Background" parent="." instance=ExtResource("2_ls5ss")]
 
+[node name="Level Select" parent="." instance=ExtResource("9_h3kr2")]
+visible = false
+
+[node name="Exit Button" type="Button" parent="Level Select"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = 4.0
+offset_right = -2.0
+offset_bottom = 47.0
+grow_horizontal = 0
+text = "Exit"
+
+[connection signal="pressed" from="Start UI/VBoxContainer/Time Mode Button" to="." method="_on_time_mode_button_pressed"]
 [connection signal="pressed" from="Start UI/VBoxContainer/Customization Button" to="." method="_on_customization_button_pressed"]
 [connection signal="pressed" from="Start UI/VBoxContainer/Settings Button" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Start UI/VBoxContainer/Quit Button" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Start UI/Slime Button" to="." method="_on_slime_button_pressed"]
 [connection signal="pressed" from="Start UI/Boy Button" to="." method="_on_boy_button_pressed"]
+[connection signal="pressed" from="Level Select/Exit Button" to="." method="_on_exit_button_pressed"]

@@ -86,4 +86,18 @@ script = ExtResource("6_1d8nb")
 [node name="LevelCompleted" parent="GUI" instance=ExtResource("6_fmkl4")]
 visible = false
 
+[node name="Collectibles" type="Node2D" parent="."]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="Spikes" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Sprites" type="Node2D" parent="."]
+
 [node name="Section1TileMap" parent="." instance=ExtResource("10_yeo8e")]
+
+[node name="Invisible Tiles" type="Node2D" parent="."]

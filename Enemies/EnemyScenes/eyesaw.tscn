@@ -136,7 +136,6 @@ frame_progress = 0.578221
 [node name="Eye" type="Sprite2D" parent="."]
 texture = ExtResource("4_p0lfx")
 hframes = 8
-frame = 7
 
 [node name="HazardArea" parent="." instance=ExtResource("1_5ke0h")]
 

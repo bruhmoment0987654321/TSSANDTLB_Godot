@@ -88,3 +88,17 @@ script = ExtResource("11_1w2dg")
 [node name="TileMap Moon" parent="." groups=["Block"] instance=ExtResource("10_tjnap")]
 
 [node name="TheBoy" parent="." instance=ExtResource("11_i5ltn")]
+
+[node name="Collectibles" type="Node2D" parent="."]
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="Spikes" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Invisible Tiles" type="Node2D" parent="."]

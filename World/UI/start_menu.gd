@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var sign_coin_counter = $"Start UI/Sign Coin Counter"
 @onready var main_menu = $"Start UI/Main Menu"
 @onready var customization_menu = $"Start UI/Customization Menu"
+@onready var start_ui = $"Start UI"
+@onready var level_select = $"Level Select"
 
 @export var music = preload("res://Music/Title_song.wav")
 @export var transition_FX = preload("res://Music/transition.wav")
@@ -48,3 +50,11 @@ func _on_settings_button_pressed():
 
 func _on_customization_button_pressed():
 	customization_menu.show()
+
+func _on_time_mode_button_pressed():
+	start_ui.hide()
+	level_select.show()
+
+func _on_exit_button_pressed():
+	level_select.hide()
+	start_ui.show()

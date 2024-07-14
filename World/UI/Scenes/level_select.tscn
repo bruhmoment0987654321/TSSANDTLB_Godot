@@ -1,0 +1,287 @@
+[gd_scene load_steps=6 format=3 uid="uid://diat4sb4bug4l"]
+
+[ext_resource type="Script" path="res://World/UI/Scenes/level_select.gd" id="1_5lhhf"]
+[ext_resource type="Texture2D" uid="uid://111aun52j2w3" path="res://Level Thumbnail/Slime_tutorial.png" id="2_8ds2e"]
+[ext_resource type="Texture2D" uid="uid://cw787xypkijp7" path="res://Level Thumbnail/Sewer_1.png" id="2_wlp3y"]
+[ext_resource type="Texture2D" uid="uid://bdqdkytlnmglf" path="res://Level Thumbnail/Sewer_2.png" id="3_t60ut"]
+[ext_resource type="LabelSettings" uid="uid://c0hsopgep3ksb" path="res://World/UI/Themes & Sprites/level_GUI_label.tres" id="5_hqxbn"]
+
+[node name="Level Select" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5lhhf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level Thumbnaiils" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 115
+alignment = 1
+
+[node name="Pic 1" type="Control" parent="VBoxContainer/Level Thumbnaiils"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Level Thumbnaiils/Pic 1"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -35.0
+offset_right = 55.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[node name="Slime Tutorial" type="TextureRect" parent="VBoxContainer/Level Thumbnaiils/Pic 1"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 120.0
+size_flags_horizontal = 6
+texture = ExtResource("2_8ds2e")
+expand_mode = 1
+
+[node name="Pic 2" type="Control" parent="VBoxContainer/Level Thumbnaiils"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/Level Thumbnaiils/Pic 2"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -35.0
+offset_right = 55.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[node name="Sewer 1" type="TextureRect" parent="VBoxContainer/Level Thumbnaiils/Pic 2"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+offset_top = 19.0
+offset_right = 100.0
+offset_bottom = 119.0
+size_flags_horizontal = 6
+texture = ExtResource("2_wlp3y")
+expand_mode = 1
+
+[node name="Pic 3" type="Control" parent="VBoxContainer/Level Thumbnaiils"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/Level Thumbnaiils/Pic 3"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -35.0
+offset_right = 55.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Level Thumbnaiils/Pic 3"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 120.0
+size_flags_horizontal = 6
+texture = ExtResource("3_t60ut")
+expand_mode = 1
+
+[node name="Labels For Levels" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Slime Tutorial Stats" type="VBoxContainer" parent="VBoxContainer/Labels For Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Time Label" type="Label" parent="VBoxContainer/Labels For Levels/Slime Tutorial Stats"]
+layout_mode = 2
+text = "Time: 1:00"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+
+[node name="Leaderboard Title" type="Label" parent="VBoxContainer/Labels For Levels/Slime Tutorial Stats"]
+layout_mode = 2
+text = "Leaderboard"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+
+[node name="1st Place Label" type="Label" parent="VBoxContainer/Labels For Levels/Slime Tutorial Stats"]
+layout_mode = 2
+text = "1st: Me! :]
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+
+[node name="2nd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/Slime Tutorial Stats"]
+layout_mode = 2
+text = "2nd : Not me
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+
+[node name="3rd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/Slime Tutorial Stats"]
+layout_mode = 2
+text = "3rd: Also not me"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+
+[node name="1-1 Stats" type="VBoxContainer" parent="VBoxContainer/Labels For Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Time Label" type="Label" parent="VBoxContainer/Labels For Levels/1-1 Stats"]
+layout_mode = 2
+text = "Time: 1:00"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Leaderboard Title" type="Label" parent="VBoxContainer/Labels For Levels/1-1 Stats"]
+layout_mode = 2
+text = "Leaderboard"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1st Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-1 Stats"]
+layout_mode = 2
+text = "1st: Me! :]
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2nd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-1 Stats"]
+layout_mode = 2
+text = "2nd : Not me
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3rd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-1 Stats"]
+layout_mode = 2
+text = "3rd: Also not me"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1-2 Stats" type="VBoxContainer" parent="VBoxContainer/Labels For Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Time Label" type="Label" parent="VBoxContainer/Labels For Levels/1-2 Stats"]
+layout_mode = 2
+text = "Time: 1:00"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Leaderboard Title" type="Label" parent="VBoxContainer/Labels For Levels/1-2 Stats"]
+layout_mode = 2
+text = "Leaderboard"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1st Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-2 Stats"]
+layout_mode = 2
+text = "1st: Me! :]
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2nd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-2 Stats"]
+layout_mode = 2
+text = "2nd : Not me
+"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3rd Place Label" type="Label" parent="VBoxContainer/Labels For Levels/1-2 Stats"]
+layout_mode = 2
+text = "3rd: Also not me"
+label_settings = ExtResource("5_hqxbn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="First Level Button" type="Button" parent="VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Slime Tutorial"
+
+[node name="Second Level Button" type="Button" parent="VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "1-1"
+
+[node name="Third Level Button" type="Button" parent="VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "1-2"
+
+[node name="Change Level Select Button" type="Button" parent="."]
+custom_minimum_size = Vector2(10, 100)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -51.0
+offset_right = -5.0
+offset_bottom = 51.0
+grow_horizontal = 0
+grow_vertical = 2
+text = ">"
+alignment = 2
+icon_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/Buttons/First Level Button" to="." method="_on_first_level_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Buttons/Second Level Button" to="." method="_on_second_level_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Buttons/Third Level Button" to="." method="_on_third_level_button_pressed"]
+[connection signal="pressed" from="Change Level Select Button" to="." method="_on_change_level_select_button_pressed"]
